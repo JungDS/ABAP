@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_DOMA" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <DD01V>
+    <DOMNAME>ZDGWSTS</DOMNAME>
+    <DDLANGUAGE>3</DDLANGUAGE>
+    <DATATYPE>CHAR</DATATYPE>
+    <LENG>000002</LENG>
+    <OUTPUTLEN>000002</OUTPUTLEN>
+    <VALEXI>X</VALEXI>
+    <DDTEXT>GW 결재상태</DDTEXT>
+   </DD01V>
+   <DD07V_TAB>
+    <DD07V>
+     <DOMNAME>ZDGWSTS</DOMNAME>
+     <VALPOS>0001</VALPOS>
+     <DDLANGUAGE>3</DDLANGUAGE>
+     <DOMVALUE_L>I0</DOMVALUE_L>
+     <DDTEXT>초기 상태</DDTEXT>
+    </DD07V>
+    <DD07V>
+     <DOMNAME>ZDGWSTS</DOMNAME>
+     <VALPOS>0002</VALPOS>
+     <DDLANGUAGE>3</DDLANGUAGE>
+     <DOMVALUE_L>S0</DOMVALUE_L>
+     <DDTEXT>결재 상신</DDTEXT>
+    </DD07V>
+    <DD07V>
+     <DOMNAME>ZDGWSTS</DOMNAME>
+     <VALPOS>0003</VALPOS>
+     <DDLANGUAGE>3</DDLANGUAGE>
+     <DOMVALUE_L>R0</DOMVALUE_L>
+     <DDTEXT>결재 반려</DDTEXT>
+    </DD07V>
+    <DD07V>
+     <DOMNAME>ZDGWSTS</DOMNAME>
+     <VALPOS>0004</VALPOS>
+     <DDLANGUAGE>3</DDLANGUAGE>
+     <DOMVALUE_L>A0</DOMVALUE_L>
+     <DDTEXT>결재 승인</DDTEXT>
+    </DD07V>
+    <DD07V>
+     <DOMNAME>ZDGWSTS</DOMNAME>
+     <VALPOS>0005</VALPOS>
+     <DDLANGUAGE>3</DDLANGUAGE>
+     <DOMVALUE_L>Z0</DOMVALUE_L>
+     <DDTEXT>처리완료(SAP Posting)</DDTEXT>
+    </DD07V>
+    <DD07V>
+     <DOMNAME>ZDGWSTS</DOMNAME>
+     <VALPOS>0006</VALPOS>
+     <DDLANGUAGE>3</DDLANGUAGE>
+     <DOMVALUE_L>Z9</DOMVALUE_L>
+     <DDTEXT>삭제처리(결재 취소 포함)</DDTEXT>
+    </DD07V>
+   </DD07V_TAB>
+  </asx:values>
+ </asx:abap>
+</abapGit>

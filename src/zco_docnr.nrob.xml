@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_NROB" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <ATTRIBUTES>
+    <OBJECT>ZCO_DOCNR</OBJECT>
+    <YEARIND>X</YEARIND>
+    <DOMLEN>ZDRDOCNR</DOMLEN>
+    <PERCENTAGE>1.0</PERCENTAGE>
+    <NOIVBUFFER>00000010</NOIVBUFFER>
+   </ATTRIBUTES>
+   <TEXT>
+    <LANGU>3</LANGU>
+    <OBJECT>ZCO_DOCNR</OBJECT>
+    <TXT>예산 변경 전표</TXT>
+    <TXTSHORT>예산 변경 전표</TXTSHORT>
+   </TEXT>
+  </asx:values>
+ </asx:abap>
+</abapGit>
