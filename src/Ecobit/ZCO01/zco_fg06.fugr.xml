@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_FUGR" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <AREAT>[CO] G/W 인터페이스 관련</AREAT>
+   <INCLUDES>
+    <SOBJ_NAME>LZCO_FG06F01</SOBJ_NAME>
+    <SOBJ_NAME>LZCO_FG06TOP</SOBJ_NAME>
+    <SOBJ_NAME>SAPLZCO_FG06</SOBJ_NAME>
+   </INCLUDES>
+   <FUNCTIONS>
+    <item>
+     <FUNCNAME>ZCO_GW_BUDGET_DATA_SEND</FUNCNAME>
+     <REMOTE_CALL>R</REMOTE_CALL>
+     <SHORT_TEXT>[CO] 예산신청 조회 전송</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>I_GWKEY</PARAMETER>
+       <TYP>ZEGWKEY</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>I_GUBUN</PARAMETER>
+       <TYP>ZEGWTYP</TYP>
+      </RSIMP>
+     </IMPORT>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>E_RESULT</PARAMETER>
+       <TYP>CHAR1</TYP>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>E_MSG</PARAMETER>
+       <TYP>CHAR255</TYP>
+      </RSEXP>
+     </EXPORT>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>T_PERIOD</PARAMETER>
+       <DBSTRUCT>ZCOS0310</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>T_ALIENATION</PARAMETER>
+       <DBSTRUCT>ZCOS0311</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>T_INCRAMOUNT</PARAMETER>
+       <DBSTRUCT>ZCOS0312</DBSTRUCT>
+      </RSTBL>
+     </TABLES>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>I_GWKEY</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>G/W 결재키</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>I_GUBUN</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>예산결재 유형</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>E_RESULT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>I/F Result</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>E_MSG</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>I/F Message</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>T_PERIOD</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>[CO] 예산전용 기간 인터페이스 구조체</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>T_ALIENATION</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>[CO] 예산정용 계정 인터페이스 구조체</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>T_INCRAMOUNT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>[CO] 예산증감액 인터페이스 구조체</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+    <item>
+     <FUNCNAME>ZCO_GW_BUDGET_GWKEY_CREATE</FUNCNAME>
+     <SHORT_TEXT>[CO] G/W Key 채번</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>I_GWTYP</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>ZEGWTYP</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>I_SPMON</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>SPMON</TYP>
+      </RSIMP>
+     </IMPORT>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>E_GWKEY</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>ZEGWKEY</TYP>
+      </RSEXP>
+     </EXPORT>
+     <EXCEPTION>
+      <RSEXC>
+       <EXCEPTION>INVALID_GWTYP</EXCEPTION>
+      </RSEXC>
+     </EXCEPTION>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>I_GWTYP</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>예산결재 유형</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>I_SPMON</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>분석기간 - 월</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>E_GWKEY</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>G/W 결재키</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>INVALID_GWTYP</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Invalide G/W Type</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+    <item>
+     <FUNCNAME>ZCO_GW_BUDGET_POSTING_A</FUNCNAME>
+     <SHORT_TEXT>[CO] 예산 신청 최종승인 문서 생성 (예산전용 계정)</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>I_GWKEY</PARAMETER>
+       <TYP>ZEGWKEY</TYP>
+      </RSIMP>
+     </IMPORT>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>E_RESULT</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>CHAR1</TYP>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>E_MSG</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>CHAR255</TYP>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>E_BELNR</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>BELNR_D</TYP>
+      </RSEXP>
+     </EXPORT>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>I_GWKEY</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>G/W 결재키</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>E_RESULT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>성공여부</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>E_MSG</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>메세지</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>E_BELNR</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>회계 전표 번호</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+    <item>
+     <FUNCNAME>ZCO_GW_BUDGET_POSTING_P</FUNCNAME>
+     <SHORT_TEXT>[CO] 예산 신청 최종승인 문서 생성 (예산전용 기간 &amp; 증액)</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>I_GWKEY</PARAMETER>
+       <TYP>ZEGWKEY</TYP>
+      </RSIMP>
+     </IMPORT>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>E_RESULT</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>CHAR1</TYP>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>E_MSG</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>CHAR255</TYP>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>E_BELNR</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>BELNR_D</TYP>
+      </RSEXP>
+     </EXPORT>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>I_GWKEY</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>G/W 결재키</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>E_RESULT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>성공여부</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>E_MSG</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>메세지</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>E_BELNR</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>회계 전표 번호</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+    <item>
+     <FUNCNAME>ZCO_GW_BUDGET_STATUS_UPDATE</FUNCNAME>
+     <REMOTE_CALL>R</REMOTE_CALL>
+     <SHORT_TEXT>[CO] G/W 예산신청 상태값 변경</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>I_GWKEY</PARAMETER>
+       <TYP>ZEGWKEY</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>I_STATUS</PARAMETER>
+       <TYP>ZEGWSTS</TYP>
+      </RSIMP>
+     </IMPORT>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>E_RESULT</PARAMETER>
+       <TYP>CHAR1</TYP>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>E_MSG</PARAMETER>
+       <TYP>CHAR255</TYP>
+      </RSEXP>
+     </EXPORT>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>I_GWKEY</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>G/W 결재키</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>I_STATUS</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>GW 결재상태</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>E_RESULT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>I/F Result</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>E_MSG</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>I/F Message</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+   </FUNCTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>

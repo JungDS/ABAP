@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_FUGR" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <AREAT>[CO] 구매포털 인터페이스 관련</AREAT>
+   <INCLUDES>
+    <SOBJ_NAME>LZCO_FG03TOP</SOBJ_NAME>
+    <SOBJ_NAME>SAPLZCO_FG03</SOBJ_NAME>
+   </INCLUDES>
+   <FUNCTIONS>
+    <item>
+     <FUNCNAME>ZCO_COPORTAL_BUDGET</FUNCNAME>
+     <REMOTE_CALL>R</REMOTE_CALL>
+     <SHORT_TEXT>[CO] 구매포털 예산정보 전송</SHORT_TEXT>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>E_RESULT</PARAMETER>
+       <TYP>CHAR1</TYP>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>E_MSG</PARAMETER>
+       <TYP>CHAR255</TYP>
+      </RSEXP>
+     </EXPORT>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>ET_BUDGET</PARAMETER>
+       <DBSTRUCT>ZCOS0250</DBSTRUCT>
+      </RSTBL>
+     </TABLES>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>E_RESULT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>I/F Result (S:Success / E:Error)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>E_MSG</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Error detail</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>ET_BUDGET</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>[CO] 구매포털 예산정보 전송 구조체</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+   </FUNCTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>

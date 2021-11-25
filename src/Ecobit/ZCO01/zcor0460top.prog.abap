@@ -1,0 +1,322 @@
+*&---------------------------------------------------------------------*
+*& Include          ZCOR0460TOP
+*&---------------------------------------------------------------------*
+
+*----------------------------------------------------------------------*
+* TABLES
+*----------------------------------------------------------------------*
+TABLES : ZCOT1260,MARA, ZCOT1261.
+TYPE-POOLS: ICON, ABAP.
+
+TABLES : SSCRFIELDS. "선택화면의 필드(Function Key)
+DATA : GS_FUNTXT TYPE SMP_DYNTXT.
+*----------------------------------------------------------------------*
+* CONSTANTS
+*----------------------------------------------------------------------*
+* - Prefix 정의
+*   1. GC_  : Global Constants
+*   2. LC_  : Local Constants
+* - EX). CONSTANTS: GC_E  TYPE C VALUE 'E'.
+CONSTANTS : GC_X   TYPE CHAR1 VALUE 'X',
+            GC_C   TYPE CHAR1 VALUE 'C',
+            GC_E   TYPE CHAR1 VALUE 'E',
+            GC_S   TYPE CHAR1 VALUE 'S',
+            GC_D   TYPE CHAR1 VALUE 'D',
+            GC_R   TYPE CHAR1 VALUE 'R',
+            GC_KRW TYPE TCURR_CURR VALUE 'KRW'.
+CONSTANTS : GC_ZM LIKE BKPF-BLART VALUE 'ZM'.
+CONSTANTS : GC_WZ LIKE BKPF-BLART VALUE 'WZ'.
+*----------------------------------------------------------------------*
+* TYPES
+*----------------------------------------------------------------------*
+* - Prefix 정의
+*   1. TY_  : Global, Local Types
+
+*----------------------------------------------------------------------*
+* VARIABLE
+*----------------------------------------------------------------------*
+* - Prefix 정의
+*   1. GV_  : Global Variable
+*   2. LV_  : Local Variable
+
+*EX) DATA: GV_EXIT   TYPE C,
+*          GV_ANSWER TYPE C,
+*          OK_CODE   TYPE SY-UCOMM,   "예외
+*          SAVE_OK   TYPE SY-UCOMM.   "예외
+
+DATA : GV_WE_NM TYPE T001W-NAME1. " 플랜트명
+
+DATA: GV_TREE_GL TYPE XFELD,
+      GV_EXIT    TYPE XFELD,
+      GV_EXIT_ZCOR0450    TYPE XFELD,
+      GV_ERROR   TYPE XFELD,
+      GV_ANSWER  TYPE C,
+      GV_MODE    TYPE C,          "N:생성, C:변경, D:조회
+      OK_CODE    TYPE SY-UCOMM,   "예외
+      SAVE_OK    TYPE SY-UCOMM.   "예외
+DATA:
+  GV_LINES   LIKE SY-TABIX,
+  GV_TITLE   LIKE SY-TITLE,
+  GV_MESSAGE TYPE BAPI_MSG.
+DATA :GV_WAERS TYPE WAERS.
+
+DATA : GV_SPMON TYPE SY-DATUM. "전기일
+
+DATA :  GV_LFGJA TYPE MARD-LFGJA.  " mm 전년
+DATA :  GV_LFMON  TYPE MARD-LFMON.  " mm 전월
+
+DATA : BEGIN OF GT_MARD OCCURS 0,
+         LFGJA TYPE MARD-LFGJA,
+         LFMON TYPE MARD-LFMON,
+         MATNR TYPE MARD-MATNR,
+         LABST TYPE MARD-LABST,
+       END OF GT_MARD.
+
+
+
+*DATA : GV_DATUM TYPE SY-DATUM."
+DATA : GV_CDATE TYPE SY-DATUM.""매출확정일
+*----------------------------------------------------------------------*
+* STRUCTURE
+*----------------------------------------------------------------------*
+* - Prefix 정의
+*   1. GS_  : Global Structure
+*   2. LS_  : Local Structure
+
+*EX) DATA: GS_SFLIGHT TYPE SFLIGHT
+
+
+DATA : BEGIN OF GT_FI_REV OCCURS 0,
+         MATNR LIKE ACDOCA-MATNR,
+         HSL   LIKE ACDOCA-HSL,
+       END OF GT_FI_REV,
+       GS_FI_REV LIKE GT_FI_REV.
+
+DATA : BEGIN OF GS_ZCOT1260  .
+         INCLUDE STRUCTURE ZCOT1260.
+       DATA : END OF GS_ZCOT1260.
+
+
+"__ 리스트 조회
+DATA: BEGIN OF GS_DISPLAY .
+        INCLUDE TYPE ZCOS0451.
+        DATA :    STYLE TYPE LVC_T_STYL.
+
+DATA: END OF GS_DISPLAY.
+
+
+*DATA: GS_DISPLAY  TYPE ZCOS0451.
+DATA: GT_DISPLAY  LIKE TABLE OF GS_DISPLAY, "DISPLAY DATA
+      GT_ZCOT1260 LIKE TABLE OF GS_ZCOT1260,
+      GT_ZMMT600  TYPE TABLE OF ZMMT0600,
+      GS_ZMMT600  LIKE LINE OF GT_ZMMT600,
+      GT_T134G    TYPE TABLE OF T134G,
+      GT_1261     TYPE TABLE OF ZCOT1261.
+
+
+*제품의 자재그룹
+DATA : BEGIN OF GT_T023T OCCURS 0,
+         FMATNR LIKE MARA-MATNR,
+         MATKL  LIKE T023T-MATKL,
+         WGBEZ  LIKE T023T-WGBEZ,
+         WRKST  LIKE MARA-WRKST,  "기존자재 필드 , 구매처
+         MTART  LIKE MARA-MTART,
+       END OF  GT_T023T,
+       GS_T023T LIKE LINE OF GT_T023T.
+
+DATA : BEGIN OF GT_LFA1 OCCURS 0,
+         RMATNR LIKE MARA-MATNR,
+         LIFNR  LIKE MARA-WRKST,
+         NAME1  LIKE LFA1-NAME1,
+
+         MATKL  LIKE MARA-MATKL,  " 자재그룹 원자재
+
+       END OF  GT_LFA1,
+       GS_LFA1 LIKE LINE OF GT_LFA1.
+
+
+DATA: BEGIN OF GT_ZCOT1230 OCCURS 0,
+        POSID TYPE PS_POSID,
+        SAKNR TYPE SAKNR,
+        TXT20 TYPE CHAR20,
+      END OF GT_ZCOT1230,
+      GS_ZCOT1230 LIKE LINE OF GT_ZCOT1230.
+
+
+DATA : BEGIN OF GS_ACDOCA ,
+         GUBUN         TYPE CHAR2,
+         BUKRS         LIKE ACDOCA-RBUKRS,
+         WERKS         LIKE ACDOCA-WERKS,
+         MATNR         LIKE ACDOCA-MATNR,
+         MAKTX         LIKE MAKT-MAKTX,
+         GJAHR         LIKE ACDOCA-GJAHR,
+         BELNR         LIKE ACDOCA-BELNR,
+         BUZEI         LIKE ACDOCA-BUZEI,
+         RACCT         LIKE ACDOCA-RACCT,
+         TXT20         LIKE SKAT-TXT20,
+         TWAER         LIKE ACDOCA-RHCUR,
+         HSL           LIKE ACDOCA-HSL,
+         PS_POSID      LIKE ACDOCA-PS_POSID,
+         AWREF         LIKE ACDOCA-AWREF,
+         AWREF_REV     LIKE ACDOCA-AWREF_REV,
+         MSG_TEXT(100) , " 직접 귀속 여부  , 배부시 적용 된 우선순위 표시
+       END OF GS_ACDOCA.
+
+
+
+DATA : BEGIN OF GT_WBS OCCURS 0,
+         POSID LIKE PRPS-POSID,
+       END OF GT_WBS.
+
+
+
+DATA : BEGIN OF GT_WBS_COGS OCCURS 0,
+         POSID LIKE PRPS-POSID,
+       END OF GT_WBS_COGS,
+       GS_WBS_COGS LIKE LINE OF GT_WBS_COGS.
+
+DATA : GT_DIFF_001  LIKE GS_ACDOCA OCCURS 0.
+
+
+DATA : BEGIN OF GS_FERT,
+         FMATNR      LIKE  MAKT-MATNR,
+         FMTNR_MAKTX LIKE  MAKT-MAKTX,
+       END OF GS_FERT.
+
+" F4  관련 테이블
+
+DATA : GT_FERT  LIKE TABLE OF GS_FERT.
+
+
+" POSTING 을 위한 정의
+DATA: GT_BK    LIKE ZFIS0050 OCCURS 1 WITH HEADER LINE,
+      GT_BS    LIKE ZFIS0120 OCCURS 1 WITH HEADER LINE,
+      GT_FIMSG LIKE FIMSG OCCURS 1 WITH HEADER LINE,
+      GT_WI    LIKE ZFIS0070 OCCURS 1 WITH HEADER LINE,
+      GT_TA    LIKE ZFIS0090  OCCURS 1 WITH HEADER LINE.
+
+
+DATA : GS_IBKPF  LIKE  ZFIS0050,
+       GT_IBKPF  LIKE TABLE OF ZFIS0050,
+       GS_IBSEG  LIKE ZFIS0120,
+       GT_IBSEG  LIKE TABLE OF ZFIS0120,
+*       GT_FIMSG  LIKE TABLE OF ZFIS0080,
+       GS_FIMSG  LIKE  ZFIS0080,
+       GS_ISELK  LIKE  ZFIS0130,
+       GT_ISELK  LIKE TABLE OF ZFIS0130,
+       GS_IBSELP LIKE  ZFIS0140,
+       GT_IBSELP LIKE TABLE OF ZFIS0140,
+       GT_SELP   LIKE TABLE OF ZFIS0280,
+       GS_SELP   LIKE ZFIS0280.
+
+
+"DOC RESET
+DATA: BEGIN OF GS_INFO,
+        "__ INPUT
+        GJAHR   TYPE BSEG-GJAHR,
+        BELNR   TYPE BSEG-BELNR,
+
+        "__RETURN
+        RESULT  TYPE AS4FLAG,
+        ERR_TXT TYPE NATXT,
+        RBELNR  TYPE BELNR_D,
+        MSG     TYPE BAPI_MSG,
+
+        "__DO INDEX
+        INDEX   TYPE SY-INDEX,
+      END OF GS_INFO.
+
+
+RANGES : GR_GJAHR FOR ACDOCA-GJAHR,
+         GR_BUDAT FOR ACDOCA-BUDAT,
+         GR_RACCT FOR ACDOCA-RACCT,
+         GR_POSID FOR ACDOCA-PS_POSID,
+         GR_GSBER FOR T134G-GSBER.
+
+
+* EX) FIELD-SYMBOLS <FS_SFLIGHT> TYPE SFLIGHT.
+FIELD-SYMBOLS <FS_DISP> LIKE GS_DISPLAY.
+
+
+
+
+DEFINE _STYLE_DISABLED.
+  GS_STYLE-FIELDNAME = &1.
+  GS_STYLE-STYLE     = CL_GUI_ALV_GRID=>MC_STYLE_DISABLED.
+  INSERT GS_STYLE INTO TABLE GT_STYLE.
+END-OF-DEFINITION.
+
+DEFINE _STYLE_ENABLED.
+  GS_STYLE-FIELDNAME = &1.
+  GS_STYLE-STYLE     = CL_GUI_ALV_GRID=>MC_STYLE_ENABLED.
+  INSERT GS_STYLE INTO TABLE GT_STYLE.
+END-OF-DEFINITION.
+DEFINE _ALPHA_INPUT.
+  CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'
+    EXPORTING
+      INPUT         = &1
+   IMPORTING
+     OUTPUT        = &1
+            .
+
+END-OF-DEFINITION.
+
+**DEFINE _SET_RANGES.
+**
+**  &1-SIGN = 'I'.
+**  &1-OPTION = 'EQ'.
+**  &1-LOW = &2.
+***  &1-HIGH = &3.
+**  APPEND &1.CLEAR &1.
+**END-OF-DEFINITION.
+
+DEFINE _SET_RANGES.
+  &1-SIGN = &2.
+  &1-OPTION = &3.
+  &1-LOW = &4.
+  &1-HIGH = &5.
+
+  APPEND &1.
+END-OF-DEFINITION.
+
+
+DEFINE $_SET_REPLACE.
+  IF &1 IS NOT INITIAL.
+    REPLACE ALL OCCURRENCES OF &2 IN &1 WITH space.
+    CONDENSE &1 NO-GAPS.
+  ENDIF.
+END-OF-DEFINITION.
+
+
+DEFINE _INVDT_INPUT.
+  CALL FUNCTION 'CONVERSION_EXIT_INVDT_INPUT'
+    EXPORTING
+      INPUT  = &1
+    IMPORTING
+      OUTPUT = &2.
+END-OF-DEFINITION.
+
+DEFINE _MAKE_ACDOCA_ITAB_1260.
+  CLEAR GS_ACDOCA.
+  MOVE-CORRESPONDING GS_ZCOT1260 TO GS_ACDOCA.
+  CLEAR GS_ACDOCA-WSL.
+    GS_ACDOCA-GJAHR = &1.
+    GS_ACDOCA-HSL = &2.
+    GS_ACDOCA-CNT = &3.
+    GS_ACDOCA-CDATE = GV_CDATE.
+    COLLECT GS_ACDOCA INTO GT_ACDOCA.
+END-OF-DEFINITION.
+
+
+DEFINE _MAKE_ACDOCA_ITAB.
+  CLEAR GS_ACDOCA.
+  MOVE-CORRESPONDING LS_ACDOCA TO GS_ACDOCA.
+  CLEAR GS_ACDOCA-WSL.
+    GS_ACDOCA-GJAHR = &1.
+    GS_ACDOCA-RACCT = &2.
+    GS_ACDOCA-CNT = &3.
+    GS_ACDOCA-CDATE = GV_CDATE.
+
+    COLLECT GS_ACDOCA INTO GT_ACDOCA.
+
+END-OF-DEFINITION.

@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_FUGR" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <AREAT>[CO] E-HR 인터페이스 관련</AREAT>
+   <INCLUDES>
+    <SOBJ_NAME>LZCO_FG02TOP</SOBJ_NAME>
+    <SOBJ_NAME>SAPLZCO_FG02</SOBJ_NAME>
+   </INCLUDES>
+   <FUNCTIONS>
+    <item>
+     <FUNCNAME>ZCO_MASTER_SEND</FUNCNAME>
+     <REMOTE_CALL>R</REMOTE_CALL>
+     <SHORT_TEXT>[CO] CO 마스터 정보 전송</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>I_BUKRS</PARAMETER>
+       <TYP>BUKRS</TYP>
+      </RSIMP>
+     </IMPORT>
+     <CHANGING>
+      <RSCHA>
+       <PARAMETER>E_RESULT</PARAMETER>
+       <OPTIONAL>X</OPTIONAL>
+       <TYP>CHAR1</TYP>
+      </RSCHA>
+      <RSCHA>
+       <PARAMETER>E_MSG</PARAMETER>
+       <OPTIONAL>X</OPTIONAL>
+       <TYP>CHAR255</TYP>
+      </RSCHA>
+     </CHANGING>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>T_CCTR</PARAMETER>
+       <DBSTRUCT>ZCOS0160</DBSTRUCT>
+       <OPTIONAL>X</OPTIONAL>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>T_WBS</PARAMETER>
+       <DBSTRUCT>ZCOS0170</DBSTRUCT>
+       <OPTIONAL>X</OPTIONAL>
+      </RSTBL>
+     </TABLES>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>I_BUKRS</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>회사 코드</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>T_CCTR</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>[CO] E-HR 마스터 정보 전송 구조체(코스트센터)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>T_WBS</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>[CO] E-HR 마스터 정보 전송 구조체(WBS)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>E_RESULT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>I/F Result (S:Success / E:Error)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>E_MSG</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Error detail</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+   </FUNCTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>
