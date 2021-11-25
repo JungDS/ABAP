@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_FUGR" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <AREAT>[CO] WBS 확장필드 관련</AREAT>
+   <INCLUDES>
+    <SOBJ_NAME>LZCO_FG08TOP</SOBJ_NAME>
+    <SOBJ_NAME>SAPLZCO_FG08</SOBJ_NAME>
+   </INCLUDES>
+   <FUNCTIONS>
+    <item>
+     <FUNCNAME>ZCO_WBS_EXTENSION_AMOUNT_ADJ</FUNCNAME>
+     <SHORT_TEXT>WBS 확장필드 금액 조정</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>I_PROJECT_DEFINITION</PARAMETER>
+       <TYP>BAPI_BUS2001_NEW-PROJECT_DEFINITION</TYP>
+      </RSIMP>
+     </IMPORT>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>EXTENSIONIN</PARAMETER>
+       <DBSTRUCT>BAPIPAREX</DBSTRUCT>
+      </RSTBL>
+     </TABLES>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>I_PROJECT_DEFINITION</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>프로젝트 정의</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXTENSIONIN</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>BAPI 매개변수 EXTENSIONIN/EXTENSIONOUT에 대한 참조구조</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+   </FUNCTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>

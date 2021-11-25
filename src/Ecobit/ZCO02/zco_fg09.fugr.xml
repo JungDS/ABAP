@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_FUGR" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <AREAT>[CO] CO-PA 관련</AREAT>
+   <INCLUDES>
+    <SOBJ_NAME>LZCO_FG09TOP</SOBJ_NAME>
+    <SOBJ_NAME>SAPLZCO_FG09</SOBJ_NAME>
+   </INCLUDES>
+   <FUNCTIONS>
+    <item>
+     <FUNCNAME>ZCO_GET_BU_TYPE_BY_MAPPING</FUNCNAME>
+     <SHORT_TEXT>BU 매핑정보를 통한 BU구분 조회</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>I_PSPNR</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>PRPS-PSPNR</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>I_COPA</PARAMETER>
+       <OPTIONAL>X</OPTIONAL>
+       <REFERENCE>X</REFERENCE>
+       <TYP>CE11000</TYP>
+      </RSIMP>
+     </IMPORT>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>E_WW120</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>T2501-WW120</TYP>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>E_MAPPING_TYPE</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>C</TYP>
+      </RSEXP>
+     </EXPORT>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>I_PSPNR</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>WBS 요소</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>I_COPA</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>TSK 경영단위</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>E_WW120</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>BU구분</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>E_MAPPING_TYPE</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>&apos;W&apos; = WBS / &apos;A&apos; = 속성정보</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+   </FUNCTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>
