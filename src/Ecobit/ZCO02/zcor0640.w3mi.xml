@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_W3MI" serializer_version="v2.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <NAME>ZCOR0640</NAME>
+   <TEXT>CO-PA 실적값 등록양식</TEXT>
+   <PARAMS>
+    <WWWPARAMS>
+     <RELID>MI</RELID>
+     <OBJID>ZCOR0640</OBJID>
+     <NAME>filename</NAME>
+     <VALUE>CO-PA_실적값 _업로드_양식.xlsx</VALUE>
+    </WWWPARAMS>
+    <WWWPARAMS>
+     <RELID>MI</RELID>
+     <OBJID>ZCOR0640</OBJID>
+     <NAME>mimetype</NAME>
+     <VALUE>xls</VALUE>
+    </WWWPARAMS>
+    <WWWPARAMS>
+     <RELID>MI</RELID>
+     <OBJID>ZCOR0640</OBJID>
+     <NAME>fileextension</NAME>
+     <VALUE>.xlsx</VALUE>
+    </WWWPARAMS>
+   </PARAMS>
+  </asx:values>
+ </asx:abap>
+</abapGit>

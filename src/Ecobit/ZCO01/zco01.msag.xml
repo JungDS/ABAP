@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_MSAG" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <T100A>
+    <ARBGB>ZCO01</ARBGB>
+    <MASTERLANG>3</MASTERLANG>
+   </T100A>
+   <T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>000</MSGNR>
+     <TEXT>&amp; &amp; &amp; &amp;</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>001</MSGNR>
+     <TEXT>&amp;</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>002</MSGNR>
+     <TEXT>&amp; &amp;</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>003</MSGNR>
+     <TEXT>&amp; &amp; &amp;</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>004</MSGNR>
+     <TEXT>조회조건에 만족하는 데이터가 없습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>005</MSGNR>
+     <TEXT>성공적으로 조회하였습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>006</MSGNR>
+     <TEXT>해당 데이터가 없습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>007</MSGNR>
+     <TEXT>성공적으로 저장하였습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>008</MSGNR>
+     <TEXT>저장에 실패하였습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>009</MSGNR>
+     <TEXT>성공적으로 삭제하였습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>010</MSGNR>
+     <TEXT>삭제에 실패하였습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>011</MSGNR>
+     <TEXT>&amp;건을 저장하였습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>012</MSGNR>
+     <TEXT>저장할 데이터가 없습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>013</MSGNR>
+     <TEXT>&amp;1건 저장성공, &amp;2건 저장실패 하였습니다.,</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>014</MSGNR>
+     <TEXT>Error Fieldcatalog merge!!</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>015</MSGNR>
+     <TEXT>선택된 Row가 없습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>016</MSGNR>
+     <TEXT>한 Row만 선택 하십시오.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>017</MSGNR>
+     <TEXT>중복된 KEY값이 존재합니다. &amp; &amp; &amp; &amp;</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>018</MSGNR>
+     <TEXT>&amp; 필드의 하한선 값이 상한선 값보다 큽니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>019</MSGNR>
+     <TEXT>&amp; 필드의 하한선 값을 입력하십시오.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>020</MSGNR>
+     <TEXT>&amp; 필드의 Sign 값 오류입니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>021</MSGNR>
+     <TEXT>&amp; 필드의 Option 값 오류입니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>022</MSGNR>
+     <TEXT>&amp; 필드의 하한값과 상한값이 상이합니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>023</MSGNR>
+     <TEXT>&amp; 필드의 값이 잘못되었습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>024</MSGNR>
+     <TEXT>해당 도움말이 존재하지 않습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>025</MSGNR>
+     <TEXT>알 수 없는 에러 발생!</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>026</MSGNR>
+     <TEXT>&amp; 필드는 필수입니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>027</MSGNR>
+     <TEXT>&amp; 필드값이 유효하지 않습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>028</MSGNR>
+     <TEXT>Upload된 데이터가 존재하지 않습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>029</MSGNR>
+     <TEXT>&amp; 필드의 값이 잘못되었습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>030</MSGNR>
+     <TEXT>해당 도움말이 존재하지 않습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>031</MSGNR>
+     <TEXT>알 수 없는 에러 발생!</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>032</MSGNR>
+     <TEXT>&amp; 필드는 필수입니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>033</MSGNR>
+     <TEXT>&amp; 필드값이 유효하지 않습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>034</MSGNR>
+     <TEXT>Upload된 데이터가 존재하지 않습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>035</MSGNR>
+     <TEXT>I/F(&amp;1)에 대해서 TABLE(&amp;2)의 데이터를 &amp;3건삭제하였습니다.(&amp;4일 이전데이터)</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>036</MSGNR>
+     <TEXT>해당 조건의 I/F가 없습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>037</MSGNR>
+     <TEXT>여러건의 I/F KEY가 존재합니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>038</MSGNR>
+     <TEXT>오류: &amp;1 입력 확인</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>039</MSGNR>
+     <TEXT>&amp; 건 조회되었습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>040</MSGNR>
+     <TEXT>최신 데이터로 갱신되었습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>041</MSGNR>
+     <TEXT>회사코드 &amp;에서 손익센터 &amp;(으)로의 전기할 수 없습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>042</MSGNR>
+     <TEXT>현재예산: &amp;1, 사용될 실적금액: &amp;2, 가용금액: &amp;3 입니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>043</MSGNR>
+     <TEXT>예산금액 &amp;1 초과합니다. 예산전용 후 전기가능합니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>044</MSGNR>
+     <TEXT>예산 기준정보 오류입니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>045</MSGNR>
+     <TEXT>예산이 존재하지 않습니다. 전용 또는 증액 요청하십시오.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>046</MSGNR>
+     <TEXT>&amp; 필드값이 유효하지 않습니다.(코드값 또는 사칙연산자만 입력 가능 합니다.)</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>047</MSGNR>
+     <TEXT>&amp; 존재하지 않는 코드값 입니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>048</MSGNR>
+     <TEXT>입력하신 수식(&amp;) 중 &amp; 은 존재하지 않은 코드값 입니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>049</MSGNR>
+     <TEXT>버전의 첫째자리는 영문 &apos;V&apos;를 사용해야 합니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>050</MSGNR>
+     <TEXT>버전의 두번째 세번째 자리는 숫자 2자리를 사용해야 합니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>051</MSGNR>
+     <TEXT>존재하는 버전입니다. 새로운 버전을 입력하시기 바랍니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>052</MSGNR>
+     <TEXT>실행취소 하셨습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>053</MSGNR>
+     <TEXT>예산신청번호(&amp;1)로 생성되었습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>054</MSGNR>
+     <TEXT>예산신청번호(&amp;1)로 이미 신청되어 있습니다! 확인하십시오.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>055</MSGNR>
+     <TEXT>결재상신 할 수 없는 상태입니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>056</MSGNR>
+     <TEXT>아이템 데이터가 조회되었습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>057</MSGNR>
+     <TEXT>그룹웨어 호출 하였습니다! 예산신청번호(&amp;1)</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>058</MSGNR>
+     <TEXT>선택된 Column이 없습니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>059</MSGNR>
+     <TEXT>비율(%)의 합산 결과는 100% 여야 합니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>060</MSGNR>
+     <TEXT>설비 WBS의 사용자 필드를 입력해야 합니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>061</MSGNR>
+     <TEXT>설비 WBS 번호(E.00)는 회사코드와 일치해야 합니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>062</MSGNR>
+     <TEXT>프로파일과 WBS 번호는 일치해야 합니다.</TEXT>
+    </T100>
+   </T100>
+  </asx:values>
+ </asx:abap>
+</abapGit>
