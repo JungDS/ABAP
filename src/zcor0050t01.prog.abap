@@ -4,14 +4,14 @@
 *----------------------------------------------------------------------*
 * TABLES
 *----------------------------------------------------------------------*
-TABLES : SSCRFIELDS. "선택화면의 필드(Function Key)
+TABLES : sscrfields. "선택화면의 필드(Function Key)
 
-TYPE-POOLS: ICON, ABAP.
-
+TYPE-POOLS: icon, abap.
+TABLES : zcot0030log. " ADD BSGSM_FCM
 *----------------------------------------------------------------------*
 * CONSTANTS
 *----------------------------------------------------------------------*
-CONSTANTS GC_KTOPL TYPE KTOPL VALUE '1000'.
+CONSTANTS gc_ktopl TYPE ktopl VALUE '1000'.
 
 *----------------------------------------------------------------------*
 * TYPES
@@ -22,28 +22,45 @@ CONSTANTS GC_KTOPL TYPE KTOPL VALUE '1000'.
 * VARIABLE
 *----------------------------------------------------------------------*
 
-DATA: GV_EXIT   TYPE XFELD,
-      GV_ANSWER TYPE C,
-      OK_CODE   TYPE SY-UCOMM,   "예외
-      SAVE_OK   TYPE SY-UCOMM.   "예외
+DATA: gv_exit   TYPE xfeld,
+      gv_answer TYPE c,
+      ok_code   TYPE sy-ucomm,   "예외
+      save_ok   TYPE sy-ucomm.   "예외
 
-DATA: GV_CHANGE TYPE XFELD.      "변경체크
+DATA: gv_change TYPE xfeld.      "변경체크
 
-DATA GV_MODE.
-DATA GV_VALID.
+DATA gv_mode.
+DATA gv_valid.
 
 *----------------------------------------------------------------------*
 * STRUCTURE
 *----------------------------------------------------------------------*
-DATA : GS_FUNTXT TYPE SMP_DYNTXT.
-DATA: GS_DISPLAY TYPE ZCOS0030.
+DATA : gs_funtxt TYPE smp_dyntxt.
+*DATA: GS_DISPLAY TYPE ZCOS0030.
+
+"__ 리스트 조회
+DATA: BEGIN OF gs_display .
+        INCLUDE TYPE zcos0030b.
+        DATA: msg     TYPE c LENGTH 100,
+        mark(1).
+DATA :    style TYPE lvc_t_styl.
+DATA : cellcolor TYPE lvc_t_scol.
+DATA: END OF gs_display.
+INCLUDE <color>.
+
+DATA: gv_totcnt TYPE i,    "총 아이템 수
+      gv_succnt TYPE i,    "성공 건수
+      gv_falcnt TYPE i,    "실패 건수
+      gv_execnt TYPE i,    "실행 건수
+      gv_per(4) TYPE p  DECIMALS 2.
+
 
 *----------------------------------------------------------------------*
 * INTERNAL TABLE
 *----------------------------------------------------------------------*
 
-DATA: GT_DISPLAY     LIKE TABLE OF GS_DISPLAY. "DISPLAY DATA
-DATA: GT_DISPLAY_LOG LIKE TABLE OF GS_DISPLAY. "
+DATA: gt_display     LIKE TABLE OF gs_display. "DISPLAY DATA
+DATA: gt_display_log LIKE TABLE OF gs_display. "
 
 *----------------------------------------------------------------------*
 * RANGES
@@ -52,6 +69,8 @@ DATA: GT_DISPLAY_LOG LIKE TABLE OF GS_DISPLAY. "
 *----------------------------------------------------------------------*
 * FIELD-SYMBOLS
 *----------------------------------------------------------------------*
+* EX) FIELD-SYMBOLS <FS_SFLIGHT> TYPE SFLIGHT.
+FIELD-SYMBOLS <fs_disp> LIKE gs_display.
 
 
 *----------------------------------------------------------------------*
@@ -60,19 +79,19 @@ DATA: GT_DISPLAY_LOG LIKE TABLE OF GS_DISPLAY. "
 * - Prefix 정의
 *   1. _ : '_' 1개로 시작; Global, Local 구분 없음.
 
-DEFINE _STYLE_DISABLED.
-  GS_STYLE-FIELDNAME = &1.
-  GS_STYLE-STYLE     = CL_GUI_ALV_GRID=>MC_STYLE_DISABLED.
-  INSERT GS_STYLE INTO TABLE GT_STYLE.
+DEFINE _style_disabled.
+  gs_style-fieldname = &1.
+  gs_style-style     = cl_gui_alv_grid=>mc_style_disabled.
+  INSERT gs_style INTO TABLE gt_style.
 END-OF-DEFINITION.
 
-DEFINE _STYLE_ENABLED.
-  GS_STYLE-FIELDNAME = &1.
-  GS_STYLE-STYLE     = CL_GUI_ALV_GRID=>MC_STYLE_ENABLED.
-  INSERT GS_STYLE INTO TABLE GT_STYLE.
+DEFINE _style_enabled.
+  gs_style-fieldname = &1.
+  gs_style-style     = cl_gui_alv_grid=>mc_style_enabled.
+  INSERT gs_style INTO TABLE gt_style.
 END-OF-DEFINITION.
 
-DEFINE _CONVERSION_IN.
+DEFINE _conversion_in.
   CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'
   EXPORTING
   input = &1
@@ -80,7 +99,7 @@ DEFINE _CONVERSION_IN.
   output = &1.
 END-OF-DEFINITION.
 
-DEFINE _CONVERSION_OUT.
+DEFINE _conversion_out.
   CALL FUNCTION 'CONVERSION_EXIT_ALPHA_OUTPUT'
   EXPORTING
   input = &1

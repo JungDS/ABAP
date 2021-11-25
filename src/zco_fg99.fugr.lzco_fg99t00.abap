@@ -1,6 +1,6 @@
 *---------------------------------------------------------------------*
 *    view related data declarations
-*   generation date: 2020.09.10 at 15:20:27
+*   generation date: 2021.10.05 at 14:02:30
 *   view maintenance generator version: #001407#
 *---------------------------------------------------------------------*
 *...processing: ZCOT1210........................................*
@@ -321,6 +321,114 @@ INCLUDE STRUCTURE ZCOV1260.
           INCLUDE STRUCTURE VIMFLAGTAB.
 DATA: END OF ZCOV1260_TOTAL.
 
+*...processing: ZCOV1270........................................*
+TABLES: ZCOV1270, *ZCOV1270. "view work areas
+CONTROLS: TCTRL_ZCOV1270
+TYPE TABLEVIEW USING SCREEN '0021'.
+DATA: BEGIN OF STATUS_ZCOV1270. "state vector
+          INCLUDE STRUCTURE VIMSTATUS.
+DATA: END OF STATUS_ZCOV1270.
+* Table for entries selected to show on screen
+DATA: BEGIN OF ZCOV1270_EXTRACT OCCURS 0010.
+INCLUDE STRUCTURE ZCOV1270.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCOV1270_EXTRACT.
+* Table for all entries loaded from database
+DATA: BEGIN OF ZCOV1270_TOTAL OCCURS 0010.
+INCLUDE STRUCTURE ZCOV1270.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCOV1270_TOTAL.
+
+*...processing: ZCOV1280........................................*
+TABLES: ZCOV1280, *ZCOV1280. "view work areas
+CONTROLS: TCTRL_ZCOV1280
+TYPE TABLEVIEW USING SCREEN '0022'.
+DATA: BEGIN OF STATUS_ZCOV1280. "state vector
+          INCLUDE STRUCTURE VIMSTATUS.
+DATA: END OF STATUS_ZCOV1280.
+* Table for entries selected to show on screen
+DATA: BEGIN OF ZCOV1280_EXTRACT OCCURS 0010.
+INCLUDE STRUCTURE ZCOV1280.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCOV1280_EXTRACT.
+* Table for all entries loaded from database
+DATA: BEGIN OF ZCOV1280_TOTAL OCCURS 0010.
+INCLUDE STRUCTURE ZCOV1280.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCOV1280_TOTAL.
+
+*...processing: ZCOV1290........................................*
+TABLES: ZCOV1290, *ZCOV1290. "view work areas
+CONTROLS: TCTRL_ZCOV1290
+TYPE TABLEVIEW USING SCREEN '0023'.
+DATA: BEGIN OF STATUS_ZCOV1290. "state vector
+          INCLUDE STRUCTURE VIMSTATUS.
+DATA: END OF STATUS_ZCOV1290.
+* Table for entries selected to show on screen
+DATA: BEGIN OF ZCOV1290_EXTRACT OCCURS 0010.
+INCLUDE STRUCTURE ZCOV1290.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCOV1290_EXTRACT.
+* Table for all entries loaded from database
+DATA: BEGIN OF ZCOV1290_TOTAL OCCURS 0010.
+INCLUDE STRUCTURE ZCOV1290.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCOV1290_TOTAL.
+
+*...processing: ZCOV1300........................................*
+TABLES: ZCOV1300, *ZCOV1300. "view work areas
+CONTROLS: TCTRL_ZCOV1300
+TYPE TABLEVIEW USING SCREEN '0024'.
+DATA: BEGIN OF STATUS_ZCOV1300. "state vector
+          INCLUDE STRUCTURE VIMSTATUS.
+DATA: END OF STATUS_ZCOV1300.
+* Table for entries selected to show on screen
+DATA: BEGIN OF ZCOV1300_EXTRACT OCCURS 0010.
+INCLUDE STRUCTURE ZCOV1300.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCOV1300_EXTRACT.
+* Table for all entries loaded from database
+DATA: BEGIN OF ZCOV1300_TOTAL OCCURS 0010.
+INCLUDE STRUCTURE ZCOV1300.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCOV1300_TOTAL.
+
+*...processing: ZCOV1310........................................*
+TABLES: ZCOV1310, *ZCOV1310. "view work areas
+CONTROLS: TCTRL_ZCOV1310
+TYPE TABLEVIEW USING SCREEN '0025'.
+DATA: BEGIN OF STATUS_ZCOV1310. "state vector
+          INCLUDE STRUCTURE VIMSTATUS.
+DATA: END OF STATUS_ZCOV1310.
+* Table for entries selected to show on screen
+DATA: BEGIN OF ZCOV1310_EXTRACT OCCURS 0010.
+INCLUDE STRUCTURE ZCOV1310.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCOV1310_EXTRACT.
+* Table for all entries loaded from database
+DATA: BEGIN OF ZCOV1310_TOTAL OCCURS 0010.
+INCLUDE STRUCTURE ZCOV1310.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCOV1310_TOTAL.
+
+*...processing: ZCOV1320........................................*
+TABLES: ZCOV1320, *ZCOV1320. "view work areas
+CONTROLS: TCTRL_ZCOV1320
+TYPE TABLEVIEW USING SCREEN '0026'.
+DATA: BEGIN OF STATUS_ZCOV1320. "state vector
+          INCLUDE STRUCTURE VIMSTATUS.
+DATA: END OF STATUS_ZCOV1320.
+* Table for entries selected to show on screen
+DATA: BEGIN OF ZCOV1320_EXTRACT OCCURS 0010.
+INCLUDE STRUCTURE ZCOV1320.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCOV1320_EXTRACT.
+* Table for all entries loaded from database
+DATA: BEGIN OF ZCOV1320_TOTAL OCCURS 0010.
+INCLUDE STRUCTURE ZCOV1320.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCOV1320_TOTAL.
+
 *.........table declarations:.................................*
 TABLES: *ZCOT1210                      .
 TABLES: *ZCOT1250                      .
@@ -331,10 +439,13 @@ TABLES: CSKU                           .
 TABLES: MAKT                           .
 TABLES: MARA                           .
 TABLES: MARC                           .
+TABLES: PRPS                           .
 TABLES: SKA1                           .
 TABLES: SKAT                           .
 TABLES: T001                           .
 TABLES: T001W                          .
+TABLES: T2501                          .
+TABLES: T25A1                          .
 TABLES: TCURC                          .
 TABLES: ZCOT0020                       .
 TABLES: ZCOT0020T                      .
@@ -367,6 +478,16 @@ TABLES: ZCOT1220                       .
 TABLES: ZCOT1230                       .
 TABLES: ZCOT1250                       .
 TABLES: ZCOT1260                       .
+TABLES: ZCOT1270                       .
+TABLES: ZCOT1270T                      .
+TABLES: ZCOT1280                       .
+TABLES: ZCOT1280T                      .
+TABLES: ZCOT1290                       .
+TABLES: ZCOT1290T                      .
+TABLES: ZCOT1300                       .
+TABLES: ZCOT1300T                      .
+TABLES: ZCOT1310                       .
+TABLES: ZCOT1320                       .
 
 * general table data declarations..............
   INCLUDE LSVIMTDT                                .

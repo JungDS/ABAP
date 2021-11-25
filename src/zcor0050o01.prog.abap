@@ -14,6 +14,11 @@ MODULE STATUS_0100 OUTPUT.
 
     WHEN 'S'.
       APPEND '&SAV' TO FCODE.
+            " ADD BSGSM_FCM
+      APPEND '&EDIT' TO fcode.
+      APPEND '&ADD' TO fcode.
+      APPEND '&DELE' TO fcode.
+
 
   ENDCASE.
 

@@ -1,4 +1,4 @@
-* regenerated at 2019.06.19 13:14:50
+* regenerated at 2021.10.01 12:56:57
 *******************************************************************
 *   System-defined Include-files.                                 *
 *******************************************************************
@@ -19,3 +19,7 @@
   INCLUDE LSVIMFXX                                . " subprograms
   INCLUDE LSVIMOXX                                . " PBO modules
   INCLUDE LSVIMIXX                                . " PAI modules
+
+INCLUDE lzco_fg99f01.
+
+INCLUDE lzco_fg99o01.

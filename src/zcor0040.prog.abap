@@ -10,40 +10,47 @@
 * Tag  Date.       Author.     Description.
 *----------------------------------------------------------------------*
 * N    2019.06.18  BSGABAP4    INITIAL RELEASE
+* U    2021.08.23  BSGSM_FCM    개별 저장, 삭제 LOG 추가
+*       기존 프로그램 ZCOR0040B로  백업
+* U    2021.08.31  BSGSM_FCM   회사코드 추가*
 *----------------------------------------------------------------------*
 
-REPORT ZCOR0040 MESSAGE-ID ZCO01.
+REPORT zcor0040 MESSAGE-ID zco01.
 
 *----------------------------------------------------------------------*
 * INCLUDE
 *----------------------------------------------------------------------*
-INCLUDE ZCOR0040T01.    "Top
-INCLUDE ZCOR0040ALV.    "Alv
-INCLUDE ZCOR0040SCR.    "Screen - Condition screen
-INCLUDE ZCOR0040O01.    "Process Befor Output
-INCLUDE ZCOR0040I01.    "Process After Input
-INCLUDE ZCOR0040F01.    "Form
+INCLUDE zcor0040t01.    "Top
+INCLUDE zcor0040M01.    "메모
+INCLUDE zcor0040alv.    "Alv
+INCLUDE zcor0040scr.    "Screen - Condition screen
+INCLUDE zcor0040o01.    "Process Befor Output
+INCLUDE zcor0040i01.    "Process After Input
+INCLUDE zcor0040f01.    "Form
+
 
 *----------------------------------------------------------------------*
 INITIALIZATION.
 *----------------------------------------------------------------------*
-  PERFORM INITIAL_SET.
-  PERFORM SCRFIELDS_FUNCTXT.
+  PERFORM initial_set.
+  PERFORM scrfields_functxt.
 
 *---------------------------------------------------------------------*
 AT SELECTION-SCREEN.
 *---------------------------------------------------------------------*
-  PERFORM SCR_USER_COMMAND.
+  PERFORM scr_user_command.
 
 *---------------------------------------------------------------------*
-AT SELECTION-SCREEN ON BLOCK BL1.
+AT SELECTION-SCREEN ON BLOCK bl1.
 *---------------------------------------------------------------------*
-  PERFORM CHECK_CONTROLLING_AREA.
+  PERFORM check_controlling_area.
 
 *----------------------------------------------------------------------*
 START-OF-SELECTION.
 *----------------------------------------------------------------------*
-  PERFORM SELECTED_DATA_RTN.
+  PERFORM selected_data_rtn.
+  PERFORM select_it_role_check.
+
   CALL SCREEN 0100.
 
 *----------------------------------------------------------------------*

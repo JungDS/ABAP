@@ -10,43 +10,15 @@ FUNCTION ZCO_MASTER_SEND.
 *"     VALUE(E_RESULT) TYPE  CHAR1 OPTIONAL
 *"     VALUE(E_MSG) TYPE  CHAR255 OPTIONAL
 *"----------------------------------------------------------------------
-* 20191218 수정
-*  ZSDT0120 회사 플랜트 - WBS 관리 조회시 삭제 플래그 없는걸로 조회
+*----------------------------------------------------------------------*
+* Tag  Date.       Author.        Description.
+*----------------------------------------------------------------------*
+* 20191218  수정
+*           ZSDT0120 회사 플랜트 - WBS 관리 조회시 삭제 플래그 없는걸로 조회
 * 20200709  코스트센터 범주,  WBS  유형 추가
-
-
-***  SELECT A~BUKRS, A~KOSTL, A~DATBI, A~DATAB,
-***         A~GSBER, B~LTEXT, A~PRCTR, A~KOSAR
-***    FROM CSKS AS A
-***    LEFT JOIN CSKT AS B
-***      ON A~KOSTL = B~KOSTL
-***     AND A~DATBI = B~DATBI
-***     AND B~SPRAS = @SY-LANGU
-***    INTO TABLE @T_CCTR
-***   WHERE A~BUKRS = @I_BUKRS.
-***
-***
-***  SELECT DISTINCT
-***         A~PSPID, A~POST1,
-***         B~POSID, B~POST1 AS POST2,
-***         B~PBUKR, B~PGSBR, B~PRCTR, D~WERKS,
-***         C~PSTRT, C~PENDE, B~ZZWBT
-***    INTO TABLE @T_WBS
-***     FROM PROJ AS A
-***    INNER JOIN PRPS AS B
-***      ON A~PSPNR = B~PSPHI
-***    LEFT JOIN PRTE AS C
-***      ON B~PSPNR = C~POSNR
-***    LEFT JOIN ZSDT0120 AS D
-***      ON B~PSPNR    = D~WBSNR
-***     AND D~MODUL    = 'M'
-***     AND D~LVORM = @SPACE    "mm 삭제지시자, 2019.12.18 주석 해제
-***     AND D~HR_LVORM = @SPACE  "CO-HR 플랜트 제외 2019.12.16 추가
-***     AND D~BUKRS    = @I_BUKRS
-***   WHERE A~LOEVM    = @SPACE
-***     AND B~LOEVM    = @SPACE
-***     AND B~PBUKR    = @I_BUKRS.
-
+*----------------------------------------------------------------------*
+* V003 2021.11.23  BSGSM_SCM(KHJ) 1.코스트센터&플랜트 연동 쿼리문 수정
+*----------------------------------------------------------------------*
 
   DATA : LT_CCTR_L TYPE ZCOS0160_L OCCURS 0,
          LS_CCTR_L LIKE LINE OF LT_CCTR_L,
@@ -61,14 +33,23 @@ FUNCTION ZCO_MASTER_SEND.
   CLEAR: T_CCTR, T_CCTR[].
   CLEAR: T_WBS, T_WBS[].
 
-
+  "********************************************************************
+  "__ 코스트센터 정보 추출.
+  "********************************************************************
   SELECT A~BUKRS, A~KOSTL, A~DATBI, A~DATAB,
-         A~GSBER, B~LTEXT, A~PRCTR, A~KOSAR
+         A~GSBER, B~LTEXT, A~PRCTR, A~KOSAR,
+         C~WERKS
     FROM CSKS AS A
     LEFT JOIN CSKT AS B
       ON A~KOSTL = B~KOSTL
      AND A~DATBI = B~DATBI
      AND B~SPRAS = @SY-LANGU
+    LEFT JOIN ZSDT0120 AS C      "__ [SD] 회사 플랜트 - WBS 관리
+      ON A~KOSTL    = C~KOSTL
+     AND C~MODUL    = 'M'
+     AND C~LVORM = @SPACE    "mm 삭제지시자, 2019.12.18 주석 해제
+     AND C~HR_LVORM = @SPACE  "CO-HR 플랜트 제외 2019.12.16 추가
+     AND C~BUKRS    = @I_BUKRS
     INTO TABLE @LT_CCTR_L   "<<<<<<   수정 20200709...
    WHERE A~BUKRS = @I_BUKRS.
 
@@ -104,19 +85,21 @@ FUNCTION ZCO_MASTER_SEND.
     CLEAR LS_CCTR_L.
   ENDLOOP.
 
-
+  "********************************************************************
+  "__ [CO] E-HR 마스터 정보 전송 구조체(WBS) 데이터 담기.
+  "********************************************************************
   SELECT DISTINCT
          A~PSPID, A~POST1,
          B~POSID, B~POST1 AS POST2,
          B~PBUKR, B~PGSBR, B~PRCTR, D~WERKS,
          C~PSTRT, C~PENDE, B~ZZWBT
     INTO TABLE @LT_WBS_L   "<<<<<<   수정 20200709...
-     FROM PROJ AS A
-    INNER JOIN PRPS AS B
+     FROM PROJ AS A              "__ 프로젝트 정의
+    INNER JOIN PRPS AS B         "__ WBS (작업분할구조) 요소 마스터 데이타
       ON A~PSPNR = B~PSPHI
-    LEFT JOIN PRTE AS C
+    LEFT JOIN PRTE AS C          "__ 프로젝트품목에 대한 일정계획 데이타
       ON B~PSPNR = C~POSNR
-    LEFT JOIN ZSDT0120 AS D
+    LEFT JOIN ZSDT0120 AS D      "__ [SD] 회사 플랜트 - WBS 관리
       ON B~PSPNR    = D~WBSNR
      AND D~MODUL    = 'M'
      AND D~LVORM = @SPACE    "mm 삭제지시자, 2019.12.18 주석 해제
@@ -125,7 +108,6 @@ FUNCTION ZCO_MASTER_SEND.
    WHERE A~LOEVM    = @SPACE
      AND B~LOEVM    = @SPACE
      AND B~PBUKR    = @I_BUKRS.
-
 
   CLEAR LS_WBS_L.
   LOOP AT LT_WBS_L INTO LS_WBS_L.
@@ -156,11 +138,9 @@ FUNCTION ZCO_MASTER_SEND.
 
           LS_WBS-CATE = 3.
 
-
         WHEN OTHERS.
 
           LS_WBS-CATE = 2.  "원가도급   by 강현수k
-
 
       ENDCASE.
 
@@ -172,8 +152,6 @@ FUNCTION ZCO_MASTER_SEND.
 
   ENDLOOP.
 
-
-
   IF T_CCTR[] IS INITIAL AND
      T_WBS[]  IS  INITIAL.
     E_MSG = 'E'.
@@ -183,7 +161,6 @@ FUNCTION ZCO_MASTER_SEND.
   ENDIF.
 
 ENDFUNCTION.
-
 
 * 재수정  20200714
 *--- Original Message ---
@@ -214,8 +191,6 @@ ENDFUNCTION.
 **
 **원가제조 - W05(제조)                                                                 =>3
 **
-**
-
 
 ***--- Original Message ---
 ***From : "강현수"<balla2000@tsk.co.kr>
@@ -223,8 +198,6 @@ ENDFUNCTION.
 ***Cc : "정수연(BSG_FCM)/위원/수행사(ERP)"<bsg_fcm1@tsk.co.kr>
 ***Date : 2020/07/09 목요일 오후 3:54:10
 ***Subject : (수정) 기술개발비 추가관련 게정 구분 범주 참조의 건
-***
-***
 ***
 ***CCTR
 ***
@@ -243,6 +216,4 @@ ENDFUNCTION.
 ***원가도급 - W02(공사), W03(운영), W04(법인), W06(상품), W07(공통), W99(해당없음), 공백     => 2
 ***
 ***원가제조 - W05(제조)   => 3
-***
-***
 ***

@@ -4,106 +4,117 @@
 *&---------------------------------------------------------------------*
 *&      Form  SELECTED_DATA_RTN
 *&---------------------------------------------------------------------*
-FORM SELECTED_DATA_RTN .
+FORM selected_data_rtn .
 
-  PERFORM SELECTED_MAIN_DATA.
+  PERFORM selected_main_data.
 
 ENDFORM.                    " SELECTED_DATA_RTN
 *&---------------------------------------------------------------------*
 *&      Form  SELECTED_MAIN_DATA
 *&---------------------------------------------------------------------*
-FORM SELECTED_MAIN_DATA.
+FORM selected_main_data.
 
-  CLEAR: GT_DISPLAY, GT_DISPLAY_LOG.
+  CLEAR: gt_display, gt_display_log.
 
-  DATA LT_KSTAR LIKE TABLE OF GS_DISPLAY WITH HEADER LINE.
+  DATA lt_kstar LIKE TABLE OF gs_display WITH HEADER LINE.
 
-  SELECT @PA_GJAHR AS GJAHR,
-         @PA_CTYPE AS CTYPE,
-         C~CTEXT   AS CTYPETXT,
-         A~KSTAR   AS FKSTAR,
-         B~KTEXT   AS FKTEXT,
-         '5'       AS CPERD,
-         'X'       AS CHECK5
-    INTO CORRESPONDING FIELDS OF TABLE @LT_KSTAR
-    FROM CSKA AS A
-    LEFT JOIN CSKU AS B
-      ON A~KSTAR = B~KSTAR
-     AND B~SPRAS = @SY-LANGU
-     AND B~KTOPL = @GC_KTOPL
-    LEFT JOIN ZCOT1130T AS C
-      ON C~SPRAS = @SY-LANGU
-     AND C~CTYPE = @PA_CTYPE
-   WHERE A~KTOPL = @GC_KTOPL
-     AND ( A~KSTAR LIKE '05%' OR A~KSTAR LIKE '06%' ).
+  SELECT @pa_gjahr AS gjahr,
+         @pa_ctype AS ctype,
+         c~ctext   AS ctypetxt,
+         a~kstar   AS fkstar,
+         b~ktext   AS fktext,
+         '5'       AS cperd,
+         'X'       AS check5
+    INTO CORRESPONDING FIELDS OF TABLE @lt_kstar
+    FROM cska AS a
+    LEFT JOIN csku AS b
+      ON a~kstar = b~kstar
+     AND b~spras = @sy-langu
+     AND b~ktopl = @gc_ktopl
+    LEFT JOIN zcot1130t AS c
+      ON c~spras = @sy-langu
+     AND c~ctype = @pa_ctype
+   WHERE a~ktopl = @gc_ktopl
+     AND ( a~kstar LIKE '05%' OR a~kstar LIKE '06%' ).
 
-  SELECT A~GJAHR, A~CTYPE, A~FKSTAR, A~CPERD,
-         B~KTEXT AS FKTEXT,
-         C~CTEXT AS CTYPETXT,
-         CASE A~CPERD WHEN '1' THEN 'X' ELSE ' ' END AS CHECK1,
-         CASE A~CPERD WHEN '2' THEN 'X' ELSE ' ' END AS CHECK2,
-         CASE A~CPERD WHEN '3' THEN 'X' ELSE ' ' END AS CHECK3,
-         CASE A~CPERD WHEN '4' THEN 'X' ELSE ' ' END AS CHECK4,
-         CASE A~CPERD WHEN '5' THEN 'X' ELSE ' ' END AS CHECK5
-    INTO CORRESPONDING FIELDS OF TABLE @GT_DISPLAY
-    FROM ZCOT0010 AS A
-    INNER JOIN CSKA AS D
-      ON A~FKSTAR = D~KSTAR
-     AND D~KTOPL  = @GC_KTOPL
-    LEFT JOIN CSKU AS B
-      ON A~FKSTAR = B~KSTAR
-     AND B~SPRAS = @SY-LANGU
-     AND B~KTOPL = @GC_KTOPL
-    LEFT JOIN ZCOT1130T AS C
-      ON C~SPRAS = @SY-LANGU
-     AND C~CTYPE = @PA_CTYPE
-   WHERE A~KOKRS = @PA_KOKRS
-     AND A~GJAHR = @PA_GJAHR
-     AND A~CTYPE = @PA_CTYPE.
+  SELECT '@5B@' AS icon,
+         a~bukrs, " ADD BSGSM_FCM   2021.8.31
+         a~gjahr, a~ctype, a~fkstar, a~cperd,
+         b~ktext AS fktext,
+         c~ctext AS ctypetxt,
+         CASE a~cperd WHEN '1' THEN 'X' ELSE ' ' END AS check1,
+         CASE a~cperd WHEN '2' THEN 'X' ELSE ' ' END AS check2,
+         CASE a~cperd WHEN '3' THEN 'X' ELSE ' ' END AS check3,
+         CASE a~cperd WHEN '4' THEN 'X' ELSE ' ' END AS check4,
+         CASE a~cperd WHEN '5' THEN 'X' ELSE ' ' END AS check5
+    INTO CORRESPONDING FIELDS OF TABLE @gt_display
+    FROM zcot0010 AS a
+    INNER JOIN cska AS d
+      ON a~fkstar = d~kstar
+     AND d~ktopl  = @gc_ktopl
+    LEFT JOIN csku AS b
+      ON a~fkstar = b~kstar
+     AND b~spras = @sy-langu
+     AND b~ktopl = @gc_ktopl
+    LEFT JOIN zcot1130t AS c
+      ON c~spras = @sy-langu
+     AND c~ctype = @pa_ctype
 
-  IF SY-SUBRC <> 0.
+*   WHERE a~kokrs = @pa_kokrs
+*     AND a~gjahr = @pa_gjahr
+*     AND a~ctype = @pa_ctype.
+   WHERE a~bukrs = @pa_bukrs  " ADD BSGSM_FCM  20210831..
+     AND a~kokrs = @pa_kokrs
+     AND a~gjahr = @pa_gjahr
+     AND a~ctype = @pa_ctype.
 
-    CASE GV_MODE.
+
+  IF sy-subrc <> 0.
+
+    CASE gv_mode.
 
       WHEN 'S'.
-        MESSAGE S004 DISPLAY LIKE 'E'.
+        MESSAGE s004 DISPLAY LIKE 'E'.
         STOP.
 
       WHEN 'E'.
 
-        PERFORM POPUP_TO_CONFIRM USING TEXT-PT2
-                                       TEXT-QT2.
+        PERFORM popup_to_confirm USING TEXT-pt2
+                                       TEXT-qt2.
 
-        IF GV_ANSWER = '1'.
+        IF gv_answer = '1'.
 
-          SELECT @PA_GJAHR  AS GJAHR, A~CTYPE, A~FKSTAR, A~CPERD,
-                 B~KTEXT AS FKTEXT,
-                 C~CTEXT AS CTYPETXT,
-                 CASE A~CPERD WHEN '1' THEN 'X' ELSE ' ' END AS CHECK1,
-                 CASE A~CPERD WHEN '2' THEN 'X' ELSE ' ' END AS CHECK2,
-                 CASE A~CPERD WHEN '3' THEN 'X' ELSE ' ' END AS CHECK3,
-                 CASE A~CPERD WHEN '4' THEN 'X' ELSE ' ' END AS CHECK4,
-                 CASE A~CPERD WHEN '5' THEN 'X' ELSE ' ' END AS CHECK5
-            INTO CORRESPONDING FIELDS OF TABLE @GT_DISPLAY
-            FROM ZCOT0010 AS A
-            INNER JOIN CSKA AS D
-               ON A~FKSTAR = D~KSTAR
-              AND D~KTOPL  = @GC_KTOPL
-            LEFT JOIN CSKU AS B
-              ON A~FKSTAR = B~KSTAR
-             AND B~SPRAS = @SY-LANGU
-             AND B~KTOPL = @GC_KTOPL
-            LEFT JOIN ZCOT1130T AS C
-              ON C~SPRAS = @SY-LANGU
-             AND C~CTYPE = @PA_CTYPE
-           WHERE A~KOKRS = @PA_KOKRS
-             AND A~GJAHR = ( SELECT MAX( GJAHR ) FROM ZCOT0010
-                              WHERE KOKRS = @PA_KOKRS
-                                AND GJAHR < @PA_GJAHR )
-             AND A~CTYPE = @PA_CTYPE.
+          SELECT a~bukrs AS bukrs,  "ADD BSGSM_FCM
+                 @pa_gjahr  AS gjahr, a~ctype, a~fkstar, a~cperd,
+                 b~ktext AS fktext,
+                 c~ctext AS ctypetxt,
+                 CASE a~cperd WHEN '1' THEN 'X' ELSE ' ' END AS check1,
+                 CASE a~cperd WHEN '2' THEN 'X' ELSE ' ' END AS check2,
+                 CASE a~cperd WHEN '3' THEN 'X' ELSE ' ' END AS check3,
+                 CASE a~cperd WHEN '4' THEN 'X' ELSE ' ' END AS check4,
+                 CASE a~cperd WHEN '5' THEN 'X' ELSE ' ' END AS check5
+            INTO CORRESPONDING FIELDS OF TABLE @gt_display
+            FROM zcot0010 AS a
+            INNER JOIN cska AS d
+               ON a~fkstar = d~kstar
+              AND d~ktopl  = @gc_ktopl
+            LEFT JOIN csku AS b
+              ON a~fkstar = b~kstar
+             AND b~spras = @sy-langu
+             AND b~ktopl = @gc_ktopl
+            LEFT JOIN zcot1130t AS c
+              ON c~spras = @sy-langu
+             AND c~ctype = @pa_ctype
+           WHERE a~bukrs = @pa_bukrs  "ADD BSGSM_FCM  2021.08.31
+             AND  a~kokrs = @pa_kokrs
+             AND a~gjahr = ( SELECT MAX( gjahr ) FROM zcot0010
+                              WHERE bukrs = @pa_bukrs  "ADD BSGSM_FCM  2021.08.31
+                                AND kokrs = @pa_kokrs
+                                AND gjahr < @pa_gjahr )
+             AND a~ctype = @pa_ctype.
 
         ELSE.
-          MESSAGE S000 WITH TEXT-S03.
+          MESSAGE s000 WITH TEXT-s03.
           EXIT.
         ENDIF.
 
@@ -112,58 +123,89 @@ FORM SELECTED_MAIN_DATA.
   ENDIF.
 
 *-- 계정 변경 건 기본 화면 표시
-  LOOP AT LT_KSTAR.
+  LOOP AT lt_kstar.
 
-    READ TABLE GT_DISPLAY INTO GS_DISPLAY
-       WITH KEY FKSTAR = LT_KSTAR-FKSTAR.
+    READ TABLE gt_display INTO gs_display
+       WITH KEY fkstar = lt_kstar-fkstar.
 
-    IF SY-SUBRC <> 0 .
-      CLEAR GS_DISPLAY.
-      MOVE LT_KSTAR TO GS_DISPLAY.
-      APPEND GS_DISPLAY TO GT_DISPLAY.
+    IF sy-subrc <> 0 .
+      CLEAR gs_display.
+      MOVE lt_kstar TO gs_display.
+
+      gs_display-icon = icon_led_yellow. " ADD BSGSM_FCM.
+      gs_display-bukrs = pa_bukrs. " ADD BSGSM_FCM.
+
+
+
+      APPEND gs_display TO gt_display.
     ENDIF.
 
   ENDLOOP.
 
-  DATA(LV_LINES) = LINES( GT_DISPLAY ).
-  MESSAGE S039 WITH LV_LINES.
+** ADD BSGSM_FCM  20210823
 
-  SORT GT_DISPLAY BY GJAHR CTYPE FKSTAR.
+*비활성화
 
-  GT_DISPLAY_LOG[] = GT_DISPLAY[].
+  LOOP AT gt_display ASSIGNING FIELD-SYMBOL(<fs>).
+
+
+    CLEAR gt_style[].
+    _style_disabled : 'CHECK1'.
+    _style_disabled : 'CHECK2'.
+    _style_disabled : 'CHECK3'.
+    _style_disabled : 'CHECK4'.
+    _style_disabled : 'CHECK5'.
+    _style_disabled : 'FKSTAR'.
+
+
+    <fs>-style[] = gt_style[].
+
+  ENDLOOP.
+
+
+
+
+  DATA(lv_lines) = lines( gt_display ).
+  MESSAGE s039 WITH lv_lines.
+
+  SORT gt_display BY gjahr ctype fkstar.
+
+  gt_display_log[] = gt_display[].
 
 ENDFORM.                    " SELECTED_MAIN_DATA
 *&---------------------------------------------------------------------*
 *&      Form  EVENT_TOOLBAR
 *&---------------------------------------------------------------------*
-FORM EVENT_TOOLBAR
-       USING PR_OBJECT     TYPE REF TO CL_ALV_EVENT_TOOLBAR_SET
-             PV_INTERACTIVE TYPE CHAR01
-             PR_SENDER     TYPE REF TO CL_GUI_ALV_GRID.
+FORM event_toolbar
+       USING pr_object     TYPE REF TO cl_alv_event_toolbar_set
+             pv_interactive TYPE char01
+             pr_sender     TYPE REF TO cl_gui_alv_grid.
 
-  CASE PR_SENDER.
-    WHEN GR_GRID1.
+  CASE pr_sender.
+    WHEN gr_grid1.
 
       "ADD_BUTTON : OBJECT, BTYPE, FUNC, ICON, INFO, TEXT, DISABLE
-      PERFORM ADD_BUTTON USING
-            PR_OBJECT '3' SPACE SPACE SPACE SPACE SPACE. "분리자
+      CHECK sy-tcode EQ 'ZCOR0040'.
 
-      IF PA_CTYPE NE '3'.
-        PERFORM ADD_BUTTON USING
-              PR_OBJECT '0' '&BT1' ICON_CHECKED TEXT-C12 TEXT-C12 SPACE.
+      PERFORM add_button USING
+            pr_object '3' space space space space space. "분리자
 
-        PERFORM ADD_BUTTON USING
-              PR_OBJECT '0' '&BT2' ICON_CHECKED TEXT-C13 TEXT-C13 SPACE.
+      IF pa_ctype NE '3'.
+        PERFORM add_button USING
+              pr_object '0' '&BT1' icon_checked TEXT-c12 TEXT-c12 space.
 
-        PERFORM ADD_BUTTON USING
-              PR_OBJECT '0' '&BT3' ICON_CHECKED TEXT-C14 TEXT-C14 SPACE.
+        PERFORM add_button USING
+              pr_object '0' '&BT2' icon_checked TEXT-c13 TEXT-c13 space.
+
+        PERFORM add_button USING
+              pr_object '0' '&BT3' icon_checked TEXT-c14 TEXT-c14 space.
       ENDIF.
 
-      PERFORM ADD_BUTTON USING
-            PR_OBJECT '0' '&BT4' ICON_CHECKED TEXT-C15 TEXT-C15 SPACE.
+      PERFORM add_button USING
+            pr_object '0' '&BT4' icon_checked TEXT-c15 TEXT-c15 space.
 
-      PERFORM ADD_BUTTON USING
-            PR_OBJECT '0' '&BT5' ICON_CHECKED TEXT-C16 TEXT-C16 SPACE.
+      PERFORM add_button USING
+            pr_object '0' '&BT5' icon_checked TEXT-c16 TEXT-c16 space.
 
     WHEN OTHERS.
   ENDCASE.
@@ -172,53 +214,53 @@ ENDFORM.                    " EVENT_TOOLBAR
 *&---------------------------------------------------------------------*
 *&      Form ADD_BUTTON
 *&---------------------------------------------------------------------*
-FORM ADD_BUTTON USING PR_OBJECT TYPE REF TO CL_ALV_EVENT_TOOLBAR_SET
-                    PV_BTYPE
-                    PV_FUNC
-                    PV_ICON
-                    PV_INFO
-                    PV_TEXT
-                    PV_DISA.
+FORM add_button USING pr_object TYPE REF TO cl_alv_event_toolbar_set
+                    pv_btype
+                    pv_func
+                    pv_icon
+                    pv_info
+                    pv_text
+                    pv_disa.
 
-  DATA: LS_BUTTON TYPE STB_BUTTON,
-        LS_BTNMNU TYPE STB_BTNMNU,
+  DATA: ls_button TYPE stb_button,
+        ls_btnmnu TYPE stb_btnmnu,
 
-        LT_BUTTON TYPE TTB_BUTTON,
-        LT_BTNMNU TYPE TTB_BTNMNU.
+        lt_button TYPE ttb_button,
+        lt_btnmnu TYPE ttb_btnmnu.
 
-  CLEAR LS_BUTTON.
-  LS_BUTTON-BUTN_TYPE = PV_BTYPE.
-  LS_BUTTON-FUNCTION  = PV_FUNC.
-  LS_BUTTON-ICON      = PV_ICON.
-  LS_BUTTON-QUICKINFO = PV_INFO.
+  CLEAR ls_button.
+  ls_button-butn_type = pv_btype.
+  ls_button-function  = pv_func.
+  ls_button-icon      = pv_icon.
+  ls_button-quickinfo = pv_info.
 
-  LS_BUTTON-TEXT      = PV_TEXT.
-  LS_BUTTON-DISABLED  = PV_DISA.
+  ls_button-text      = pv_text.
+  ls_button-disabled  = pv_disa.
 
-  APPEND LS_BUTTON TO PR_OBJECT->MT_TOOLBAR.
+  APPEND ls_button TO pr_object->mt_toolbar.
 
 ENDFORM.                   " ADD_BUTTON
 *&---------------------------------------------------------------------*
 *&      Form  EVENT_USER_COMMAND
 *&---------------------------------------------------------------------*
-FORM EVENT_USER_COMMAND  USING PV_UCOMM   TYPE SY-UCOMM
-                               PR_SENDER TYPE REF TO CL_GUI_ALV_GRID.
+FORM event_user_command  USING pv_ucomm   TYPE sy-ucomm
+                               pr_sender TYPE REF TO cl_gui_alv_grid.
 
-  DATA: LV_ROW TYPE I,
-        LV_COL TYPE I.
+  DATA: lv_row TYPE i,
+        lv_col TYPE i.
 
-  CLEAR: GT_ROWS, GT_ROWS[].
+  CLEAR: gt_rows, gt_rows[].
 
   "선택 ROW가져오기
-  CALL METHOD PR_SENDER->GET_SELECTED_ROWS
+  CALL METHOD pr_sender->get_selected_rows
     IMPORTING
-      ET_INDEX_ROWS = GT_ROWS[].
+      et_index_rows = gt_rows[].
 
 
   "GRID에 따라 처리.
-  CASE PR_SENDER.
-    WHEN GR_GRID1.
-      CASE PV_UCOMM.
+  CASE pr_sender.
+    WHEN gr_grid1.
+      CASE pv_ucomm.
 *        WHEN '&APD'.   "-- 행 추가
 
 *          " 마지막행에 ROW 추가하기.
@@ -323,43 +365,43 @@ FORM EVENT_USER_COMMAND  USING PV_UCOMM   TYPE SY-UCOMM
 *          PERFORM REFRESH_GRID_0100.
 
         WHEN '&BT1' OR '&BT2' OR '&BT3' OR '&BT4' OR '&BT5'.
-          IF GT_ROWS[] IS INITIAL.
-            MESSAGE S021 DISPLAY LIKE 'E'.
+          IF gt_rows[] IS INITIAL.
+            MESSAGE s021 DISPLAY LIKE 'E'.
             RETURN.
           ENDIF.
 
-          DATA LV_CPERD TYPE C.
+          DATA lv_cperd TYPE c.
 
-          CASE PV_UCOMM.
-            WHEN '&BT1'. LV_CPERD = '1'.
-            WHEN '&BT2'. LV_CPERD = '2'.
-            WHEN '&BT3'. LV_CPERD = '3'.
-            WHEN '&BT4'. LV_CPERD = '4'.
-            WHEN '&BT5'. LV_CPERD = '5'.
+          CASE pv_ucomm.
+            WHEN '&BT1'. lv_cperd = '1'.
+            WHEN '&BT2'. lv_cperd = '2'.
+            WHEN '&BT3'. lv_cperd = '3'.
+            WHEN '&BT4'. lv_cperd = '4'.
+            WHEN '&BT5'. lv_cperd = '5'.
           ENDCASE.
 
-          LOOP AT GT_ROWS INTO GS_ROWS.
+          LOOP AT gt_rows INTO gs_rows.
 
-            READ TABLE GT_DISPLAY INTO GS_DISPLAY INDEX GS_ROWS-INDEX.
-            IF SY-SUBRC EQ 0.
-              GS_DISPLAY-CPERD = LV_CPERD.
-              CLEAR: GS_DISPLAY-CHECK1, GS_DISPLAY-CHECK2, GS_DISPLAY-CHECK3,
-                     GS_DISPLAY-CHECK4, GS_DISPLAY-CHECK5.
+            READ TABLE gt_display INTO gs_display INDEX gs_rows-index.
+            IF sy-subrc EQ 0.
+              gs_display-cperd = lv_cperd.
+              CLEAR: gs_display-check1, gs_display-check2, gs_display-check3,
+                     gs_display-check4, gs_display-check5.
 
-              CASE PV_UCOMM.
-                WHEN '&BT1'. GS_DISPLAY-CHECK1 = 'X'.
-                WHEN '&BT2'. GS_DISPLAY-CHECK2 = 'X'.
-                WHEN '&BT3'. GS_DISPLAY-CHECK3 = 'X'.
-                WHEN '&BT4'. GS_DISPLAY-CHECK4 = 'X'.
-                WHEN '&BT5'. GS_DISPLAY-CHECK5 = 'X'.
+              CASE pv_ucomm.
+                WHEN '&BT1'. gs_display-check1 = 'X'.
+                WHEN '&BT2'. gs_display-check2 = 'X'.
+                WHEN '&BT3'. gs_display-check3 = 'X'.
+                WHEN '&BT4'. gs_display-check4 = 'X'.
+                WHEN '&BT5'. gs_display-check5 = 'X'.
               ENDCASE.
 
-              MODIFY GT_DISPLAY FROM GS_DISPLAY INDEX GS_ROWS-INDEX
-              TRANSPORTING CPERD CHECK1 CHECK2 CHECK3 CHECK4 CHECK5.
+              MODIFY gt_display FROM gs_display INDEX gs_rows-index
+              TRANSPORTING cperd check1 check2 check3 check4 check5.
             ENDIF.
           ENDLOOP.
 
-          PERFORM REFRESH_GRID_0100.
+          PERFORM refresh_grid_0100.
 
       ENDCASE.
 
@@ -371,13 +413,13 @@ ENDFORM.                    " EVENT_USER_COMMAND
 *&---------------------------------------------------------------------*
 *&      Form  EVENT_DATA_CHANGED
 *&---------------------------------------------------------------------*
-FORM EVENT_DATA_CHANGED
-       USING PR_DATA_CHANGED TYPE REF TO CL_ALV_CHANGED_DATA_PROTOCOL
-             PV_ONF4          TYPE CHAR01
-             PV_ONF4_BEFORE   TYPE CHAR01
-             PV_ONF4_AFTER    TYPE CHAR01
-             PV_UCOMM         TYPE SY-UCOMM
-             PR_SENDER       TYPE REF TO CL_GUI_ALV_GRID.
+FORM event_data_changed
+       USING pr_data_changed TYPE REF TO cl_alv_changed_data_protocol
+             pv_onf4          TYPE char01
+             pv_onf4_before   TYPE char01
+             pv_onf4_after    TYPE char01
+             pv_ucomm         TYPE sy-ucomm
+             pr_sender       TYPE REF TO cl_gui_alv_grid.
 
 
 * - Prefix 정의 - Form Parameter
@@ -387,25 +429,25 @@ FORM EVENT_DATA_CHANGED
 *   4. PR_  : Reference Variables
 
 *--- Begin or Example
-  DATA: LS_MOD_CELLS TYPE LVC_S_MODI,
-        LS_INS_CELLS TYPE LVC_S_MOCE,
-        LS_DEL_CELLS TYPE LVC_S_MOCE.
+  DATA: ls_mod_cells TYPE lvc_s_modi,
+        ls_ins_cells TYPE lvc_s_moce,
+        ls_del_cells TYPE lvc_s_moce.
 
 *  DATA LS_DD07T  TYPE DD07T.
-  DATA LV_CTEXT  TYPE ZECTEXT.
-  DATA LV_KTEXT  TYPE KTEXT.
-  DATA LV_KSTAR  TYPE KSTAR.
-  DATA LV_KSTAR_CHECK TYPE KSTAR.
+  DATA lv_ctext  TYPE zectext.
+  DATA lv_ktext  TYPE ktext.
+  DATA lv_kstar  TYPE kstar.
+  DATA lv_kstar_check TYPE kstar.
 
 
 *  DATA: LV_UPDATE_FLAG LIKE GS_DISPLAY-UPDATE_FLAG, "변경 FLAG
 *        LV_TABIX       TYPE SY-TABIX.               "row 변경 체크
 
-  DATA LV_TABIX TYPE SY-TABIX.
+  DATA lv_tabix TYPE sy-tabix.
 
-  ERROR_IN_DATA = SPACE.
+  error_in_data = space.
 
-  DEFINE _MODIFY_CELL.
+  DEFINE _modify_cell.
     CALL METHOD pr_data_changed->modify_cell
       EXPORTING
         i_fieldname = &1
@@ -414,7 +456,7 @@ FORM EVENT_DATA_CHANGED
 
   END-OF-DEFINITION.
 
-  DEFINE _GET_CELL_VALUE.
+  DEFINE _get_cell_value.
     CALL METHOD pr_data_changed->get_cell_value
       EXPORTING
         i_fieldname = &1
@@ -423,7 +465,7 @@ FORM EVENT_DATA_CHANGED
         e_value     = &3.
   END-OF-DEFINITION.
 
-  DEFINE _ADD_PROTOCOL.
+  DEFINE _add_protocol.
     CALL METHOD pr_data_changed->add_protocol_entry
       EXPORTING
         i_fieldname = &1
@@ -437,7 +479,7 @@ FORM EVENT_DATA_CHANGED
         i_msgv4     = &8.
   END-OF-DEFINITION.
 
-  DEFINE _MODIFY_STYLE.
+  DEFINE _modify_style.
     CALL METHOD pr_data_changed->modify_style
       EXPORTING
         i_fieldname = &1
@@ -446,14 +488,14 @@ FORM EVENT_DATA_CHANGED
   END-OF-DEFINITION.
 *--- End of Example
 
-  CASE PR_SENDER.
+  CASE pr_sender.
 
-    WHEN GR_GRID1.
+    WHEN gr_grid1.
 
-      LOOP AT PR_DATA_CHANGED->MT_INSERTED_ROWS INTO LS_INS_CELLS.
+      LOOP AT pr_data_changed->mt_inserted_rows INTO ls_ins_cells.
 
-        _MODIFY_CELL:   'GJAHR' LS_INS_CELLS-ROW_ID PA_GJAHR.
-        _MODIFY_CELL:   'CTYPE' LS_INS_CELLS-ROW_ID PA_CTYPE.
+        _modify_cell:   'GJAHR' ls_ins_cells-row_id pa_gjahr.
+        _modify_cell:   'CTYPE' ls_ins_cells-row_id pa_ctype.
 *        _MODIFY_CELL:   'CTYPE' LS_INS_CELLS-ROW_ID GV_CTYPE.
 
 *        CLEAR LS_DD07T.
@@ -462,25 +504,25 @@ FORM EVENT_DATA_CHANGED
 *             AND DOMNAME     = 'ZDCTYPE'
 *             AND DOMVALUE_L  = @GV_CTYPE.
 
-        CLEAR LV_CTEXT.
-        SELECT SINGLE CTEXT INTO @LV_CTEXT
-          FROM ZCOT1130T
-         WHERE SPRAS = @SY-LANGU
-           AND CTYPE = @PA_CTYPE.
+        CLEAR lv_ctext.
+        SELECT SINGLE ctext INTO @lv_ctext
+          FROM zcot1130t
+         WHERE spras = @sy-langu
+           AND ctype = @pa_ctype.
 
-        IF SY-SUBRC <> 0.
-          _ADD_PROTOCOL 'CTYPE' LS_INS_CELLS-ROW_ID
-                        'E' 023 TEXT-C02 SPACE SPACE SPACE.
-          ERROR_IN_DATA = ABAP_TRUE . EXIT.
+        IF sy-subrc <> 0.
+          _add_protocol 'CTYPE' ls_ins_cells-row_id
+                        'E' 023 TEXT-c02 space space space.
+          error_in_data = abap_true . EXIT.
         ENDIF.
 
-        _MODIFY_CELL 'CTYPETXT' LS_INS_CELLS-ROW_ID LV_CTEXT.
+        _modify_cell 'CTYPETXT' ls_ins_cells-row_id lv_ctext.
 
       ENDLOOP.
 
-      LOOP AT PR_DATA_CHANGED->MT_MOD_CELLS INTO LS_MOD_CELLS.
+      LOOP AT pr_data_changed->mt_mod_cells INTO ls_mod_cells.
 
-        CASE LS_MOD_CELLS-FIELDNAME.
+        CASE ls_mod_cells-fieldname.
 
 *          WHEN 'CTYPE'.
 *
@@ -525,40 +567,40 @@ FORM EVENT_DATA_CHANGED
 
           WHEN 'FKSTAR'.
 
-            CLEAR LV_KTEXT.
-            CLEAR LV_KSTAR.
+            CLEAR lv_ktext.
+            CLEAR lv_kstar.
 
-            IF LS_MOD_CELLS-VALUE IS NOT INITIAL.
+            IF ls_mod_cells-value IS NOT INITIAL.
 
-              _GET_CELL_VALUE 'FKSTAR' LS_MOD_CELLS-ROW_ID
-                                       LV_KSTAR_CHECK.
+              _get_cell_value 'FKSTAR' ls_mod_cells-row_id
+                                       lv_kstar_check.
 
-              LV_KSTAR = LS_MOD_CELLS-VALUE.
+              lv_kstar = ls_mod_cells-value.
 
-              _CONVERSION_IN LV_KSTAR.
+              _conversion_in lv_kstar.
 
-              SELECT SINGLE KTEXT FROM CSKU INTO @LV_KTEXT
-                 WHERE SPRAS = @SY-LANGU
-                   AND KTOPL = @GC_KTOPL
-                   AND KSTAR = @LV_KSTAR.
+              SELECT SINGLE ktext FROM csku INTO @lv_ktext
+                 WHERE spras = @sy-langu
+                   AND ktopl = @gc_ktopl
+                   AND kstar = @lv_kstar.
 
-              IF SY-SUBRC <> 0.
-                _ADD_PROTOCOL LS_MOD_CELLS-FIELDNAME LS_MOD_CELLS-ROW_ID
-                              'E' 023 TEXT-C05 SPACE SPACE SPACE.
-                ERROR_IN_DATA = ABAP_TRUE . EXIT.
+              IF sy-subrc <> 0.
+                _add_protocol ls_mod_cells-fieldname ls_mod_cells-row_id
+                              'E' 023 TEXT-c05 space space space.
+                error_in_data = abap_true . EXIT.
               ENDIF.
 
-              IF ( LV_KSTAR_CHECK < LV_KSTAR ) AND
-                    LV_KSTAR_CHECK IS NOT INITIAL.
-                _ADD_PROTOCOL LS_MOD_CELLS-FIELDNAME LS_MOD_CELLS-ROW_ID
-                              'E' 018 TEXT-C05 SPACE SPACE SPACE.
-                ERROR_IN_DATA = ABAP_TRUE . EXIT.
+              IF ( lv_kstar_check < lv_kstar ) AND
+                    lv_kstar_check IS NOT INITIAL.
+                _add_protocol ls_mod_cells-fieldname ls_mod_cells-row_id
+                              'E' 018 TEXT-c05 space space space.
+                error_in_data = abap_true . EXIT.
               ENDIF.
 
             ENDIF.
 
-            _MODIFY_CELL 'FKTEXT' LS_MOD_CELLS-ROW_ID
-                                 LV_KTEXT.
+            _modify_cell 'FKTEXT' ls_mod_cells-row_id
+                                 lv_ktext.
 
 *          WHEN 'TKSTAR'.
 *
@@ -621,62 +663,62 @@ FORM EVENT_DATA_CHANGED
 *                                    LV_DESCRIPT.
 
           WHEN 'CHECK1'.
-            IF LS_MOD_CELLS-VALUE IS INITIAL.
-              _MODIFY_CELL 'CPERD'  LS_MOD_CELLS-ROW_ID ''.
+            IF ls_mod_cells-value IS INITIAL.
+              _modify_cell 'CPERD'  ls_mod_cells-row_id ''.
             ELSE.
-              _MODIFY_CELL 'CPERD'  LS_MOD_CELLS-ROW_ID '1'.
-              _MODIFY_CELL 'CHECK2' LS_MOD_CELLS-ROW_ID ''.
-              _MODIFY_CELL 'CHECK3' LS_MOD_CELLS-ROW_ID ''.
-              _MODIFY_CELL 'CHECK4' LS_MOD_CELLS-ROW_ID ''.
-              _MODIFY_CELL 'CHECK5' LS_MOD_CELLS-ROW_ID ''.
+              _modify_cell 'CPERD'  ls_mod_cells-row_id '1'.
+              _modify_cell 'CHECK2' ls_mod_cells-row_id ''.
+              _modify_cell 'CHECK3' ls_mod_cells-row_id ''.
+              _modify_cell 'CHECK4' ls_mod_cells-row_id ''.
+              _modify_cell 'CHECK5' ls_mod_cells-row_id ''.
             ENDIF.
             EXIT.
 
           WHEN 'CHECK2'.
-            IF LS_MOD_CELLS-VALUE IS INITIAL.
-              _MODIFY_CELL 'CPERD'  LS_MOD_CELLS-ROW_ID ''.
+            IF ls_mod_cells-value IS INITIAL.
+              _modify_cell 'CPERD'  ls_mod_cells-row_id ''.
             ELSE.
-              _MODIFY_CELL 'CPERD'  LS_MOD_CELLS-ROW_ID '2'.
-              _MODIFY_CELL 'CHECK1' LS_MOD_CELLS-ROW_ID ''.
-              _MODIFY_CELL 'CHECK3' LS_MOD_CELLS-ROW_ID ''.
-              _MODIFY_CELL 'CHECK4' LS_MOD_CELLS-ROW_ID ''.
-              _MODIFY_CELL 'CHECK5' LS_MOD_CELLS-ROW_ID ''.
+              _modify_cell 'CPERD'  ls_mod_cells-row_id '2'.
+              _modify_cell 'CHECK1' ls_mod_cells-row_id ''.
+              _modify_cell 'CHECK3' ls_mod_cells-row_id ''.
+              _modify_cell 'CHECK4' ls_mod_cells-row_id ''.
+              _modify_cell 'CHECK5' ls_mod_cells-row_id ''.
             ENDIF.
             EXIT.
 
           WHEN 'CHECK3'.
-            IF LS_MOD_CELLS-VALUE IS INITIAL.
-              _MODIFY_CELL 'CPERD'  LS_MOD_CELLS-ROW_ID ''.
+            IF ls_mod_cells-value IS INITIAL.
+              _modify_cell 'CPERD'  ls_mod_cells-row_id ''.
             ELSE.
-              _MODIFY_CELL 'CPERD'  LS_MOD_CELLS-ROW_ID '3'.
-              _MODIFY_CELL 'CHECK1' LS_MOD_CELLS-ROW_ID ''.
-              _MODIFY_CELL 'CHECK2' LS_MOD_CELLS-ROW_ID ''.
-              _MODIFY_CELL 'CHECK4' LS_MOD_CELLS-ROW_ID ''.
-              _MODIFY_CELL 'CHECK5' LS_MOD_CELLS-ROW_ID ''.
+              _modify_cell 'CPERD'  ls_mod_cells-row_id '3'.
+              _modify_cell 'CHECK1' ls_mod_cells-row_id ''.
+              _modify_cell 'CHECK2' ls_mod_cells-row_id ''.
+              _modify_cell 'CHECK4' ls_mod_cells-row_id ''.
+              _modify_cell 'CHECK5' ls_mod_cells-row_id ''.
             ENDIF.
             EXIT.
 
           WHEN 'CHECK4'.
-            IF LS_MOD_CELLS-VALUE IS INITIAL.
-              _MODIFY_CELL 'CPERD'  LS_MOD_CELLS-ROW_ID ''.
+            IF ls_mod_cells-value IS INITIAL.
+              _modify_cell 'CPERD'  ls_mod_cells-row_id ''.
             ELSE.
-              _MODIFY_CELL 'CPERD'  LS_MOD_CELLS-ROW_ID '4'.
-              _MODIFY_CELL 'CHECK1' LS_MOD_CELLS-ROW_ID ''.
-              _MODIFY_CELL 'CHECK2' LS_MOD_CELLS-ROW_ID ''.
-              _MODIFY_CELL 'CHECK3' LS_MOD_CELLS-ROW_ID ''.
-              _MODIFY_CELL 'CHECK5' LS_MOD_CELLS-ROW_ID ''.
+              _modify_cell 'CPERD'  ls_mod_cells-row_id '4'.
+              _modify_cell 'CHECK1' ls_mod_cells-row_id ''.
+              _modify_cell 'CHECK2' ls_mod_cells-row_id ''.
+              _modify_cell 'CHECK3' ls_mod_cells-row_id ''.
+              _modify_cell 'CHECK5' ls_mod_cells-row_id ''.
             ENDIF.
             EXIT.
 
           WHEN 'CHECK5'.
-            IF LS_MOD_CELLS-VALUE IS INITIAL.
-              _MODIFY_CELL 'CPERD'  LS_MOD_CELLS-ROW_ID ''.
+            IF ls_mod_cells-value IS INITIAL.
+              _modify_cell 'CPERD'  ls_mod_cells-row_id ''.
             ELSE.
-              _MODIFY_CELL 'CPERD'  LS_MOD_CELLS-ROW_ID '5'.
-              _MODIFY_CELL 'CHECK1' LS_MOD_CELLS-ROW_ID ''.
-              _MODIFY_CELL 'CHECK2' LS_MOD_CELLS-ROW_ID ''.
-              _MODIFY_CELL 'CHECK3' LS_MOD_CELLS-ROW_ID ''.
-              _MODIFY_CELL 'CHECK4' LS_MOD_CELLS-ROW_ID ''.
+              _modify_cell 'CPERD'  ls_mod_cells-row_id '5'.
+              _modify_cell 'CHECK1' ls_mod_cells-row_id ''.
+              _modify_cell 'CHECK2' ls_mod_cells-row_id ''.
+              _modify_cell 'CHECK3' ls_mod_cells-row_id ''.
+              _modify_cell 'CHECK4' ls_mod_cells-row_id ''.
             ENDIF.
             EXIT.
           WHEN OTHERS.
@@ -687,9 +729,9 @@ FORM EVENT_DATA_CHANGED
 
   ENDCASE.
 
-  IF ERROR_IN_DATA IS NOT INITIAL.
+  IF error_in_data IS NOT INITIAL.
 
-    CALL METHOD PR_DATA_CHANGED->DISPLAY_PROTOCOL.
+    CALL METHOD pr_data_changed->display_protocol.
 
   ENDIF.
 
@@ -698,10 +740,10 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 *&      Form  EVENT_DATA_CHANGED_FINISHED
 *&---------------------------------------------------------------------*
-FORM EVENT_DATA_CHANGED_FINISHED
-       USING P_MODIFIED    TYPE CHAR01
-             PT_GOOD_CELLS TYPE LVC_T_MODI
-             PR_SENDER    TYPE REF TO CL_GUI_ALV_GRID.
+FORM event_data_changed_finished
+       USING p_modified    TYPE char01
+             pt_good_cells TYPE lvc_t_modi
+             pr_sender    TYPE REF TO cl_gui_alv_grid.
 
 
 * - Prefix 정의 - Form Parameter
@@ -715,10 +757,10 @@ ENDFORM.                    " EVENT_DATA_CHANGED_FINISHED
 *&---------------------------------------------------------------------*
 *&      Form  EVENT_HOTSPOT_CLICK
 *&---------------------------------------------------------------------*
-FORM EVENT_HOTSPOT_CLICK USING PS_ROW_ID    TYPE LVC_S_ROW
-                               PS_COLUMN_ID TYPE LVC_S_COL
-                               PS_ROW_NO    TYPE LVC_S_ROID
-                               PR_SENDER   TYPE REF TO CL_GUI_ALV_GRID.
+FORM event_hotspot_click USING ps_row_id    TYPE lvc_s_row
+                               ps_column_id TYPE lvc_s_col
+                               ps_row_no    TYPE lvc_s_roid
+                               pr_sender   TYPE REF TO cl_gui_alv_grid.
 
 
 * - Prefix 정의 - Form Parameter
@@ -744,10 +786,10 @@ ENDFORM.                    " EVENT_HOTSPOT_CLICK
 *&---------------------------------------------------------------------*
 *&      Form  EVENT_DOUBLE_CLICK
 *&---------------------------------------------------------------------*
-FORM EVENT_DOUBLE_CLICK  USING PS_ROW     TYPE LVC_S_ROW
-                               PS_COLUMN  TYPE LVC_S_COL
-                               PS_ROW_NO  TYPE LVC_S_ROID
-                               PR_SENDER TYPE REF TO CL_GUI_ALV_GRID.
+FORM event_double_click  USING ps_row     TYPE lvc_s_row
+                               ps_column  TYPE lvc_s_col
+                               ps_row_no  TYPE lvc_s_roid
+                               pr_sender TYPE REF TO cl_gui_alv_grid.
 
 
 * - Prefix 정의 - Form Parameter
@@ -767,53 +809,53 @@ ENDFORM.                    " EVENT_DOUBLE_CLICK
 *&---------------------------------------------------------------------*
 *&      Form  EVENT_HELP_ON_F4
 *&---------------------------------------------------------------------*
-FORM EVENT_HELP_ON_F4
-       USING PV_FIELDNAME   TYPE LVC_FNAME
-             PV_FIELDVALUE  TYPE LVC_VALUE
-             PS_ROW_NO      TYPE LVC_S_ROID
-             PR_EVENT_DATA TYPE REF TO CL_ALV_EVENT_DATA
-             PT_BAD_CELLS   TYPE LVC_T_MODI
-             PV_DISPLAY     TYPE CHAR01
-             PR_SENDER     TYPE REF TO CL_GUI_ALV_GRID.
+FORM event_help_on_f4
+       USING pv_fieldname   TYPE lvc_fname
+             pv_fieldvalue  TYPE lvc_value
+             ps_row_no      TYPE lvc_s_roid
+             pr_event_data TYPE REF TO cl_alv_event_data
+             pt_bad_cells   TYPE lvc_t_modi
+             pv_display     TYPE char01
+             pr_sender     TYPE REF TO cl_gui_alv_grid.
 
 
-  DATA :  IS_MODI TYPE LVC_S_MODI.
-  FIELD-SYMBOLS <F4TAB> TYPE LVC_T_MODI.
-  ASSIGN PR_EVENT_DATA->M_DATA->* TO <F4TAB>.
+  DATA :  is_modi TYPE lvc_s_modi.
+  FIELD-SYMBOLS <f4tab> TYPE lvc_t_modi.
+  ASSIGN pr_event_data->m_data->* TO <f4tab>.
 
-  DATA LV_KAGRU TYPE KAGRU.
+  DATA lv_kagru TYPE kagru.
 
-  CASE PR_SENDER.
+  CASE pr_sender.
 
-    WHEN GR_GRID1.
+    WHEN gr_grid1.
 
-      CASE PV_FIELDNAME.
+      CASE pv_fieldname.
 
         WHEN 'KAGRU'.
 
           CALL FUNCTION 'K_GROUP_SELECT'
             EXPORTING
-              FIELD_NAME    = 'KSTAR'
-              KOKRS         = PA_KOKRS
-              KTOPL         = GC_KTOPL
+              field_name    = 'KSTAR'
+              kokrs         = pa_kokrs
+              ktopl         = gc_ktopl
             IMPORTING
-              SET_NAME      = LV_KAGRU
+              set_name      = lv_kagru
             EXCEPTIONS
-              NO_SET_PICKED = 1
+              no_set_picked = 1
               OTHERS        = 2.
 
-          IF SY-SUBRC <> 0.
+          IF sy-subrc <> 0.
             EXIT.
           ENDIF.
 
-          IF PV_DISPLAY IS INITIAL AND LV_KAGRU IS NOT INITIAL.
-            IS_MODI-ROW_ID    = PS_ROW_NO-ROW_ID.
-            IS_MODI-FIELDNAME = PV_FIELDNAME.
-            IS_MODI-VALUE     = LV_KAGRU.
-            APPEND IS_MODI TO <F4TAB>.
+          IF pv_display IS INITIAL AND lv_kagru IS NOT INITIAL.
+            is_modi-row_id    = ps_row_no-row_id.
+            is_modi-fieldname = pv_fieldname.
+            is_modi-value     = lv_kagru.
+            APPEND is_modi TO <f4tab>.
           ENDIF.
 
-          PR_EVENT_DATA->M_EVENT_HANDLED = 'X'.
+          pr_event_data->m_event_handled = 'X'.
 
       ENDCASE.
 
@@ -825,9 +867,9 @@ ENDFORM.                    " EVENT_HELP_ON_F4
 *&---------------------------------------------------------------------*
 *&      Form  EVENT_TOP_OF_PAGE
 *&---------------------------------------------------------------------*
-FORM EVENT_TOP_OF_PAGE USING PR_DD         TYPE REF TO CL_DD_DOCUMENT
-                             PV_TABLE_INDEX TYPE SYINDEX
-                             PR_SENDER     TYPE REF TO CL_GUI_ALV_GRID.
+FORM event_top_of_page USING pr_dd         TYPE REF TO cl_dd_document
+                             pv_table_index TYPE syindex
+                             pr_sender     TYPE REF TO cl_gui_alv_grid.
 
 * - Prefix 정의 - Form Parameter
 *   1. PT_  : Internal Table or Ranges
@@ -844,8 +886,8 @@ ENDFORM.                    " EVENT_TOP_OF_PAGE
 *&---------------------------------------------------------------------*
 *&      Form  EVENT_END_OF_LIST
 *&---------------------------------------------------------------------*
-FORM EVENT_END_OF_LIST USING PR_DD     TYPE REF TO CL_DD_DOCUMENT
-                             PR_SENDER TYPE REF TO CL_GUI_ALV_GRID.
+FORM event_end_of_list USING pr_dd     TYPE REF TO cl_dd_document
+                             pr_sender TYPE REF TO cl_gui_alv_grid.
 
 * - Prefix 정의 - Form Parameter
 *   1. PT_  : Internal Table or Ranges
@@ -864,7 +906,7 @@ ENDFORM.                    " EVENT_END_OF_LIST
 *&---------------------------------------------------------------------*
 *&      Form  CREATE_INSTANCE_0100
 *&---------------------------------------------------------------------*
-FORM CREATE_INSTANCE_0100 .
+FORM create_instance_0100 .
 *-- 1. customer container
 
 *  CREATE OBJECT GR_CON1
@@ -876,53 +918,54 @@ FORM CREATE_INSTANCE_0100 .
 *      I_PARENT = GR_CON1.
 
 *-- 2. full screen
-  CREATE OBJECT GR_SPLITTER1
+  CREATE OBJECT gr_splitter1
     EXPORTING
-      ROWS    = 2
-      COLUMNS = 1
-      PARENT  = CL_GUI_SPLITTER_CONTAINER=>SCREEN0.
+      rows    = 2
+      columns = 1
+      parent  = cl_gui_splitter_container=>screen0.
 
 *== get container instance
 *-- 1. top of page
-  GR_PARENT_HTML = GR_SPLITTER1->GET_CONTAINER(
-      ROW       = 1
-      COLUMN    = 1 ).
+  gr_parent_html = gr_splitter1->get_container(
+      row       = 1
+      column    = 1 ).
 
-  GR_DATA_CONTAINER = GR_SPLITTER1->GET_CONTAINER(
-      ROW       = 2
-      COLUMN    = 1 ).
+  gr_data_container = gr_splitter1->get_container(
+      row       = 2
+      column    = 1 ).
 
-  CALL METHOD GR_SPLITTER1->SET_ROW_HEIGHT
+  CALL METHOD gr_splitter1->set_row_height
     EXPORTING
-      ID     = 1
-      HEIGHT = 5.
+      id     = 1
+      height = 5.
 
-  CALL METHOD GR_SPLITTER1->SET_ROW_HEIGHT
+  CALL METHOD gr_splitter1->set_row_height
     EXPORTING
-      ID     = 2
-      HEIGHT = 50.
+      id     = 2
+      height = 50.
 
-  CREATE OBJECT GR_GRID1
+  CREATE OBJECT gr_grid1
     EXPORTING
-      I_PARENT = GR_DATA_CONTAINER.
+      i_parent = gr_data_container.
 
 ENDFORM.                    " CREATE_INSTANCE_0100
 *&---------------------------------------------------------------------*
 *&      Form  INIT_LAYOUT_0100
 *&---------------------------------------------------------------------*
-FORM INIT_LAYOUT_0100.
+FORM init_layout_0100.
 
-  CLEAR GS_LAYOUT.
+  CLEAR gs_layout.
 
 *  GS_LAYOUT-EDIT_MODE  = ABAP_TRUE.
-  GS_LAYOUT-ZEBRA      = ABAP_TRUE.
+  gs_layout-zebra      = abap_true.
 *  GS_LAYOUT-CWIDTH_OPT = ABAP_TRUE.
-  GS_LAYOUT-SEL_MODE   = SPACE.     "B:단일,C:복수,D:셀,A:행/열
-  GS_LAYOUT-BOX_FNAME  = SPACE.
-  GS_LAYOUT-NO_ROWMARK = SPACE.
+  gs_layout-sel_mode   = 'D'.     "MODI BSGSM_FCM
+*  GS_LAYOUT-SEL_MODE   = SPACE.     "B:단일,C:복수,D:셀,A:행/열
+  gs_layout-box_fname  = space.
+  gs_layout-no_rowmark = space.
 
-*  GS_LAYOUT-STYLEFNAME = 'STYLE'.
-*  GS_LAYOUT-CTAB_FNAME = 'COLOR'.
+  gs_layout-stylefname = 'STYLE'.
+  gs_layout-ctab_fname = 'CELLCOLOR'.
 *  GS_LAYOUT-INFO_FNAME = 'INFO'.
 
 **  "alv title
@@ -932,20 +975,20 @@ ENDFORM.                    " INIT_LAYOUT_0100
 *&---------------------------------------------------------------------*
 *&      Form  SET_GRID_EXCLUDE_0100
 *&---------------------------------------------------------------------*
-FORM SET_GRID_EXCLUDE_0100 .
+FORM set_grid_exclude_0100 .
 
-  DATA: LS_EXCLUDE LIKE LINE OF GT_EXCLUDE.
-  REFRESH: GT_EXCLUDE.
+  DATA: ls_exclude LIKE LINE OF gt_exclude.
+  REFRESH: gt_exclude.
 
   "-- DEFINE _SET_EX
-  DEFINE _SET_EX.
+  DEFINE _set_ex.
     CLEAR: ls_exclude.
     ls_exclude = &1.
     APPEND ls_exclude TO gt_exclude.
   END-OF-DEFINITION.
 
 *
-*  _SET_EX:
+  _set_ex:
 **   CL_GUI_ALV_GRID=>MC_FC_FIND,
 *
 *    "-- begin 기능버튼활성화시 제외
@@ -955,67 +998,67 @@ FORM SET_GRID_EXCLUDE_0100 .
 *    CL_GUI_ALV_GRID=>MC_MB_SUM,
 *    "-- end
 *
-**    CL_GUI_ALV_GRID=>MC_FC_LOC_COPY_ROW,
-**    CL_GUI_ALV_GRID=>MC_FC_LOC_APPEND_ROW,
-**    CL_GUI_ALV_GRID=>MC_FC_LOC_INSERT_ROW,
-**    CL_GUI_ALV_GRID=>MC_FC_LOC_MOVE_ROW,
-**    CL_GUI_ALV_GRID=>MC_FC_LOC_DELETE_ROW,
+    cl_gui_alv_grid=>mc_fc_loc_copy_row,
+    cl_gui_alv_grid=>mc_fc_loc_append_row,
+    cl_gui_alv_grid=>mc_fc_loc_insert_row,
+    cl_gui_alv_grid=>mc_fc_loc_move_row,
+    cl_gui_alv_grid=>mc_fc_loc_delete_row,
 *
 *    "-- begin 기능버튼활성화
-**    CL_GUI_ALV_GRID=>MC_FC_LOC_COPY,
-**    CL_GUI_ALV_GRID=>MC_FC_LOC_CUT,
-**    CL_GUI_ALV_GRID=>MC_FC_LOC_PASTE,
-**    CL_GUI_ALV_GRID=>MC_FC_LOC_PASTE_NEW_ROW,
+    cl_gui_alv_grid=>mc_fc_loc_copy,
+    cl_gui_alv_grid=>mc_fc_loc_cut,
+    cl_gui_alv_grid=>mc_fc_loc_paste,
+    cl_gui_alv_grid=>mc_fc_loc_paste_new_row,
 *    "-- end
 *
-**    CL_GUI_ALV_GRID=>MC_FC_LOC_UNDO,
-**    CL_GUI_ALV_GRID=>MC_FC_CHECK,
+    cl_gui_alv_grid=>mc_fc_loc_undo,
+    cl_gui_alv_grid=>mc_fc_check,
 **
 ***   CL_GUI_ALV_GRID=>MC_FC_DETAIL,
 ***   CL_GUI_ALV_GRID=>MC_FC_FILTER,
-**    CL_GUI_ALV_GRID=>MC_FC_GRAPH,
-**    CL_GUI_ALV_GRID=>MC_FC_HTML,
-**    CL_GUI_ALV_GRID=>MC_FC_INFO,
-**    CL_GUI_ALV_GRID=>MC_FC_REFRESH,
-**
+    cl_gui_alv_grid=>mc_fc_graph,
+    cl_gui_alv_grid=>mc_fc_html,
+    cl_gui_alv_grid=>mc_fc_info,
+    cl_gui_alv_grid=>mc_fc_refresh,
+*
 ***   CL_GUI_ALV_GRID=>MC_FC_VIEWS,
 ***   CL_GUI_ALV_GRID=>MC_FC_LOAD_VARIANT,
 ***   CL_GUI_ALV_GRID=>MC_FC_PRINT,
 ***   CL_GUI_ALV_GRID=>MC_MB_VARIANT,
 ***   CL_GUI_ALV_GRID=>MC_MB_EXPORT,
 **
-**    CL_GUI_ALV_GRID=>MC_FC_VIEW_CRYSTAL,
-**    CL_GUI_ALV_GRID=>MC_FC_VIEW_EXCEL,
-**    CL_GUI_ALV_GRID=>MC_FC_VIEW_GRID,
-**    CL_GUI_ALV_GRID=>MC_FC_VIEW_LOTUS,
-**    CL_GUI_ALV_GRID=>MC_FC_EXPCRDATA,
-**    CL_GUI_ALV_GRID=>MC_FC_EXPCRDESIG,
-**    CL_GUI_ALV_GRID=>MC_FC_EXPCRTEMPL,
-**    CL_GUI_ALV_GRID=>MC_FC_CALL_ABC,
-**    CL_GUI_ALV_GRID=>MC_FC_CALL_CRBATCH.
+    cl_gui_alv_grid=>mc_fc_view_crystal,
+    cl_gui_alv_grid=>mc_fc_view_excel,
+    cl_gui_alv_grid=>mc_fc_view_grid,
+    cl_gui_alv_grid=>mc_fc_view_lotus,
+    cl_gui_alv_grid=>mc_fc_expcrdata,
+    cl_gui_alv_grid=>mc_fc_expcrdesig,
+    cl_gui_alv_grid=>mc_fc_expcrtempl,
+    cl_gui_alv_grid=>mc_fc_call_abc,
+    cl_gui_alv_grid=>mc_fc_call_crbatch.
 
 ENDFORM. " SET_GRID_EXCLUDE_0100
 *&---------------------------------------------------------------------*
 *&      Form  ALV_SORT_0100
 *&---------------------------------------------------------------------*
-FORM ALV_SORT_0100 .
+FORM alv_sort_0100 .
 
-  CLEAR: GS_SORT, GT_SORT.
-  REFRESH: GT_SORT.
+  CLEAR: gs_sort, gt_sort.
+  REFRESH: gt_sort.
 
 ENDFORM.                    " ALV_SORT_0100
 *&---------------------------------------------------------------------*
 *&      Form  APPEND_FIELDCAT_0100
 *&---------------------------------------------------------------------*
-FORM APPEND_FIELDCAT_0100 .
+FORM append_fieldcat_0100 .
 
   "-- field catalog data
   "   field catalog merge or set fieldcatalog를 사용할 수 있음.
 
   "{ FIELDCATLOG MERGE 사용
-  PERFORM GET_FIELDCATLOG_DATA.
+  PERFORM get_fieldcatlog_data.
 
-  PERFORM MODIFY_FIELDCATLOG_DATA.
+  PERFORM modify_fieldcatlog_data.
   "}
 
   "{ SET FIELDCATLOG 사용
@@ -1026,35 +1069,36 @@ ENDFORM.                    " APPEND_FIELDCAT_0100
 *&---------------------------------------------------------------------*
 *&      Form  GET_FIELDCATLOG_DATA
 *&---------------------------------------------------------------------*
-FORM GET_FIELDCATLOG_DATA .
+FORM get_fieldcatlog_data .
 
-  DATA: LT_FIELDCAT TYPE KKBLO_T_FIELDCAT.
+  DATA: lt_fieldcat TYPE kkblo_t_fieldcat.
 
   CALL FUNCTION 'K_KKB_FIELDCAT_MERGE'
     EXPORTING
-      I_CALLBACK_PROGRAM     = SY-REPID
-      I_STRUCNAME            = 'ZCOS0010' "ABAP DIC. 정의된 STRUCTURE
-      I_BYPASSING_BUFFER     = ABAP_TRUE
-      I_INCLNAME             = SY-REPID
+      i_callback_program     = sy-repid
+      i_strucname            = 'ZCOS0010B' "ABAP DIC. 정의된 STRUCTURE
+*     I_STRUCNAME            = 'ZCOS0010' "ABAP DIC. 정의된 STRUCTURE
+      i_bypassing_buffer     = abap_true
+      i_inclname             = sy-repid
     CHANGING
-      CT_FIELDCAT            = LT_FIELDCAT[]
+      ct_fieldcat            = lt_fieldcat[]
     EXCEPTIONS
-      INCONSISTENT_INTERFACE = 1
+      inconsistent_interface = 1
       OTHERS                 = 2.
 
-  IF SY-SUBRC EQ 0.
+  IF sy-subrc EQ 0.
 
     "-- Trasnfer LVC.
     CALL FUNCTION 'LVC_TRANSFER_FROM_KKBLO'
       EXPORTING
-        IT_FIELDCAT_KKBLO = LT_FIELDCAT[]
+        it_fieldcat_kkblo = lt_fieldcat[]
       IMPORTING
-        ET_FIELDCAT_LVC   = GT_FIELDCAT[]
+        et_fieldcat_lvc   = gt_fieldcat[]
       EXCEPTIONS
-        IT_DATA_MISSING   = 1.
+        it_data_missing   = 1.
   ELSE.
 
-    MESSAGE E020.
+    MESSAGE e020.
 
   ENDIF.
 
@@ -1062,119 +1106,129 @@ ENDFORM.                    " GET_FIELDCATLOG_DATA
 *&---------------------------------------------------------------------*
 *&      Form  MODIFY_FIELDCATLOG_DATA
 *&---------------------------------------------------------------------*
-FORM MODIFY_FIELDCATLOG_DATA .
+FORM modify_fieldcatlog_data .
 
-  DATA:  LV_TEXT(50).
+  DATA:  lv_text(50).
 
-  LOOP AT GT_FIELDCAT INTO GS_FIELDCAT.
+  LOOP AT gt_fieldcat INTO gs_fieldcat.
 
-    CLEAR: LV_TEXT.
+    CLEAR: lv_text.
 
-    CASE GS_FIELDCAT-FIELDNAME.
+    CASE gs_fieldcat-fieldname.
 
+*ADD BSGSM_FCM  20210823
+      WHEN 'ICON'.
+        gs_fieldcat-just = 'C'.
+        gs_fieldcat-outputlen = 4.
+        gs_fieldcat-fix_column = 'X'.
+        lv_text = TEXT-f01.
+*END BY BSGSM_FCM...
       WHEN 'GJAHR'.
-        LV_TEXT = TEXT-C01.
-        GS_FIELDCAT-OUTPUTLEN = '8'.
+        lv_text = TEXT-c01.
+        gs_fieldcat-outputlen = '8'.
 
       WHEN 'CTYPE'.
-        LV_TEXT = TEXT-C02.
-        GS_FIELDCAT-VALEXI = '!'.
+        lv_text = TEXT-c02.
+        gs_fieldcat-valexi = '!'.
 *        GS_FIELDCAT-EDIT = ABAP_TRUE.
-        GS_FIELDCAT-OUTPUTLEN = '8'.
+        gs_fieldcat-outputlen = '8'.
 
       WHEN 'CTYPETXT'.
-        LV_TEXT = TEXT-C03.
-        GS_FIELDCAT-OUTPUTLEN = '20'.
+        lv_text = TEXT-c03.
+        gs_fieldcat-outputlen = '20'.
 
       WHEN 'KAGRUTXT'.
 *        LV_TEXT = TEXT-C09.
 *        GS_FIELDCAT-OUTPUTLEN = '20'.
-        GS_FIELDCAT-NO_OUT = ABAP_TRUE.
+        gs_fieldcat-no_out = abap_true.
 
       WHEN 'FKSTAR'.
-        LV_TEXT = TEXT-C05.
-        GS_FIELDCAT-EDIT = ABAP_TRUE.
-        GS_FIELDCAT-OUTPUTLEN = '10'.
-        GS_FIELDCAT-F4AVAILABL = ABAP_TRUE.
+        lv_text = TEXT-c05.
+        gs_fieldcat-edit = abap_true.
+        gs_fieldcat-outputlen = '10'.
+        gs_fieldcat-f4availabl = abap_true.
 
       WHEN 'FKTEXT'.
-        LV_TEXT = TEXT-C06.
-        GS_FIELDCAT-OUTPUTLEN = '20'.
+        lv_text = TEXT-c06.
+        gs_fieldcat-outputlen = '20'.
 
       WHEN 'CPERD'.
 *        LV_TEXT = TEXT-C07.
 *        GS_FIELDCAT-VALEXI = '!'.
 *        GS_FIELDCAT-EDIT   = ABAP_TRUE.
 *        GS_FIELDCAT-OUTPUTLEN = '8'.
-        GS_FIELDCAT-NO_OUT = ABAP_TRUE.
+        gs_fieldcat-no_out = abap_true.
 
       WHEN 'CHECK1'.
-        LV_TEXT = TEXT-C12.
-        GS_FIELDCAT-EDIT = ABAP_TRUE.
-        GS_FIELDCAT-OUTPUTLEN = '10'.
-        GS_FIELDCAT-CHECKBOX = ABAP_TRUE.
+        lv_text = TEXT-c12.
+        gs_fieldcat-edit = abap_true.
+        gs_fieldcat-outputlen = '10'.
+        gs_fieldcat-checkbox = abap_true.
 
-        IF PA_CTYPE EQ '3'.
-          GS_FIELDCAT-NO_OUT = ABAP_TRUE.
+        IF pa_ctype EQ '3'.
+          gs_fieldcat-no_out = abap_true.
         ENDIF.
 
       WHEN 'CHECK2'.
-        LV_TEXT = TEXT-C13.
-        GS_FIELDCAT-EDIT = ABAP_TRUE.
-        GS_FIELDCAT-OUTPUTLEN = '10'.
-        GS_FIELDCAT-CHECKBOX = ABAP_TRUE.
+        lv_text = TEXT-c13.
+        gs_fieldcat-edit = abap_true.
+        gs_fieldcat-outputlen = '10'.
+        gs_fieldcat-checkbox = abap_true.
 
-        IF PA_CTYPE EQ '3'.
-          GS_FIELDCAT-NO_OUT = ABAP_TRUE.
+        IF pa_ctype EQ '3'.
+          gs_fieldcat-no_out = abap_true.
         ENDIF.
 
       WHEN 'CHECK3'.
-        LV_TEXT = TEXT-C14.
-        GS_FIELDCAT-EDIT = ABAP_TRUE.
-        GS_FIELDCAT-OUTPUTLEN = '10'.
-        GS_FIELDCAT-CHECKBOX = ABAP_TRUE.
+        lv_text = TEXT-c14.
+        gs_fieldcat-edit = abap_true.
+        gs_fieldcat-outputlen = '10'.
+        gs_fieldcat-checkbox = abap_true.
 
-        IF PA_CTYPE EQ '3'.
-          GS_FIELDCAT-NO_OUT = ABAP_TRUE.
+        IF pa_ctype EQ '3'.
+          gs_fieldcat-no_out = abap_true.
         ENDIF.
 
       WHEN 'CHECK4'.
-        LV_TEXT = TEXT-C15.
-        GS_FIELDCAT-EDIT = ABAP_TRUE.
-        GS_FIELDCAT-OUTPUTLEN = '10'.
-        GS_FIELDCAT-CHECKBOX = ABAP_TRUE.
+        lv_text = TEXT-c15.
+        gs_fieldcat-edit = abap_true.
+        gs_fieldcat-outputlen = '10'.
+        gs_fieldcat-checkbox = abap_true.
 
       WHEN 'CHECK5'.
-        LV_TEXT = TEXT-C16.
-        GS_FIELDCAT-EDIT = ABAP_TRUE.
-        GS_FIELDCAT-OUTPUTLEN = '10'.
-        GS_FIELDCAT-CHECKBOX = ABAP_TRUE.
+        lv_text = TEXT-c16.
+        gs_fieldcat-edit = abap_true.
+        gs_fieldcat-outputlen = '10'.
+        gs_fieldcat-checkbox = abap_true.
 
       WHEN OTHERS.
 
     ENDCASE.
 
     "-- Common attribute
-    IF LV_TEXT IS NOT INITIAL.
-      GS_FIELDCAT-COLTEXT   = LV_TEXT.
-      GS_FIELDCAT-SCRTEXT_L = LV_TEXT.
-      GS_FIELDCAT-SCRTEXT_M = LV_TEXT.
-      GS_FIELDCAT-SCRTEXT_S = LV_TEXT.
+    IF lv_text IS NOT INITIAL.
+      gs_fieldcat-coltext   = lv_text.
+      gs_fieldcat-scrtext_l = lv_text.
+      gs_fieldcat-scrtext_m = lv_text.
+      gs_fieldcat-scrtext_s = lv_text.
     ENDIF.
 
-    MODIFY GT_FIELDCAT FROM GS_FIELDCAT.
+    MODIFY gt_fieldcat FROM gs_fieldcat.
 
   ENDLOOP.
+
+
+
 
 ENDFORM.                    " MODIFY_FIELDCATLOG_DATA
 *&---------------------------------------------------------------------*
 *&      Form  SET_FIELDCATLOG_DATA
 *&---------------------------------------------------------------------*
-FORM SET_FIELDCATLOG_DATA.
+FORM set_fieldcatlog_data.
 
-  CLEAR GT_FIELDCAT[].
+  CLEAR gt_fieldcat[].
 
-  PERFORM FILL_FIELD_CATEGORY USING :
+  PERFORM fill_field_category USING :
         'S' 'FIELDNAME'   'GJAHR',
         ' ' 'OUTPUTLEN'   '4',
         'E' 'COLTEXT'     '적용연도',
@@ -1188,21 +1242,21 @@ ENDFORM.                    " SET_FIELDCATLOG_DATA
 *&---------------------------------------------------------------------*
 *&      Form  fill_field_category
 *&---------------------------------------------------------------------*
-FORM FILL_FIELD_CATEGORY USING PV_GUB PV_FNAME PV_CON.
+FORM fill_field_category USING pv_gub pv_fname pv_con.
 
-  IF PV_GUB = 'S'.
-    CLEAR GS_FIELDCAT.
+  IF pv_gub = 'S'.
+    CLEAR gs_fieldcat.
   ENDIF.
 
 * 속성 MOVE
-  DATA LV_COL(40).
-  FIELD-SYMBOLS <FS>.
-  CONCATENATE 'GS_FIELDCAT-' PV_FNAME  INTO LV_COL.
-  ASSIGN      (LV_COL)       TO        <FS>.
-  MOVE         PV_CON        TO        <FS>.
+  DATA lv_col(40).
+  FIELD-SYMBOLS <fs>.
+  CONCATENATE 'GS_FIELDCAT-' pv_fname  INTO lv_col.
+  ASSIGN      (lv_col)       TO        <fs>.
+  MOVE         pv_con        TO        <fs>.
 
-  IF PV_GUB = 'E'.
-    APPEND GS_FIELDCAT TO GT_FIELDCAT.
+  IF pv_gub = 'E'.
+    APPEND gs_fieldcat TO gt_fieldcat.
   ENDIF.
 ENDFORM. " fill_field_category
 *&---------------------------------------------------------------------*
@@ -1210,46 +1264,46 @@ ENDFORM. " fill_field_category
 *&---------------------------------------------------------------------*
 *       text
 *----------------------------------------------------------------------*
-FORM REGIST_ALV_EVENT_0100 USING PR_GRID TYPE REF TO CL_GUI_ALV_GRID.
+FORM regist_alv_event_0100 USING pr_grid TYPE REF TO cl_gui_alv_grid.
 
-  CASE GV_MODE.
+  CASE gv_mode.
 
     WHEN 'S'.
 
-      CALL METHOD PR_GRID->SET_READY_FOR_INPUT
+      CALL METHOD pr_grid->set_ready_for_input
         EXPORTING
-          I_READY_FOR_INPUT = 0.
+          i_ready_for_input = 0.
 
     WHEN 'E'.
 
 * REGISTER EVENT
-      CALL METHOD PR_GRID->REGISTER_EDIT_EVENT
+      CALL METHOD pr_grid->register_edit_event
         EXPORTING
-          I_EVENT_ID = CL_GUI_ALV_GRID=>MC_EVT_MODIFIED.
+          i_event_id = cl_gui_alv_grid=>mc_evt_modified.
 *
-      CALL METHOD PR_GRID->SET_READY_FOR_INPUT
+      CALL METHOD pr_grid->set_ready_for_input
         EXPORTING
-          I_READY_FOR_INPUT = 1.
+          i_ready_for_input = 1.
 
   ENDCASE.
 
 *-- GR_EVENT_RECEIVER
-  IF GR_EVENT_RECEIVER IS INITIAL.
-    CREATE OBJECT GR_EVENT_RECEIVER.
+  IF gr_event_receiver IS INITIAL.
+    CREATE OBJECT gr_event_receiver.
   ENDIF.
 
 * Handler Event
   SET HANDLER:
-    GR_EVENT_RECEIVER->HANDLE_TOOLBAR       FOR ALL INSTANCES,
-    GR_EVENT_RECEIVER->HANDLE_DATA_CHANGED  FOR ALL INSTANCES,
-    GR_EVENT_RECEIVER->HANDLE_DATA_CHANGED_FINISHED
+    gr_event_receiver->handle_toolbar       FOR ALL INSTANCES,
+    gr_event_receiver->handle_data_changed  FOR ALL INSTANCES,
+    gr_event_receiver->handle_data_changed_finished
       FOR ALL INSTANCES,
-    GR_EVENT_RECEIVER->HANDLE_USER_COMMAND  FOR ALL INSTANCES,
-    GR_EVENT_RECEIVER->HANDLE_HOTSPOT_CLICK FOR ALL INSTANCES,
-    GR_EVENT_RECEIVER->HANDLE_DOUBLE_CLICK  FOR ALL INSTANCES,
-    GR_EVENT_RECEIVER->HANDLE_ONF4          FOR ALL INSTANCES.
+    gr_event_receiver->handle_user_command  FOR ALL INSTANCES,
+    gr_event_receiver->handle_hotspot_click FOR ALL INSTANCES,
+    gr_event_receiver->handle_double_click  FOR ALL INSTANCES,
+    gr_event_receiver->handle_onf4          FOR ALL INSTANCES.
 
-  PERFORM SET_F4 USING PR_GRID.
+  PERFORM set_f4 USING pr_grid.
 
 ENDFORM.                    " REGIST_ALV_EVENT_0100
 *&---------------------------------------------------------------------*
@@ -1257,15 +1311,15 @@ ENDFORM.                    " REGIST_ALV_EVENT_0100
 *&---------------------------------------------------------------------*
 *       text
 *----------------------------------------------------------------------*
-FORM DISPLAY_ALV_TITLE_0100 .
+FORM display_alv_title_0100 .
 
-  DATA: LV_TITLE TYPE LVC_TITLE.
+  DATA: lv_title TYPE lvc_title.
 
-  LV_TITLE = TEXT-GT1.
+  lv_title = TEXT-gt1.
 
-  CALL METHOD GR_GRID1->SET_GRIDTITLE
+  CALL METHOD gr_grid1->set_gridtitle
     EXPORTING
-      I_GRIDTITLE = LV_TITLE.
+      i_gridtitle = lv_title.
 
 ENDFORM.                    " DISPLAY_ALV_TITLE_0100
 *&---------------------------------------------------------------------*
@@ -1273,31 +1327,31 @@ ENDFORM.                    " DISPLAY_ALV_TITLE_0100
 *&---------------------------------------------------------------------*
 *       text
 *----------------------------------------------------------------------*
-FORM DISPLAY_ALV_GRID_0100 .
+FORM display_alv_grid_0100 .
 
-  GS_VARIANT-REPORT = SY-REPID.
+  gs_variant-report = sy-repid.
 
-  GV_SAVE = 'A'.
+  gv_save = 'A'.
 
   "*-- Build field catalog for the alv control
-  CALL METHOD GR_GRID1->SET_TABLE_FOR_FIRST_DISPLAY
+  CALL METHOD gr_grid1->set_table_for_first_display
     EXPORTING
-      I_DEFAULT                     = ABAP_TRUE
-      IS_LAYOUT                     = GS_LAYOUT
-      IS_VARIANT                    = GS_VARIANT
-      I_SAVE                        = GV_SAVE
-      IT_TOOLBAR_EXCLUDING          = GT_EXCLUDE
+      i_default                     = abap_true
+      is_layout                     = gs_layout
+      is_variant                    = gs_variant
+      i_save                        = gv_save
+      it_toolbar_excluding          = gt_exclude
     CHANGING
-      IT_FIELDCATALOG               = GT_FIELDCAT
-      IT_SORT                       = GT_SORT
-      IT_OUTTAB                     = GT_DISPLAY[]
+      it_fieldcatalog               = gt_fieldcat
+      it_sort                       = gt_sort
+      it_outtab                     = gt_display[]
     EXCEPTIONS
-      INVALID_PARAMETER_COMBINATION = 1
-      PROGRAM_ERROR                 = 2
-      TOO_MANY_LINES                = 3.
+      invalid_parameter_combination = 1
+      program_error                 = 2
+      too_many_lines                = 3.
 
-  IF SY-SUBRC NE 0.
-    MESSAGE E000(0K) WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+  IF sy-subrc NE 0.
+    MESSAGE e000(0k) WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
   ENDIF.
 
 ENDFORM.                    " DISPLAY_ALV_GRID_0100
@@ -1306,17 +1360,17 @@ ENDFORM.                    " DISPLAY_ALV_GRID_0100
 *&---------------------------------------------------------------------*
 *       text
 *----------------------------------------------------------------------*
-FORM REFRESH_GRID_0100 .
+FORM refresh_grid_0100 .
 
-  GS_STABLE-ROW = ABAP_TRUE. "Row
-  GS_STABLE-COL = ABAP_TRUE. "column
+  gs_stable-row = abap_true. "Row
+  gs_stable-col = abap_true. "column
 
-  CALL METHOD GR_GRID1->REFRESH_TABLE_DISPLAY
+  CALL METHOD gr_grid1->refresh_table_display
     EXPORTING
-      IS_STABLE      = GS_STABLE
-      I_SOFT_REFRESH = SPACE.
+      is_stable      = gs_stable
+      i_soft_refresh = space.
 
-  CALL METHOD CL_GUI_CFW=>FLUSH.
+  CALL METHOD cl_gui_cfw=>flush.
 
 ENDFORM.                    " REFRESH_GRID_0100
 *&---------------------------------------------------------------------*
@@ -1324,33 +1378,33 @@ ENDFORM.                    " REFRESH_GRID_0100
 *&---------------------------------------------------------------------*
 *       text
 *----------------------------------------------------------------------*
-FORM GET_GRID_CURSOR USING PR_SENDER TYPE REF TO CL_GUI_ALV_GRID
-                   CHANGING PV_ROW
-                            PV_COL.
+FORM get_grid_cursor USING pr_sender TYPE REF TO cl_gui_alv_grid
+                   CHANGING pv_row
+                            pv_col.
 
-  DATA: LV_ROW    TYPE I,
-        LV_VALUE  TYPE C,
-        LV_COL    TYPE I,
-        LS_ROW_ID TYPE LVC_S_ROW,
-        LS_COL_ID TYPE LVC_S_COL,
-        LS_ROW_NO TYPE LVC_S_ROID.
+  DATA: lv_row    TYPE i,
+        lv_value  TYPE c,
+        lv_col    TYPE i,
+        ls_row_id TYPE lvc_s_row,
+        ls_col_id TYPE lvc_s_col,
+        ls_row_no TYPE lvc_s_roid.
 
-  CLEAR: PV_ROW, PV_COL.
+  CLEAR: pv_row, pv_col.
 
-  CALL METHOD PR_SENDER->GET_CURRENT_CELL
+  CALL METHOD pr_sender->get_current_cell
     IMPORTING
-      E_ROW     = LV_ROW
-      E_VALUE   = LV_VALUE
-      E_COL     = LV_COL
-      ES_ROW_ID = LS_ROW_ID
-      ES_COL_ID = LS_COL_ID
-      ES_ROW_NO = LS_ROW_NO.
+      e_row     = lv_row
+      e_value   = lv_value
+      e_col     = lv_col
+      es_row_id = ls_row_id
+      es_col_id = ls_col_id
+      es_row_no = ls_row_no.
 
   " ROW RETURN
-  PV_ROW = LV_ROW.
+  pv_row = lv_row.
 
   " COL RETURN
-  PV_COL = LV_COL.
+  pv_col = lv_col.
 
 
 ENDFORM.                    "GET_GRID_CURSOR
@@ -1359,27 +1413,27 @@ ENDFORM.                    "GET_GRID_CURSOR
 *&---------------------------------------------------------------------*
 *       text
 *----------------------------------------------------------------------*
-FORM SET_GRID_CURSOR USING PR_SENDER TYPE REF TO CL_GUI_ALV_GRID
-                           PV_ROW
-                           PV_COL.
+FORM set_grid_cursor USING pr_sender TYPE REF TO cl_gui_alv_grid
+                           pv_row
+                           pv_col.
 
-  DATA: LS_ROW_ID    TYPE LVC_S_ROW,
-        LS_COLUMN_ID TYPE LVC_S_COL,
-        LS_ROW_NO    TYPE LVC_S_ROID.
+  DATA: ls_row_id    TYPE lvc_s_row,
+        ls_column_id TYPE lvc_s_col,
+        ls_row_no    TYPE lvc_s_roid.
 
-  IF PV_ROW IS NOT INITIAL AND PV_ROW > 0.
-    LS_ROW_ID-INDEX = PV_ROW.
+  IF pv_row IS NOT INITIAL AND pv_row > 0.
+    ls_row_id-index = pv_row.
   ENDIF.
 
-  IF PV_COL IS NOT INITIAL.
-    LS_COLUMN_ID-FIELDNAME = PV_COL.
+  IF pv_col IS NOT INITIAL.
+    ls_column_id-fieldname = pv_col.
   ENDIF.
 
-  CALL METHOD PR_SENDER->SET_CURRENT_CELL_VIA_ID
+  CALL METHOD pr_sender->set_current_cell_via_id
     EXPORTING
-      IS_ROW_ID    = LS_ROW_ID
-      IS_COLUMN_ID = LS_COLUMN_ID
-      IS_ROW_NO    = LS_ROW_NO.
+      is_row_id    = ls_row_id
+      is_column_id = ls_column_id
+      is_row_no    = ls_row_no.
 
 ENDFORM.                    " SET_GRID_CURSOR
 *&---------------------------------------------------------------------*
@@ -1387,37 +1441,37 @@ ENDFORM.                    " SET_GRID_CURSOR
 *&---------------------------------------------------------------------*
 *       text
 *----------------------------------------------------------------------*
-FORM CHECKED_SAVED_DATA .
+FORM checked_saved_data .
 
-  DATA: BEGIN OF LS_KEY,
-          CTYPE  LIKE GS_DISPLAY-CTYPE,
-          FKSTAR LIKE GS_DISPLAY-FKSTAR,
-          CPERD  LIKE GS_DISPLAY-CPERD,
-        END OF LS_KEY,
-        LT_KEY LIKE SORTED TABLE OF LS_KEY
-                    WITH UNIQUE KEY CTYPE FKSTAR CPERD.
+  DATA: BEGIN OF ls_key,
+          ctype  LIKE gs_display-ctype,
+          fkstar LIKE gs_display-fkstar,
+          cperd  LIKE gs_display-cperd,
+        END OF ls_key,
+        lt_key LIKE SORTED TABLE OF ls_key
+                    WITH UNIQUE KEY ctype fkstar cperd.
 *                    WITH UNIQUE KEY CTYPE KAGRU FKSTAR TKSTAR CPERD.
 
-  CALL METHOD GR_GRID1->CHECK_CHANGED_DATA( ).
+  CALL METHOD gr_grid1->check_changed_data( ).
 
-  CLEAR GV_EXIT.
+  CLEAR gv_exit.
 
   "-- 중복키 CHECK LOGIC.
-  LOOP AT GT_DISPLAY INTO GS_DISPLAY.
-    MOVE-CORRESPONDING GS_DISPLAY TO LS_KEY.
-    INSERT LS_KEY INTO TABLE LT_KEY.
-    IF SY-SUBRC NE 0.
-      GV_EXIT = ABAP_TRUE.
+  LOOP AT gt_display INTO gs_display.
+    MOVE-CORRESPONDING gs_display TO ls_key.
+    INSERT ls_key INTO TABLE lt_key.
+    IF sy-subrc NE 0.
+      gv_exit = abap_true.
       EXIT.
     ENDIF.
   ENDLOOP.
 
-  IF GV_EXIT EQ ABAP_TRUE.
-    MESSAGE S017 DISPLAY LIKE 'E'.
+  IF gv_exit EQ abap_true.
+    MESSAGE s017 DISPLAY LIKE 'E'.
     EXIT.
   ENDIF.
 
-  LOOP AT GT_DISPLAY INTO GS_DISPLAY.
+  LOOP AT gt_display INTO gs_display.
 
 *    IF GS_DISPLAY-KAGRU IS NOT INITIAL AND
 *       ( GS_DISPLAY-FKSTAR    IS NOT INITIAL OR
@@ -1429,9 +1483,9 @@ FORM CHECKED_SAVED_DATA .
 *
 *    ENDIF.
 
-    IF GS_DISPLAY-CTYPE IS INITIAL.
-      MESSAGE S026 WITH TEXT-C02 DISPLAY LIKE 'E'.
-      GV_EXIT = ABAP_TRUE.
+    IF gs_display-ctype IS INITIAL.
+      MESSAGE s026 WITH TEXT-c02 DISPLAY LIKE 'E'.
+      gv_exit = abap_true.
       EXIT.
     ENDIF.
 
@@ -1454,9 +1508,9 @@ FORM CHECKED_SAVED_DATA .
 *
 *    ENDIF.
 
-    IF GS_DISPLAY-CPERD IS INITIAL.
-      MESSAGE S026 WITH TEXT-C07 DISPLAY LIKE 'E'.
-      GV_EXIT = ABAP_TRUE.
+    IF gs_display-cperd IS INITIAL.
+      MESSAGE s026 WITH TEXT-c07 DISPLAY LIKE 'E'.
+      gv_exit = abap_true.
       EXIT.
     ENDIF.
 
@@ -1466,15 +1520,15 @@ ENDFORM.                    " CHECKED_SAVED_DATA
 *&---------------------------------------------------------------------*
 *&      Form  POPUP_TO_CONFIRM
 *&---------------------------------------------------------------------*
-FORM POPUP_TO_CONFIRM USING PV_TITLE
-                            PV_QUEST.
+FORM popup_to_confirm USING pv_title
+                            pv_quest.
 
   "-- call popup
   CALL FUNCTION 'POPUP_TO_CONFIRM'
     EXPORTING
-      TITLEBAR       = PV_TITLE                "TEXT-PT1
+      titlebar       = pv_title                "TEXT-PT1
 *     DIAGNOSE_OBJECT             = ' '
-      TEXT_QUESTION  = PV_QUEST                "TEXT-QT1
+      text_question  = pv_quest                "TEXT-QT1
 *     TEXT_BUTTON_1  = 'Ja'(001)
 *     ICON_BUTTON_1  = ' '
 *     TEXT_BUTTON_2  = 'Nein'(002)
@@ -1488,15 +1542,15 @@ FORM POPUP_TO_CONFIRM USING PV_TITLE
 *     IV_QUICKINFO_BUTTON_1       = ' '
 *     IV_QUICKINFO_BUTTON_2       = ' '
     IMPORTING
-      ANSWER         = GV_ANSWER
+      answer         = gv_answer
 *   TABLES
 *     PARAMETER      =
     EXCEPTIONS
-      TEXT_NOT_FOUND = 1
+      text_not_found = 1
       OTHERS         = 2.
-  IF SY-SUBRC <> 0.
-    MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
-            WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+  IF sy-subrc <> 0.
+    MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+            WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
   ENDIF.
 
 ENDFORM.                    " POPUP_TO_CONFIRM
@@ -1505,208 +1559,813 @@ ENDFORM.                    " POPUP_TO_CONFIRM
 *&---------------------------------------------------------------------*
 *       text
 *----------------------------------------------------------------------*
-FORM SAVE_DATA_RTN .
+FORM save_data_rtn .
 
-  DATA: LV_MESSAGE TYPE STRING.
-
-  DATA: LT_ZCOT0010 TYPE TABLE OF ZCOT0010 WITH HEADER LINE.
-
-  LOOP AT GT_DISPLAY INTO GS_DISPLAY.
-
-    MOVE-CORRESPONDING GS_DISPLAY TO LT_ZCOT0010.
-
-    LT_ZCOT0010-ERDAT  = SY-DATUM.
-    LT_ZCOT0010-ERZET  = SY-UZEIT.
-    LT_ZCOT0010-ERNAM  = SY-UNAME.
-    LT_ZCOT0010-AEDAT  = SY-DATUM.
-    LT_ZCOT0010-AEZET  = SY-UZEIT.
-    LT_ZCOT0010-AENAM  = SY-UNAME.
-    LT_ZCOT0010-KOKRS  = PA_KOKRS.
-
-    APPEND LT_ZCOT0010.
-    CLEAR  LT_ZCOT0010.
-
-  ENDLOOP.
-
-  TRY .
-
-      DELETE FROM ZCOT0010 WHERE KOKRS  = @PA_KOKRS
-                             AND GJAHR  = @PA_GJAHR
-                             AND CTYPE  = @PA_CTYPE.
-*                             AND CTYPE  = @GV_CTYPE.
-
-      INSERT ZCOT0010 FROM TABLE LT_ZCOT0010.
-
-      COMMIT WORK.
-
-      MESSAGE S007.
-
-      CLEAR GT_DISPLAY_LOG.
-
-      GT_DISPLAY_LOG[] = GT_DISPLAY[].
-
-    CATCH CX_SY_SQL_ERROR INTO DATA(LR_ERROR).
-
-      ROLLBACK WORK.
-
-      LV_MESSAGE = LR_ERROR->GET_TEXT( ).
-      MESSAGE S001 WITH LV_MESSAGE DISPLAY LIKE 'E'.
-
-  ENDTRY.
+**  DATA: lv_message TYPE string.
+**
+**  DATA: lt_zcot0010 TYPE TABLE OF zcot0010 WITH HEADER LINE.
+**
+**  LOOP AT gt_display INTO gs_display.
+**
+**    MOVE-CORRESPONDING gs_display TO lt_zcot0010.
+**
+**    lt_zcot0010-erdat  = sy-datum.
+**    lt_zcot0010-erzet  = sy-uzeit.
+**    lt_zcot0010-ernam  = sy-uname.
+**    lt_zcot0010-aedat  = sy-datum.
+**    lt_zcot0010-aezet  = sy-uzeit.
+**    lt_zcot0010-aenam  = sy-uname.
+**    lt_zcot0010-kokrs  = pa_kokrs.
+**
+**    APPEND lt_zcot0010.
+**    CLEAR  lt_zcot0010.
+**
+**  ENDLOOP.
+**
+**  TRY .
+**
+**      DELETE FROM zcot0010 WHERE kokrs  = @pa_kokrs
+**                             AND gjahr  = @pa_gjahr
+**                             AND ctype  = @pa_ctype.
+***                             AND CTYPE  = @GV_CTYPE.
+**
+**      INSERT zcot0010 FROM TABLE lt_zcot0010.
+**
+**      COMMIT WORK.
+**
+**      MESSAGE s007.
+**
+**      CLEAR gt_display_log.
+**
+**      gt_display_log[] = gt_display[].
+**
+**    CATCH cx_sy_sql_error INTO DATA(lr_error).
+**
+**      ROLLBACK WORK.
+**
+**      lv_message = lr_error->get_text( ).
+**      MESSAGE s001 WITH lv_message DISPLAY LIKE 'E'.
+**
+**  ENDTRY.
 
 ENDFORM.                    " SAVE_DATA_RTN
 *&---------------------------------------------------------------------*
 *& Form CHECK_CONTROLLING_AREA
 *&---------------------------------------------------------------------*
-FORM CHECK_CONTROLLING_AREA .
+FORM check_controlling_area .
 
-  SELECT SINGLE BEZEI INTO @PA_KTXT
-    FROM TKA01
-   WHERE KOKRS = @PA_KOKRS.
+  SELECT SINGLE bezei INTO @pa_ktxt
+    FROM tka01
+   WHERE kokrs = @pa_kokrs.
 
-  IF SY-SUBRC <> 0.
+  IF sy-subrc <> 0.
     SET CURSOR FIELD 'PA_KOKRS'.
-    MESSAGE E027  WITH PA_KOKRS.
+    MESSAGE e027  WITH pa_kokrs.
   ENDIF.
 
-  SELECT SINGLE CTEXT INTO @PA_CTXT
-    FROM ZCOT1130T
-   WHERE SPRAS = @SY-LANGU
-     AND CTYPE = @PA_CTYPE.
+  SELECT SINGLE ctext INTO @pa_ctxt
+    FROM zcot1130t
+   WHERE spras = @sy-langu
+     AND ctype = @pa_ctype.
 
-  IF SY-SUBRC <> 0.
+  IF sy-subrc <> 0.
     SET CURSOR FIELD 'PA_CTYPE'.
-    MESSAGE E027  WITH PA_CTYPE.
+    MESSAGE e027  WITH pa_ctype.
   ENDIF.
+
+  SELECT SINGLE butxt INTO @pa_butxt
+     FROM t001
+    WHERE bukrs = @pa_bukrs.
+
+  IF sy-subrc <> 0.
+    SET CURSOR FIELD 'PA_BUKRS'.
+    MESSAGE e027  WITH pa_bukrs.
+  ENDIF.
+
+
+
 
 ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form SET_F4
 *&---------------------------------------------------------------------*
-FORM SET_F4 USING PR_GRID TYPE REF TO CL_GUI_ALV_GRID.
+FORM set_f4 USING pr_grid TYPE REF TO cl_gui_alv_grid.
 
-  CLEAR : GS_F4, GT_F4, GT_F4[].
-  GS_F4-FIELDNAME = 'KAGRU'.
-  GS_F4-REGISTER  = 'X'.
-  INSERT GS_F4 INTO TABLE GT_F4.
+  CLEAR : gs_f4, gt_f4, gt_f4[].
+  gs_f4-fieldname = 'KAGRU'.
+  gs_f4-register  = 'X'.
+  INSERT gs_f4 INTO TABLE gt_f4.
 
-  CALL METHOD PR_GRID->REGISTER_F4_FOR_FIELDS
+  CALL METHOD pr_grid->register_f4_for_fields
     EXPORTING
-      IT_F4 = GT_F4.
+      it_f4 = gt_f4.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form INITIAL_SET
 *&---------------------------------------------------------------------*
-FORM INITIAL_SET .
+FORM initial_set .
 
-  CASE SY-TCODE.
+  CASE sy-tcode.
     WHEN 'ZCOR0041'.
-      GV_MODE = 'S'.
+      gv_mode = 'S'.
     WHEN OTHERS.
-      GV_MODE = 'E'.
+      gv_mode = 'E'.
   ENDCASE.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form TOP_OF_PAGE_CREATE_OBJECT_0100
 *&---------------------------------------------------------------------*
-FORM TOP_OF_PAGE_CREATE_OBJECT_0100 .
+FORM top_of_page_create_object_0100 .
 
 * Create TOP-Document
-  CREATE OBJECT GR_TOP_DOCUMENT
+  CREATE OBJECT gr_top_document
     EXPORTING
-      STYLE = 'ALV_GRID'.
+      style = 'ALV_GRID'.
 
 * Initialize
-  CALL METHOD GR_TOP_DOCUMENT->INITIALIZE_DOCUMENT( ).
+  CALL METHOD gr_top_document->initialize_document( ).
 
 ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form MAKE_TOP_OF_PAGE_DATA_0100
 *&---------------------------------------------------------------------*
-FORM MAKE_TOP_OF_PAGE_DATA_0100 .
+FORM make_top_of_page_data_0100 .
 
-  DATA: LT_TEXTS TYPE SDYDO_TEXT_TABLE,
-        LV_TEXT  TYPE SDYDO_TEXT_ELEMENT.
+  DATA: lt_texts TYPE sdydo_text_table,
+        lv_text  TYPE sdydo_text_element.
 
-  CONCATENATE TEXT-001 ':' PA_KOKRS
-        INTO LV_TEXT SEPARATED BY SPACE.
+  CONCATENATE TEXT-001 ':' pa_kokrs
+        INTO lv_text SEPARATED BY space.
 
-  CALL METHOD GR_TOP_DOCUMENT->ADD_TEXT
+  CALL METHOD gr_top_document->add_text
     EXPORTING
-      TEXT         = LV_TEXT
-      SAP_COLOR    = CL_DD_DOCUMENT=>LIST_HEADING_INT
-      SAP_EMPHASIS = CL_DD_AREA=>KEY
-      STYLE_CLASS  = SPACE.
+      text         = lv_text
+      sap_color    = cl_dd_document=>list_heading_int
+      sap_emphasis = cl_dd_area=>key
+      style_class  = space.
 
-  CALL METHOD GR_TOP_DOCUMENT->NEW_LINE.
+  CALL METHOD gr_top_document->new_line.
 
-  CONCATENATE TEXT-C01 ':' PA_GJAHR
-        INTO LV_TEXT SEPARATED BY SPACE.
+  CONCATENATE TEXT-c01 ':' pa_gjahr
+        INTO lv_text SEPARATED BY space.
 
-  CALL METHOD GR_TOP_DOCUMENT->ADD_TEXT
+  CALL METHOD gr_top_document->add_text
     EXPORTING
-      TEXT         = LV_TEXT
-      SAP_COLOR    = CL_DD_DOCUMENT=>LIST_HEADING_INT
-      SAP_EMPHASIS = CL_DD_AREA=>KEY
-      STYLE_CLASS  = SPACE.
+      text         = lv_text
+      sap_color    = cl_dd_document=>list_heading_int
+      sap_emphasis = cl_dd_area=>key
+      style_class  = space.
 
-  CALL METHOD GR_TOP_DOCUMENT->NEW_LINE
+  CALL METHOD gr_top_document->new_line
     EXPORTING
-      REPEAT = 1.
+      repeat = 1.
 
 *  CALL METHOD GR_TOP_DOCUMENT->ADD_GAP
 *    EXPORTING
 *      WIDTH = 20.
 
   " Get Ready
-  CALL METHOD GR_TOP_DOCUMENT->MERGE_DOCUMENT.
+  CALL METHOD gr_top_document->merge_document.
 
 *" Display TOP document
-  CALL METHOD GR_TOP_DOCUMENT->DISPLAY_DOCUMENT
+  CALL METHOD gr_top_document->display_document
     EXPORTING
-      REUSE_CONTROL      = 'X'
-      PARENT             = GR_PARENT_HTML
+      reuse_control      = 'X'
+      parent             = gr_parent_html
     EXCEPTIONS
-      HTML_DISPLAY_ERROR = 1.
+      html_display_error = 1.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form CHECK_CHANGE
 *&---------------------------------------------------------------------*
-FORM CHECK_CHANGE  CHANGING P_GV_VALID.
+FORM check_change  CHANGING p_gv_valid.
 
-  IF GT_DISPLAY_LOG[] = GT_DISPLAY[].
-    CLEAR P_GV_VALID.
+  IF gt_display_log[] = gt_display[].
+    CLEAR p_gv_valid.
   ELSE.
-    P_GV_VALID = ABAP_TRUE.
+    p_gv_valid = abap_true.
   ENDIF.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form SCRFIELDS_FUNCTXT
 *&---------------------------------------------------------------------*
-FORM SCRFIELDS_FUNCTXT .
+FORM scrfields_functxt .
 
-  GS_FUNTXT-ICON_ID   = ICON_INFORMATION.
-  GS_FUNTXT-QUICKINFO = 'Program Help'.
+  gs_funtxt-icon_id   = icon_information.
+  gs_funtxt-quickinfo = 'Program Help'.
 
-  SSCRFIELDS-FUNCTXT_01 = GS_FUNTXT.
+  sscrfields-functxt_01 = gs_funtxt.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form SCR_USER_COMMAND
 *&---------------------------------------------------------------------*
-FORM SCR_USER_COMMAND .
+FORM scr_user_command .
 
-  CASE SSCRFIELDS-UCOMM.
+  CASE sscrfields-ucomm.
     WHEN 'FC01'.
-      PERFORM CALL_POPUP_HELP(ZCAR9000) USING SY-REPID
-                                              SY-DYNNR
-                                              SY-LANGU ''.
+      PERFORM call_popup_help(zcar9000) USING sy-repid
+                                              sy-dynnr
+                                              sy-langu ''.
     WHEN OTHERS.
 
   ENDCASE.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form EDIT_SELECT_DATA
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM edit_select_data .
+
+
+  DATA : ls_color TYPE lvc_s_scol.
+
+  DATA: gl_row    TYPE i,
+        gl_value  TYPE c,
+        gl_col    TYPE i,
+        gl_row_id TYPE lvc_s_row,
+        gl_col_id TYPE lvc_s_col,
+        gl_row_no TYPE lvc_s_roid.
+
+
+
+
+  IF lines( gt_rows ) > 0.
+
+
+
+    CLEAR : gs_rows , gs_display .
+
+
+    LOOP AT gt_rows INTO gs_rows.
+
+      READ TABLE gt_display ASSIGNING FIELD-SYMBOL(<fs_disp>) INDEX gs_rows-index.
+
+      IF sy-subrc EQ 0.
+
+        CLEAR ls_color.
+        CLEAR gt_style[].
+
+        IF gl_col_id IS NOT INITIAL.
+          _style_enabled   gl_col_id.
+        ELSE.
+          _style_enabled : 'CHECK1'.
+          _style_enabled : 'CHECK2'.
+          _style_enabled : 'CHECK3'.
+          _style_enabled : 'CHECK4'.
+          _style_enabled : 'CHECK5'.
+          _style_enabled : 'FKSTAR'.
+
+        ENDIF.
+
+
+        <fs_disp>-style[] = gt_style[].
+
+        CLEAR <fs_disp>-cellcolor.
+
+
+        CLEAR gt_style[].
+
+      ENDIF.
+    ENDLOOP .
+
+
+  ENDIF.
+
+
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form ADD_DATA_RTN
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM add_data_rtn .
+
+  DATA : ls_color TYPE lvc_s_scol.
+  DATA: gl_row    TYPE i,
+        gl_value  TYPE c,
+        gl_col    TYPE i,
+        gl_row_id TYPE lvc_s_row,
+        gl_col_id TYPE lvc_s_col,
+        gl_row_no TYPE lvc_s_roid.
+
+  DATA : lv_flag(1).
+
+
+  CALL METHOD gr_grid1->get_current_cell
+    IMPORTING
+      e_row     = gl_row
+      e_value   = gl_value
+      e_col     = gl_col
+      es_row_id = gl_row_id
+      es_col_id = gl_col_id
+      es_row_no = gl_row_no.
+
+
+  DATA(lt_display) = gt_display[].
+
+  READ TABLE gt_display INTO gs_display INDEX 1.
+  CLEAR : gs_display-check1,
+          gs_display-check2,
+          gs_display-check3,
+          gs_display-check4,
+          gs_display-check5,
+          gs_display-fkstar,
+          gs_display-fktext.
+
+
+  CLEAR: gt_display, gt_display[].
+
+
+
+  LOOP AT lt_display ASSIGNING  FIELD-SYMBOL(<fs>).
+
+    IF sy-tabix <= gl_row_no-row_id.
+
+      APPEND <fs> TO gt_display.
+    ELSE.
+
+      IF lv_flag IS INITIAL.
+
+
+        lv_flag = abap_true.
+
+        CLEAR ls_color.
+        CLEAR gt_style[].
+
+        _style_enabled : 'CHECK1'.
+        _style_enabled : 'CHECK2'.
+        _style_enabled : 'CHECK3'.
+        _style_enabled : 'CHECK4'.
+        _style_enabled : 'CHECK5'.
+        _style_enabled : 'FKSTAR'.
+
+        gs_display-icon = icon_yellow_light .
+
+        gs_display-style[] = gt_style[].
+
+        CLEAR gs_display-cellcolor.
+
+        APPEND gs_display TO gt_display.
+
+      ENDIF.
+
+      APPEND <fs> TO gt_display.
+
+    ENDIF.
+
+  ENDLOOP.
+
+
+  IF lv_flag IS INITIAL.
+
+    lv_flag = abap_true.
+
+    CLEAR ls_color.
+    CLEAR gt_style[].
+
+    _style_enabled : 'CHECK1'.
+    _style_enabled : 'CHECK2'.
+    _style_enabled : 'CHECK3'.
+    _style_enabled : 'CHECK4'.
+    _style_enabled : 'CHECK5'.
+    _style_enabled : 'FKSTAR'.
+
+    gs_display-icon = icon_yellow_light .
+
+    gs_display-style[] = gt_style[].
+
+    CLEAR gs_display-cellcolor.
+
+
+    APPEND gs_display TO gt_display.
+
+
+  ENDIF.
+
+
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form DELE_SELECT_DATA
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM dele_select_data .
+
+
+  DATA : lt_0010 TYPE TABLE OF zcot0010,
+         ls_0010 LIKE LINE OF lt_0010.
+
+  DATA : lt_0010log TYPE TABLE OF zcot0010log,
+         ls_0010log LIKE LINE OF lt_0010log.
+
+  DATA : ls_color TYPE lvc_s_scol.
+
+
+  DATA: lv_timestamp LIKE tzonref-tstampl.
+
+
+  DATA exp        TYPE sxmsmguid.
+  DATA imp        TYPE int4.
+  DATA lv_stamp2  TYPE int4.
+
+  CLEAR gv_answer.
+
+  "-- call popup
+  CALL FUNCTION 'POPUP_TO_CONFIRM'
+    EXPORTING
+      titlebar              = '확인'
+*     DIAGNOSE_OBJECT       = ' '
+      text_question         = '선택한 자료를  삭제 합니다.'
+*     TEXT_BUTTON_1         = 'Ja'(001)
+*     ICON_BUTTON_1         = ' '
+*     TEXT_BUTTON_2         = 'Nein'(002)
+*     ICON_BUTTON_2         = ' '
+*     DEFAULT_BUTTON        = '1'
+      display_cancel_button = ' '
+*     USERDEFINED_F1_HELP   = ' '
+*     START_COLUMN          = 25
+*     START_ROW             = 6
+*     POPUP_TYPE            =
+*     IV_QUICKINFO_BUTTON_1 = ' '
+*     IV_QUICKINFO_BUTTON_2 = ' '
+    IMPORTING
+      answer                = gv_answer
+*   TABLES
+*     PARAMETER             =
+    EXCEPTIONS
+      text_not_found        = 1
+      OTHERS                = 2.
+  IF sy-subrc <> 0.
+    MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+            WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+  ENDIF.
+
+  CHECK  gv_answer = '1'.
+
+  LOOP AT gt_display ASSIGNING FIELD-SYMBOL(<zz>).
+    CLEAR <zz>-mark.
+  ENDLOOP.
+
+  CLEAR gv_succnt.
+  CLEAR gv_falcnt..
+
+  CLEAR : gs_rows , gs_display .
+  CLEAR : lt_0010, lt_0010[].
+
+  LOOP AT gt_rows INTO gs_rows.
+
+    READ TABLE gt_display ASSIGNING <fs_disp> INDEX gs_rows-index.
+
+    CHECK  sy-subrc EQ 0.
+    <fs_disp>-mark = 'X'.
+
+    SELECT SINGLE *
+      FROM zcot0010
+     WHERE bukrs = @<fs_disp>-bukrs " ADD BSGSM_FCM  20210901
+     AND  kokrs = @pa_kokrs
+     AND gjahr   = @pa_gjahr
+     AND ctype   = @pa_ctype
+     AND fkstar  = @<fs_disp>-fkstar
+    INTO CORRESPONDING FIELDS OF @ls_0010.
+
+    IF sy-subrc EQ 0.
+
+      DELETE   FROM zcot0010
+              WHERE bukrs = @<fs_disp>-bukrs "ADD BSGSM_FCM 20210901
+                AND kokrs = @pa_kokrs
+                AND gjahr = @pa_gjahr
+                AND ctype = @pa_ctype
+                AND fkstar = @<fs_disp>-fkstar.
+
+      IF sy-subrc EQ 0.
+
+        CLEAR lv_timestamp.
+        CALL FUNCTION 'RRBA_GET_TIME'
+          IMPORTING
+            e_timestampl = lv_timestamp.
+
+        CLEAR ls_0010log.
+        MOVE-CORRESPONDING <fs_disp> TO ls_0010log.
+
+        ls_0010log-tstampl = sy-datum && sy-uzeit && lv_timestamp.
+
+        ls_0010log-flag = 'D'.
+        ls_0010log-kokrs = pa_kokrs.
+        ls_0010log-bukrs = pa_bukrs.
+        ls_0010log-erdat = sy-datum.
+        ls_0010log-erzet = sy-uzeit.
+        ls_0010log-ernam = sy-uname.
+
+        INSERT zcot0010log FROM ls_0010log.
+
+        IF sy-subrc EQ 0.
+          COMMIT WORK AND WAIT.
+          gv_succnt =  gv_succnt + 1.
+
+        ELSE.
+
+          gv_falcnt = gv_falcnt + 1.
+          ROLLBACK WORK .
+        ENDIF.
+
+      ELSE.
+
+        gv_falcnt = gv_falcnt + 1.
+        ROLLBACK WORK .
+
+      ENDIF.
+
+      MESSAGE s000 WITH gv_succnt '건 삭제성공'  gv_falcnt '건 삭제실패'.
+
+    ELSE.
+
+
+    ENDIF.
+
+  ENDLOOP .
+
+
+  DELETE gt_display WHERE mark = 'X'.
+
+
+
+ENDFORM.
+**&---------------------------------------------------------------------*
+*& Form SAVE_SELECT_DATA_NEW
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM save_select_data_new .
+
+  DATA : lt_0010 TYPE TABLE OF zcot0010,
+         ls_0010 LIKE LINE OF lt_0010.
+
+  DATA : lt_0010log TYPE TABLE OF zcot0010log,
+         ls_0010log LIKE LINE OF lt_0010log.
+
+  DATA : ls_color TYPE lvc_s_scol.
+
+
+  DATA: lv_timestamp LIKE tzonref-tstampl.
+
+
+  DATA exp        TYPE sxmsmguid.
+  DATA imp        TYPE int4.
+  DATA lv_stamp2  TYPE int4.
+
+  CLEAR gv_answer.
+
+  "-- call popup
+  CALL FUNCTION 'POPUP_TO_CONFIRM'
+    EXPORTING
+      titlebar              = '확인'
+*     DIAGNOSE_OBJECT       = ' '
+      text_question         = '선택한 자료를 저장 합니다.'
+*     TEXT_BUTTON_1         = 'Ja'(001)
+*     ICON_BUTTON_1         = ' '
+*     TEXT_BUTTON_2         = 'Nein'(002)
+*     ICON_BUTTON_2         = ' '
+*     DEFAULT_BUTTON        = '1'
+      display_cancel_button = ' '
+*     USERDEFINED_F1_HELP   = ' '
+*     START_COLUMN          = 25
+*     START_ROW             = 6
+*     POPUP_TYPE            =
+*     IV_QUICKINFO_BUTTON_1 = ' '
+*     IV_QUICKINFO_BUTTON_2 = ' '
+    IMPORTING
+      answer                = gv_answer
+*   TABLES
+*     PARAMETER             =
+    EXCEPTIONS
+      text_not_found        = 1
+      OTHERS                = 2.
+  IF sy-subrc <> 0.
+    MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+            WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+  ENDIF.
+
+  CHECK  gv_answer = '1'.
+
+  LOOP AT gt_display ASSIGNING FIELD-SYMBOL(<zz>).
+    CLEAR <zz>-mark.
+  ENDLOOP.
+
+  CLEAR gv_succnt.
+  CLEAR gv_falcnt..
+
+  CLEAR : gs_rows , gs_display .
+  CLEAR : lt_0010, lt_0010[].
+  CLEAR : lt_0010log, lt_0010log[].
+
+  CLEAR gv_exit.
+
+  LOOP AT gt_rows INTO gs_rows.
+
+    READ TABLE gt_display ASSIGNING FIELD-SYMBOL(<fs>) INDEX gs_rows-index.
+
+    CHECK  sy-subrc EQ 0.
+    <fs>-mark = 'X'.
+
+**기존 저장시 체크로직
+
+    IF <fs>-ctype IS INITIAL.
+      MESSAGE s026 WITH TEXT-c02 DISPLAY LIKE 'E'.
+      gv_exit = abap_true.
+      EXIT.
+    ENDIF.
+
+
+    IF <fs>-cperd IS INITIAL.
+      MESSAGE s026 WITH TEXT-c07 DISPLAY LIKE 'E'.
+      gv_exit = abap_true.
+      EXIT.
+    ENDIF.
+
+  ENDLOOP.
+
+
+  CHECK gv_exit IS INITIAL.
+
+
+  LOOP AT gt_display ASSIGNING <fs_disp> WHERE mark = 'X'.
+
+    SELECT SINGLE *
+      FROM zcot0010
+     WHERE bukrs  = @pa_bukrs       " ADD BSGSM_FCM  20210831
+       AND gjahr  = @pa_gjahr
+       AND kokrs  = @pa_kokrs
+       AND ctype  = @pa_ctype
+       AND fkstar = @<fs_disp>-fkstar
+    INTO CORRESPONDING FIELDS OF @ls_0010.
+
+    CASE  sy-subrc.
+      WHEN 0.   " 수정 UPDATE..
+
+        CLEAR ls_0010.
+        MOVE-CORRESPONDING <fs_disp> TO ls_0010.
+        ls_0010-kokrs = pa_kokrs.
+        ls_0010-bukrs = pa_bukrs.
+
+        ls_0010-aedat = sy-datum.
+        ls_0010-aezet = sy-uzeit.
+        ls_0010-aenam = sy-uname.
+
+        MODIFY  zcot0010 FROM ls_0010.
+
+        IF sy-subrc EQ 0.
+
+          CLEAR lv_timestamp.
+          CALL FUNCTION 'RRBA_GET_TIME'
+            IMPORTING
+              e_timestampl = lv_timestamp.
+
+          CLEAR ls_0010log.
+          MOVE-CORRESPONDING ls_0010 TO ls_0010log.
+
+          ls_0010log-tstampl = sy-datum && sy-uzeit && lv_timestamp.
+
+          ls_0010log-flag = 'U'.
+          ls_0010log-kokrs = pa_kokrs.
+          ls_0010log-aedat = sy-datum.
+          ls_0010log-aezet = sy-uzeit.
+          ls_0010log-aenam = sy-uname.
+
+          MODIFY zcot0010log FROM ls_0010log.
+
+          IF sy-subrc EQ 0.
+            COMMIT WORK AND WAIT.
+            gv_succnt =  gv_succnt + 1.
+
+          ELSE.
+
+            gv_falcnt = gv_falcnt + 1.
+            ROLLBACK WORK .
+          ENDIF.
+
+        ENDIF.
+
+      WHEN OTHERS.  " 신규 저장  INSERT .
+
+        CLEAR ls_0010.
+        MOVE-CORRESPONDING <fs_disp> TO ls_0010.
+        ls_0010-kokrs = pa_kokrs.
+        ls_0010-bukrs = pa_bukrs.
+
+        ls_0010-erdat = sy-datum.
+        ls_0010-erzet = sy-uzeit.
+        ls_0010-ernam = sy-uname.
+
+        MODIFY  zcot0010 FROM ls_0010.
+
+
+        IF sy-subrc EQ 0.
+
+          CLEAR lv_timestamp.
+          CALL FUNCTION 'RRBA_GET_TIME'
+            IMPORTING
+              e_timestampl = lv_timestamp.
+
+          CLEAR ls_0010log.
+          MOVE-CORRESPONDING <fs_disp> TO ls_0010log.
+
+          ls_0010log-tstampl = sy-datum && sy-uzeit && lv_timestamp.
+
+          ls_0010log-flag = 'I'.
+          ls_0010log-bukrs = pa_bukrs.
+          ls_0010log-kokrs = pa_kokrs.
+          ls_0010log-erdat = sy-datum.
+          ls_0010log-erzet = sy-uzeit.
+          ls_0010log-ernam = sy-uname.
+
+          MODIFY  zcot0010log FROM ls_0010log.
+
+          IF sy-subrc EQ 0.
+            COMMIT WORK AND WAIT.
+            gv_succnt =  gv_succnt + 1.
+
+          ELSE.
+
+            gv_falcnt = gv_falcnt + 1.
+            ROLLBACK WORK .
+          ENDIF.
+
+        ENDIF.
+
+    ENDCASE.
+
+    CLEAR gt_style[].
+
+    _style_disabled : 'CHECK1'.
+    _style_disabled : 'CHECK2'.
+    _style_disabled : 'CHECK3'.
+    _style_disabled : 'CHECK4'.
+    _style_disabled : 'CHECK5'.
+    _style_disabled : 'FKSTAR'.
+
+    <fs_disp>-icon = icon_led_green.
+
+    <fs_disp>-style[] = gt_style[].
+
+  ENDLOOP .
+
+
+  MESSAGE s000 WITH gv_succnt '건 저장성공'  gv_falcnt '건 저장실패'.
+
+
+
+
+
+
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form SELECT_IT_ROLE_CHECK
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM select_it_role_check .
+
+  DATA : ls_users TYPE agr_users.
+
+  CLEAR ls_users.
+  CLEAR gv_flag.
+
+  SELECT  SINGLE *
+    INTO  CORRESPONDING FIELDS OF ls_users
+   FROM agr_users
+   WHERE agr_name IN ('Z_FCM_0001' )  " IT 롤..
+   AND uname = sy-uname.
+
+  IF sy-subrc = 0.
+    gv_flag = 'X'.
+  ELSE.
+    CLEAR gv_flag.
+  ENDIF.
+
 
 ENDFORM.

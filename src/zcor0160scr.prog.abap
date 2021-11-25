@@ -57,3 +57,13 @@ PARAMETERS PA_PDGR TYPE POSIDGR.
 
 
 SELECTION-SCREEN: END OF BLOCK BL1.
+
+
+*--------------------------------------------------------------------*
+* [CO] ESG Pjt. 설비WBS 검색제외 - 2021.11.10 14:25:25, MDP_06
+*--------------------------------------------------------------------*
+SELECTION-SCREEN: BEGIN OF BLOCK BL2 WITH FRAME TITLE TEXT-T08.
+
+PARAMETERS PA_EQWBS AS CHECKBOX.
+
+SELECTION-SCREEN: END OF BLOCK BL2.

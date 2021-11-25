@@ -43,6 +43,12 @@ SELECTION-SCREEN COMMENT 43(12) TEXT-007 FOR FIELD PA_RAD3.
 
 SELECTION-SCREEN END OF LINE.
 
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #2 - 2021.11.18 13:24:41
+*--------------------------------------------------------------------*
+SELECTION-SCREEN SKIP 1.
+PARAMETERS PA_EQWBS AS CHECKBOX.
+
 SELECTION-SCREEN: END OF BLOCK BL2.
 
 "__ help

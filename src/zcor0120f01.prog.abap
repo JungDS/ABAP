@@ -82,9 +82,33 @@ FORM DATA_GET .
                  <FS_WKG>   TYPE ANY,
                  <FS_VALUE> TYPE ANY.
 
+**ADD BSGSM_FCM  2021.09.01..
+
+
+  DATA : BEGIN OF LT_ZCOT0010  OCCURS 0,
+           BUKRS  TYPE ZCOT0010-BUKRS,
+           FKSTAR TYPE ZCOT0010-FKSTAR,
+           CTYPE  TYPE ZCOT0010-CTYPE,
+           CPERD  TYPE ZCOT0010-CPERD,
+           CPTXT  TYPE DDTEXT,
+         END OF LT_ZCOT0010,
+         LS_ZCOT0010 LIKE LINE OF LT_ZCOT0010..
+
+  DATA : BEGIN OF LT_ZCOT0010B  OCCURS 0,
+           FKSTAR TYPE ZCOT0010-FKSTAR,
+           CTYPE  TYPE ZCOT0010-CTYPE,
+           CPERD  TYPE ZCOT0010-CPERD,
+           CPTXT  TYPE DDTEXT,
+         END OF LT_ZCOT0010B,
+         LS_ZCOT0010B LIKE LINE OF LT_ZCOT0010B.
+
+**END BY SGSM_FCM
+
+
   CLEAR: GT_OUTTAB, GS_OUTTAB.
 
-  SELECT A~KOSTL, B~KTEXT
+  SELECT A~KOSTL, B~KTEXT,
+         A~BUKRS " ADD BSGSM_FCM
     INTO TABLE @GT_KOSTL
     FROM CSKS AS A
     LEFT JOIN CSKT AS B
@@ -94,16 +118,57 @@ FORM DATA_GET .
      AND B~SPRAS = @SY-LANGU
    WHERE A~KOKRS = @PA_KOKRS.
 
+
+
+
+**  SELECT DISTINCT
+**         A~FKSTAR, A~CTYPE, A~CPERD , B~DDTEXT AS CPTXT
+**    FROM ZCOT0010 AS A
+**    LEFT JOIN DD07V AS B
+**      ON A~CPERD      = B~DOMVALUE_L
+**     AND B~DOMNAME    = 'ZDCPERD'
+**     AND B~DDLANGUAGE = @SY-LANGU
+**    INTO TABLE @DATA(LT_ZCOT0010)
+**   WHERE A~GJAHR = @PA_GJAHR
+**     AND A~KOKRS = @PA_KOKRS.
+
+
+***MODI BY BSGSM_FCM   2021.09.01..
+
+*관리회계영역레벨  통제
   SELECT DISTINCT
+         A~FKSTAR, A~CTYPE, A~CPERD , B~DDTEXT AS CPTXT
+    FROM ZCOT0010B AS A
+    LEFT JOIN DD07V AS B
+      ON A~CPERD      = B~DOMVALUE_L
+     AND B~DOMNAME    = 'ZDCPERD'
+     AND B~DDLANGUAGE = @SY-LANGU
+    INTO CORRESPONDING FIELDS OF TABLE  @LT_ZCOT0010B
+   WHERE A~GJAHR = @PA_GJAHR
+     AND A~KOKRS = @PA_KOKRS.
+
+
+*회사코드레벨 통제
+  SELECT DISTINCT
+        A~BUKRS AS BUKRS , "add bsgsm_fcm  2021.09.01
          A~FKSTAR, A~CTYPE, A~CPERD , B~DDTEXT AS CPTXT
     FROM ZCOT0010 AS A
     LEFT JOIN DD07V AS B
       ON A~CPERD      = B~DOMVALUE_L
      AND B~DOMNAME    = 'ZDCPERD'
      AND B~DDLANGUAGE = @SY-LANGU
-    INTO TABLE @DATA(LT_ZCOT0010)
+     INTO CORRESPONDING FIELDS OF TABLE  @LT_ZCOT0010
+*     INTO TABLE @DATA(lt_zcot0010)
    WHERE A~GJAHR = @PA_GJAHR
      AND A~KOKRS = @PA_KOKRS.
+
+
+  SELECT BUKRS , FLAG
+    FROM ZCOT000
+   WHERE FLAG = 'X'
+    INTO TABLE @DATA(LT_000). " 통제여부
+
+** END BY BSGSM_FCM  <<<<<<<<<<<
 
 *-- 계획
   SELECT A~ROBJNR, A~RKSTAR, B~KTEXT, A~PROCESS_9, A~RTCUR,
@@ -351,39 +416,127 @@ FORM DATA_GET .
 
     GS_OUTTAB-AVALT = GS_OUTTAB-ALL - GS_OUTTAB-USAGE.
 
+
+**
+**    IF gs_outtab-kostl IS NOT INITIAL.
+**
+**      READ TABLE lt_zcot0010 INTO DATA(ls_zcot0010)
+**          WITH KEY fkstar = gs_outtab-kstar
+**                   ctype   = '1'.
+**
+**      IF sy-subrc = 0.
+**
+**        MOVE: ls_zcot0010-cperd TO gs_outtab-cperd,
+**              ls_zcot0010-cptxt TO gs_outtab-cptxt.
+**
+**      ENDIF.
+**
+**    ELSE.
+**
+**      READ TABLE gt_prps WITH KEY objnr = gs_outtab-objnr.
+**
+**      IF sy-subrc = 0.
+**
+**        READ TABLE lt_zcot0010 INTO ls_zcot0010
+**            WITH KEY fkstar = gs_outtab-kstar
+**                     ctype  = gt_prps-zzcyp.
+**
+**        IF sy-subrc = 0.
+**
+**          MOVE: ls_zcot0010-cperd TO gs_outtab-cperd,
+**                ls_zcot0010-cptxt TO gs_outtab-cptxt.
+**
+**        ENDIF.
+**
+**      ENDIF.
+**
+**    ENDIF.
+
+**MODI BY BSGSM_FCM 2021.09.01. >>>>>>>>>>>>>>>>
+
     IF GS_OUTTAB-KOSTL IS NOT INITIAL.
+*CCTR 의 회사코드 찾기
+      READ TABLE GT_KOSTL ASSIGNING FIELD-SYMBOL(<ZZ>)
+                               WITH KEY  KOSTL = GS_OUTTAB-KOSTL.
 
-      READ TABLE LT_ZCOT0010 INTO DATA(LS_ZCOT0010)
-          WITH KEY FKSTAR = GS_OUTTAB-KSTAR
-                   CTYPE   = '1'.
+      IF <ZZ> IS  ASSIGNED.
+        READ TABLE LT_000 ASSIGNING FIELD-SYMBOL(<FS>) WITH KEY BUKRS = <ZZ>-BUKRS
+                                                                FLAG = 'X'. " 회사별 통제
+        IF <FS> IS  ASSIGNED AND SY-SUBRC EQ 0.
+          CLEAR LS_ZCOT0010.
+          READ TABLE LT_ZCOT0010 INTO  LS_ZCOT0010
+                                 WITH KEY  bukrs = <zz>-bukrs
+                                           FKSTAR = GS_OUTTAB-KSTAR
+                                           CTYPE   = '1'.
 
-      IF SY-SUBRC = 0.
+          IF SY-SUBRC = 0.
 
-        MOVE: LS_ZCOT0010-CPERD TO GS_OUTTAB-CPERD,
-              LS_ZCOT0010-CPTXT TO GS_OUTTAB-CPTXT.
+            MOVE: LS_ZCOT0010-CPERD TO GS_OUTTAB-CPERD,
+                  LS_ZCOT0010-CPTXT TO GS_OUTTAB-CPTXT.
 
-      ENDIF.
+          ENDIF.
 
-    ELSE.
+        ELSE.   " 관리회계레벨 통제
 
-      READ TABLE GT_PRPS WITH KEY OBJNR = GS_OUTTAB-OBJNR.
+          CLEAR LS_ZCOT0010B.
+          READ TABLE LT_ZCOT0010B INTO LS_ZCOT0010B
+                                 WITH KEY FKSTAR = GS_OUTTAB-KSTAR
+                 CTYPE   = '1'.
 
-      IF SY-SUBRC = 0.
+          IF SY-SUBRC = 0.
 
-        READ TABLE LT_ZCOT0010 INTO LS_ZCOT0010
-            WITH KEY FKSTAR = GS_OUTTAB-KSTAR
-                     CTYPE  = GT_PRPS-ZZCYP.
+            MOVE: LS_ZCOT0010B-CPERD TO GS_OUTTAB-CPERD,
+                  LS_ZCOT0010B-CPTXT TO GS_OUTTAB-CPTXT.
 
-        IF SY-SUBRC = 0.
-
-          MOVE: LS_ZCOT0010-CPERD TO GS_OUTTAB-CPERD,
-                LS_ZCOT0010-CPTXT TO GS_OUTTAB-CPTXT.
-
+          ENDIF.
         ENDIF.
 
       ENDIF.
 
+
+    ELSE.
+
+*WBS 회사코드 찾기
+
+      READ TABLE GT_PRPS ASSIGNING FIELD-SYMBOL(<PS>) WITH KEY OBJNR = GS_OUTTAB-OBJNR.
+
+      IF <PS> IS ASSIGNED AND SY-SUBRC EQ 0.
+
+        READ TABLE LT_000 ASSIGNING FIELD-SYMBOL(<FS2>) WITH KEY BUKRS = <PS>-BUKRS
+                                                                         FLAG = 'X'. " 회사별 통제
+        IF <FS2> IS  ASSIGNED AND SY-SUBRC EQ 0.
+          CLEAR LS_ZCOT0010.
+          READ TABLE LT_ZCOT0010 INTO LS_ZCOT0010
+                       WITH KEY bukrs = <ps>-bukrs
+                                FKSTAR = GS_OUTTAB-KSTAR
+                                CTYPE  = GT_PRPS-ZZCYP.
+
+          IF SY-SUBRC = 0.
+
+            MOVE: LS_ZCOT0010-CPERD TO GS_OUTTAB-CPERD,
+                  LS_ZCOT0010-CPTXT TO GS_OUTTAB-CPTXT.
+
+          ENDIF.
+
+        ELSE.
+          CLEAR LS_ZCOT0010B.
+          READ TABLE LT_ZCOT0010B INTO LS_ZCOT0010B
+                     WITH KEY FKSTAR = GS_OUTTAB-KSTAR
+                              CTYPE  = GT_PRPS-ZZCYP.
+
+          IF SY-SUBRC = 0.
+
+            MOVE: LS_ZCOT0010B-CPERD TO GS_OUTTAB-CPERD,
+                  LS_ZCOT0010B-CPTXT TO GS_OUTTAB-CPTXT.
+
+          ENDIF.
+
+        ENDIF.
+      ENDIF.
     ENDIF.
+
+
+**END BY BSGSM_FCM <<<<<<<<<<<<<<<
 
     MODIFY GT_OUTTAB FROM GS_OUTTAB.
 
@@ -1296,7 +1449,8 @@ FORM SET_RANGES_OBJNR .
       ENDIF.
 
       SELECT A~OBJNR, A~PSPNR, A~POSID,
-             A~POST1, A~ZZCYP
+             A~POST1, A~ZZCYP,
+             A~PBUKR AS BUKRS " ADD BSGSM_FCM 2021.09.01
         INTO TABLE @GT_PRPS
         FROM PRPS AS A
        INNER JOIN PROJ AS B

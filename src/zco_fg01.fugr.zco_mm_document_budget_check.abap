@@ -1,4 +1,4 @@
-FUNCTION ZCO_MM_DOCUMENT_BUDGET_CHECK.
+FUNCTION zco_mm_document_budget_check.
 *"----------------------------------------------------------------------
 *"*"Local interface:
 *"  IMPORTING
@@ -16,149 +16,218 @@ FUNCTION ZCO_MM_DOCUMENT_BUDGET_CHECK.
 *"      NOT_VALID_CODE
 *"----------------------------------------------------------------------
 
-  DATA LV_CTYPE TYPE ZECTYPE.
-  DATA LV_CPERD TYPE ZECPERD.
+  DATA lv_ctype TYPE zectype.
+  DATA lv_cperd TYPE zecperd.
 
-  DATA LV_MONTH TYPE N LENGTH 2.
-  DATA LV_OBJNR TYPE J_OBJNR.
-  DATA: LV_NTIME     TYPE I,
-        LV_CPPERL    TYPE PPERL,
-        LV_FIELDNAME TYPE FIELDNAME.
+  DATA lv_month TYPE n LENGTH 2.
+  DATA lv_objnr TYPE j_objnr.
+  DATA: lv_ntime     TYPE i,
+        lv_cpperl    TYPE pperl,
+        lv_fieldname TYPE fieldname.
 
-  DATA LV_FYEAR TYPE JAHRPERBL.
+  DATA lv_fyear TYPE jahrperbl.
 
-  RANGES R_BUDAT FOR ACDOCA-BUDAT.
+  RANGES r_budat FOR acdoca-budat.
 
-  DATA: LV_DSUM TYPE HSLVT9_CS,
-        LV_FSUM TYPE HSLVT9_CS,
-        LV_ASUM TYPE HSLVT9_CS.
+  DATA: lv_dsum TYPE hslvt9_cs,
+        lv_fsum TYPE hslvt9_cs,
+        lv_asum TYPE hslvt9_cs.
 
-  DATA: LV_DSUM_CHAR TYPE CHAR255,
-        LV_FSUM_CHAR TYPE CHAR255,
-        LV_ASUM_CHAR TYPE CHAR255.
+  DATA: lv_dsum_char TYPE char255,
+        lv_fsum_char TYPE char255,
+        lv_asum_char TYPE char255.
 
-  DATA LT_DATA_NEW TYPE TABLE OF ZCOS0080 WITH HEADER LINE.
+  DATA lt_data_new TYPE TABLE OF zcos0080 WITH HEADER LINE.
 
-  FIELD-SYMBOLS: <FS_HSL> TYPE ANY,
-                 <FS_WKG> TYPE ANY.
+  FIELD-SYMBOLS: <fs_hsl> TYPE any,
+                 <fs_wkg> TYPE any.
 
 
-  RANGES R_KSTAR FOR CSKA-KSTAR.
+  RANGES r_kstar FOR cska-kstar.
 
-  DATA: BEGIN OF LT_MONTH OCCURS 0,
-          V1 TYPE N LENGTH 2,
-        END OF LT_MONTH.
+  DATA: BEGIN OF lt_month OCCURS 0,
+          v1 TYPE n LENGTH 2,
+        END OF lt_month.
 
-  DATA LV_DMBTR_OLD TYPE DMBTR.
-  DATA LV_DMBTR_NEW TYPE DMBTR.
+  DATA lv_dmbtr_old TYPE dmbtr.
+  DATA lv_dmbtr_new TYPE dmbtr.
 
-  LT_DATA_NEW[] = T_DATA_NEW[].
+  lt_data_new[] = t_data_new[].
 
-  SELECT SINGLE KOKRS INTO @DATA(LV_KOKRS)
-    FROM TKA02
-   WHERE BUKRS = @I_BUKRS.
+  SELECT SINGLE kokrs INTO @DATA(lv_kokrs)
+    FROM tka02
+   WHERE bukrs = @i_bukrs.
 
-  IF SY-SUBRC <> 0.
-    RAISE NOT_VALID_BUKRS.
+  IF sy-subrc <> 0.
+    RAISE not_valid_bukrs.
     EXIT.
   ENDIF.
 
-  LOOP AT T_DATA_NEW.
+** ADD BSGSM_FCM   2021.09.01
 
-    CLEAR LV_OBJNR.
-    CLEAR: LV_DSUM, LV_FSUM, LV_ASUM,
-           R_BUDAT, R_BUDAT[],
-           R_KSTAR, R_KSTAR[], LV_CPERD.
 
-    CLEAR: LV_DMBTR_NEW, LV_DMBTR_OLD.
+  SELECT SINGLE flag INTO @DATA(lv_budget_flag)
+    FROM zcot000
+    WHERE bukrs = @i_bukrs
+      AND flag = 'X'.
 
-    CLEAR: LT_MONTH, LT_MONTH[].
+**END BY BSGSM_FCM.
 
-    IF T_DATA_NEW-KOSTL IS NOT INITIAL.
 
-      LV_CTYPE = '1'.   "부서예산
+
+  LOOP AT t_data_new.
+
+    CLEAR lv_objnr.
+    CLEAR: lv_dsum, lv_fsum, lv_asum,
+           r_budat, r_budat[],
+           r_kstar, r_kstar[], lv_cperd.
+
+    CLEAR: lv_dmbtr_new, lv_dmbtr_old.
+
+    CLEAR: lt_month, lt_month[].
+
+    IF t_data_new-kostl IS NOT INITIAL.
+
+      lv_ctype = '1'.   "부서예산
 
 *-- 예산통제 제외
-      SELECT SINGLE KOSTL INTO @DATA(LV_KOSTL)
-        FROM ZCOT0030
-       WHERE KOKRS = @LV_KOKRS
-         AND KOSTL = @T_DATA_NEW-KOSTL
-         AND BEXCL = @ABAP_TRUE.
+      SELECT SINGLE kostl INTO @DATA(lv_kostl)
+        FROM zcot0030
+       WHERE kokrs = @lv_kokrs
+         AND kostl = @t_data_new-kostl
+         AND bexcl = @abap_true.
 
-      IF SY-SUBRC = 0.
+      IF sy-subrc = 0.
         CONTINUE.
       ENDIF.
 
-      LV_OBJNR = 'KS' && LV_KOKRS && T_DATA_NEW-KOSTL.
+      lv_objnr = 'KS' && lv_kokrs && t_data_new-kostl.
 
-      MOVE: 'I'              TO R_KSTAR-SIGN,
-            'EQ'             TO R_KSTAR-OPTION,
-            T_DATA_NEW-KSTAR TO R_KSTAR-LOW.
+      MOVE: 'I'              TO r_kstar-sign,
+            'EQ'             TO r_kstar-option,
+            t_data_new-kstar TO r_kstar-low.
 
-      APPEND R_KSTAR.
+      APPEND r_kstar.
 
-    ELSEIF T_DATA_NEW-PSPNR IS NOT INITIAL.
+    ELSEIF t_data_new-pspnr IS NOT INITIAL.
 
-      SELECT SINGLE * INTO @DATA(LS_PRPS)
-        FROM PRPS
-       WHERE PSPNR = @T_DATA_NEW-PSPNR.
+      SELECT SINGLE * INTO @DATA(ls_prps)
+        FROM prps
+       WHERE pspnr = @t_data_new-pspnr.
 
-      IF SY-SUBRC <> 0.
-        RAISE NOT_VALID_CODE.
+      IF sy-subrc <> 0.
+        RAISE not_valid_code.
         EXIT.
       ENDIF.
 
-      LV_OBJNR = LS_PRPS-OBJNR.
+      lv_objnr = ls_prps-objnr.
 
 *-- 예산통제 제외
-      SELECT SINGLE POSID INTO @DATA(LV_POSID)
-        FROM ZCOT0030
-       WHERE KOKRS = @LV_KOKRS
-         AND POSID = @LS_PRPS-POSID
-         AND BEXCL = @ABAP_TRUE.
+      SELECT SINGLE posid INTO @DATA(lv_posid)
+        FROM zcot0030
+       WHERE kokrs = @lv_kokrs
+         AND posid = @ls_prps-posid
+         AND bexcl = @abap_true.
 
-      IF SY-SUBRC = 0.
+      IF sy-subrc = 0.
         CONTINUE.
       ENDIF.
 
-      CASE LS_PRPS-ZZCYP.   "통제유형
+      CASE ls_prps-zzcyp.   "통제유형
 
         WHEN '1' OR '2'.
 
-          LV_CTYPE = LS_PRPS-ZZCYP.
+          lv_ctype = ls_prps-zzcyp.
 
-          MOVE: 'I'              TO R_KSTAR-SIGN,
-                'EQ'             TO R_KSTAR-OPTION,
-                T_DATA_NEW-KSTAR TO R_KSTAR-LOW.
+          MOVE: 'I'              TO r_kstar-sign,
+                'EQ'             TO r_kstar-option,
+                t_data_new-kstar TO r_kstar-low.
 
-          APPEND R_KSTAR.
+          APPEND r_kstar.
 
         WHEN '3'.   "공사통제 유형
 
-          LV_CTYPE = LS_PRPS-ZZCYP.
+          lv_ctype = ls_prps-zzcyp.
 
-          SELECT * FROM ZCOT0010
-            INTO TABLE @DATA(LT_ZCOT0010)
-           WHERE GJAHR = @T_DATA_NEW-LFDAT(4)
-             AND KOKRS = @LV_KOKRS
-             AND CTYPE = @LV_CTYPE
-             AND CPERD = '4'.      "공사유형은 연기준
+**      SELECT * FROM zcot0010
+**              INTO TABLE @DATA(lt_zcot0010)
+**             WHERE gjahr = @t_data_new-lfdat(4)
+**               AND kokrs = @lv_kokrs
+**               AND ctype = @lv_ctype
+**               AND cperd = '4'.      "공사유형은 연기준
+**
+**            IF sy-subrc = 0.
+**
+**              LOOP AT lt_zcot0010 INTO DATA(ls_zcot0010).
+**
+**                MOVE: 'I'                TO r_kstar-sign,
+**                      'EQ'               TO r_kstar-option,
+**                      ls_zcot0010-fkstar TO r_kstar-low.
+**
+**                APPEND r_kstar.
+**
+**              ENDLOOP.
+**
+**            ELSE.
+**              CONTINUE.
+**            ENDIF.
+**위 주석    회사코드별 통제  로직 추가' 2021.09.01  BSGSM_FCM
+          IF lv_budget_flag =   'X'.   "@@@@@@@@@>>>>>>>
 
-          IF SY-SUBRC = 0.
+            SELECT * FROM zcot0010
+              INTO TABLE @DATA(lt_zcot0010)
+             WHERE bukrs = @i_bukrs "ADD BSGSM_FCM
+               AND gjahr = @t_data_new-lfdat(4)
+               AND kokrs = @lv_kokrs
+               AND ctype = @lv_ctype
+               AND cperd = '4'.      "공사유형은 연기준
 
-            LOOP AT LT_ZCOT0010 INTO DATA(LS_ZCOT0010).
+            IF sy-subrc = 0.
 
-              MOVE: 'I'                TO R_KSTAR-SIGN,
-                    'EQ'               TO R_KSTAR-OPTION,
-                    LS_ZCOT0010-FKSTAR TO R_KSTAR-LOW.
+              LOOP AT lt_zcot0010 INTO DATA(ls_zcot0010).
 
-              APPEND R_KSTAR.
+                MOVE: 'I'                TO r_kstar-sign,
+                      'EQ'               TO r_kstar-option,
+                      ls_zcot0010-fkstar TO r_kstar-low.
 
-            ENDLOOP.
+                APPEND r_kstar.
 
-          ELSE.
-            CONTINUE.
-          ENDIF.
+              ENDLOOP.
+
+            ELSE.
+              CONTINUE.
+            ENDIF.
+
+
+          ELSE. " 관리회계레벨 통제 기존 로직
+
+            SELECT * FROM zcot0010b
+                    INTO TABLE @DATA(lt_zcot0010b)
+                   WHERE gjahr = @t_data_new-lfdat(4)
+                     AND kokrs = @lv_kokrs
+                     AND ctype = @lv_ctype
+                     AND cperd = '4'.      "공사유형은 연기준
+
+            IF sy-subrc = 0.
+
+              LOOP AT lt_zcot0010b INTO DATA(ls_zcot0010b).
+
+                MOVE: 'I'                TO r_kstar-sign,
+                      'EQ'               TO r_kstar-option,
+                      ls_zcot0010b-fkstar TO r_kstar-low.
+
+                APPEND r_kstar.
+
+              ENDLOOP.
+
+            ELSE.
+              CONTINUE.
+            ENDIF.
+
+
+          ENDIF.    "<<<<<<<<<@@@@@@@@@
+
+
 
         WHEN OTHERS.   "비통제
           CONTINUE.
@@ -167,305 +236,337 @@ FUNCTION ZCO_MM_DOCUMENT_BUDGET_CHECK.
     ENDIF.
 
 *-- 예산점검 마스터(ZCOT0010)
-    CASE LV_CTYPE.
+    CASE lv_ctype.
 
       WHEN '3'.  "공사통제유형
-        LV_CPERD = '4'.
+        lv_cperd = '4'.
 
       WHEN  OTHERS.
-        SELECT SINGLE * FROM ZCOT0010
-           INTO @LS_ZCOT0010
-          WHERE GJAHR  = @T_DATA_NEW-LFDAT(4)
-            AND KOKRS  = @LV_KOKRS
-            AND CTYPE  = @LV_CTYPE
-            AND FKSTAR = @T_DATA_NEW-KSTAR.
+**        SELECT SINGLE * FROM zcot0010
+**           INTO @ls_zcot0010
+**          WHERE gjahr  = @t_data_new-lfdat(4)
+**            AND kokrs  = @lv_kokrs
+**            AND ctype  = @lv_ctype
+**            AND fkstar = @t_data_new-kstar.
+**
+**        IF sy-subrc = 0 .
+**          lv_cperd = ls_zcot0010-cperd.
+**        ELSE.
+**          CONTINUE.
+**        ENDIF.
 
-        IF SY-SUBRC = 0 .
-          LV_CPERD = LS_ZCOT0010-CPERD.
-        ELSE.
-          CONTINUE.
-        ENDIF.
+*     **위 주석    회사코드별 통제  로직 추가' 2021.09.01  BSGSM_FCM
+        IF lv_budget_flag =   'X'.   "@@@@@@@@@>>>>>>>
+
+          SELECT SINGLE * FROM zcot0010
+                  INTO @ls_zcot0010
+                 WHERE bukrs = @i_bukrs  "ADD BSGSM_FCM
+                   AND gjahr  = @t_data_new-lfdat(4)
+                   AND kokrs  = @lv_kokrs
+                   AND ctype  = @lv_ctype
+                   AND fkstar = @t_data_new-kstar.
+
+          IF sy-subrc = 0 .
+            lv_cperd = ls_zcot0010-cperd.
+          ELSE.
+            CONTINUE.
+          ENDIF.
+
+        ELSE.  "관리회계레벨 통제
+          SELECT SINGLE * FROM zcot0010b
+         INTO @ls_zcot0010
+        WHERE gjahr  = @t_data_new-lfdat(4)
+          AND kokrs  = @lv_kokrs
+          AND ctype  = @lv_ctype
+          AND fkstar = @t_data_new-kstar.
+
+          IF sy-subrc = 0 .
+            lv_cperd = ls_zcot0010-cperd.
+          ELSE.
+            CONTINUE.
+          ENDIF.
+        ENDIF.  "<<<<<<<<<@@@@@@@@@
 
     ENDCASE.
 
-    CASE LV_CPERD.
+    CASE lv_cperd.
 
       WHEN '1'.   "월기준
 
-        LV_NTIME = 1.
-        LV_MONTH = T_DATA_NEW-LFDAT+4(2).
+        lv_ntime = 1.
+        lv_month = t_data_new-lfdat+4(2).
 
-        R_BUDAT-LOW    = T_DATA_NEW-LFDAT(4) && '0101'.
+        r_budat-low    = t_data_new-lfdat(4) && '0101'.
 
         CALL FUNCTION 'RP_LAST_DAY_OF_MONTHS'
           EXPORTING
-            DAY_IN            = R_BUDAT-LOW
+            day_in            = r_budat-low
           IMPORTING
-            LAST_DAY_OF_MONTH = R_BUDAT-HIGH
+            last_day_of_month = r_budat-high
           EXCEPTIONS
-            DAY_IN_NO_DATE    = 1
+            day_in_no_date    = 1
             OTHERS            = 2.
 
-        R_BUDAT-SIGN   = 'I'.
-        R_BUDAT-OPTION = 'BT'.
-        APPEND R_BUDAT.
+        r_budat-sign   = 'I'.
+        r_budat-option = 'BT'.
+        APPEND r_budat.
 
       WHEN '2'.   "분기 기준
 
-        LV_NTIME = 3.
+        lv_ntime = 3.
 
-        IF T_DATA_NEW-LFDAT+4(4) >= '0101' AND
-           T_DATA_NEW-LFDAT+4(4) <= '0331'.
+        IF t_data_new-lfdat+4(4) >= '0101' AND
+           t_data_new-lfdat+4(4) <= '0331'.
 
-          LV_MONTH = '01'.
+          lv_month = '01'.
 
-          R_BUDAT-LOW    = T_DATA_NEW-LFDAT(4) && '0101'.
-          R_BUDAT-HIGH   = T_DATA_NEW-LFDAT(4) && '0331'.
-          R_BUDAT-SIGN   = 'I'.
-          R_BUDAT-OPTION = 'BT'.
-          APPEND R_BUDAT.
+          r_budat-low    = t_data_new-lfdat(4) && '0101'.
+          r_budat-high   = t_data_new-lfdat(4) && '0331'.
+          r_budat-sign   = 'I'.
+          r_budat-option = 'BT'.
+          APPEND r_budat.
 
-        ELSEIF T_DATA_NEW-LFDAT+4(4) >= '0401' AND
-                T_DATA_NEW-LFDAT+4(4) <= '0630'.
+        ELSEIF t_data_new-lfdat+4(4) >= '0401' AND
+                t_data_new-lfdat+4(4) <= '0630'.
 
-          LV_MONTH = '04'.
+          lv_month = '04'.
 
-          R_BUDAT-LOW    = T_DATA_NEW-LFDAT(4) && '0401'.
-          R_BUDAT-HIGH   = T_DATA_NEW-LFDAT(4) && '0630'.
-          R_BUDAT-SIGN   = 'I'.
-          R_BUDAT-OPTION = 'BT'.
-          APPEND R_BUDAT.
+          r_budat-low    = t_data_new-lfdat(4) && '0401'.
+          r_budat-high   = t_data_new-lfdat(4) && '0630'.
+          r_budat-sign   = 'I'.
+          r_budat-option = 'BT'.
+          APPEND r_budat.
 
-        ELSEIF T_DATA_NEW-LFDAT+4(4) >= '0701' AND
-                T_DATA_NEW-LFDAT+4(4) <= '0930'.
+        ELSEIF t_data_new-lfdat+4(4) >= '0701' AND
+                t_data_new-lfdat+4(4) <= '0930'.
 
-          LV_MONTH = '07'.
+          lv_month = '07'.
 
-          R_BUDAT-LOW    = T_DATA_NEW-LFDAT(4) && '0701'.
-          R_BUDAT-HIGH   = T_DATA_NEW-LFDAT(4) && '0930'.
-          R_BUDAT-SIGN   = 'I'.
-          R_BUDAT-OPTION = 'BT'.
-          APPEND R_BUDAT.
+          r_budat-low    = t_data_new-lfdat(4) && '0701'.
+          r_budat-high   = t_data_new-lfdat(4) && '0930'.
+          r_budat-sign   = 'I'.
+          r_budat-option = 'BT'.
+          APPEND r_budat.
 
-        ELSEIF T_DATA_NEW-LFDAT+4(4) >= '1001' AND
-                T_DATA_NEW-LFDAT+4(4) <= '1231'.
+        ELSEIF t_data_new-lfdat+4(4) >= '1001' AND
+                t_data_new-lfdat+4(4) <= '1231'.
 
-          LV_MONTH = '10'.
+          lv_month = '10'.
 
-          R_BUDAT-LOW    = T_DATA_NEW-LFDAT(4) && '1001'.
-          R_BUDAT-HIGH   = T_DATA_NEW-LFDAT(4) && '1231'.
-          R_BUDAT-SIGN   = 'I'.
-          R_BUDAT-OPTION = 'BT'.
-          APPEND R_BUDAT.
+          r_budat-low    = t_data_new-lfdat(4) && '1001'.
+          r_budat-high   = t_data_new-lfdat(4) && '1231'.
+          r_budat-sign   = 'I'.
+          r_budat-option = 'BT'.
+          APPEND r_budat.
 
         ENDIF.
 
       WHEN '3'.   "반기 기준
 
-        LV_NTIME = 6.
+        lv_ntime = 6.
 
-        IF T_DATA_NEW-LFDAT+4(4) >= '0101' AND
-           T_DATA_NEW-LFDAT+4(4) <= '0630'.
+        IF t_data_new-lfdat+4(4) >= '0101' AND
+           t_data_new-lfdat+4(4) <= '0630'.
 
-          LV_MONTH = '01'.
+          lv_month = '01'.
 
-          R_BUDAT-LOW    = T_DATA_NEW-LFDAT(4) && '0101'.
-          R_BUDAT-HIGH   = T_DATA_NEW-LFDAT(4) && '0630'.
-          R_BUDAT-SIGN   = 'I'.
-          R_BUDAT-OPTION = 'BT'.
-          APPEND R_BUDAT.
+          r_budat-low    = t_data_new-lfdat(4) && '0101'.
+          r_budat-high   = t_data_new-lfdat(4) && '0630'.
+          r_budat-sign   = 'I'.
+          r_budat-option = 'BT'.
+          APPEND r_budat.
 
-        ELSEIF T_DATA_NEW-LFDAT+4(4) >= '0701' AND
-                T_DATA_NEW-LFDAT+4(4) <= '1231'.
+        ELSEIF t_data_new-lfdat+4(4) >= '0701' AND
+                t_data_new-lfdat+4(4) <= '1231'.
 
-          LV_MONTH = '07'.
+          lv_month = '07'.
 
-          R_BUDAT-LOW    = T_DATA_NEW-LFDAT(4) && '0701'.
-          R_BUDAT-HIGH   = T_DATA_NEW-LFDAT(4) && '1231'.
-          R_BUDAT-SIGN   = 'I'.
-          R_BUDAT-OPTION = 'BT'.
-          APPEND R_BUDAT.
+          r_budat-low    = t_data_new-lfdat(4) && '0701'.
+          r_budat-high   = t_data_new-lfdat(4) && '1231'.
+          r_budat-sign   = 'I'.
+          r_budat-option = 'BT'.
+          APPEND r_budat.
 
         ENDIF.
 
       WHEN '4'.   "연 기준
 
-        LV_NTIME = 12.
-        LV_MONTH = '01'.
+        lv_ntime = 12.
+        lv_month = '01'.
 
-        R_BUDAT-LOW    = T_DATA_NEW-LFDAT(4) && '0101'.
-        R_BUDAT-HIGH   = T_DATA_NEW-LFDAT(4) && '1231'.
-        R_BUDAT-SIGN   = 'I'.
-        R_BUDAT-OPTION = 'BT'.
-        APPEND R_BUDAT.
+        r_budat-low    = t_data_new-lfdat(4) && '0101'.
+        r_budat-high   = t_data_new-lfdat(4) && '1231'.
+        r_budat-sign   = 'I'.
+        r_budat-option = 'BT'.
+        APPEND r_budat.
 
       WHEN '5'.   "기준 없음(비통제 대상)
         CONTINUE.
 
     ENDCASE.
 
-    DO LV_NTIME TIMES.
-      LT_MONTH-V1 = LV_MONTH.
-      APPEND LT_MONTH.
-      ADD 1 TO LV_MONTH.
+    DO lv_ntime TIMES.
+      lt_month-v1 = lv_month.
+      APPEND lt_month.
+      ADD 1 TO lv_month.
     ENDDO.
 
 *-- 계획
-    SELECT ROBJNR,
-           SUM( HSL01 ) AS HSL01, SUM( HSL02 ) AS HSL02,
-           SUM( HSL03 ) AS HSL03, SUM( HSL04 ) AS HSL04,
-           SUM( HSL05 ) AS HSL05, SUM( HSL06 ) AS HSL06,
-           SUM( HSL07 ) AS HSL07, SUM( HSL08 ) AS HSL08,
-           SUM( HSL09 ) AS HSL09, SUM( HSL10 ) AS HSL10,
-           SUM( HSL11 ) AS HSL11, SUM( HSL12 ) AS HSL12
-      INTO TABLE @DATA(LT_ZCOT0040)
-    FROM ZCOT0040
-   WHERE RLDNR  = '00'
-     AND RRCTY  = '1'
-     AND RVERS  = 'B1'
-     AND RYEAR  = @T_DATA_NEW-LFDAT(4)
-     AND ROBJNR = @LV_OBJNR
-     AND RKOKRS = @LV_KOKRS
-     AND RKSTAR IN @R_KSTAR
-    GROUP BY ROBJNR.
+    SELECT robjnr,
+           SUM( hsl01 ) AS hsl01, SUM( hsl02 ) AS hsl02,
+           SUM( hsl03 ) AS hsl03, SUM( hsl04 ) AS hsl04,
+           SUM( hsl05 ) AS hsl05, SUM( hsl06 ) AS hsl06,
+           SUM( hsl07 ) AS hsl07, SUM( hsl08 ) AS hsl08,
+           SUM( hsl09 ) AS hsl09, SUM( hsl10 ) AS hsl10,
+           SUM( hsl11 ) AS hsl11, SUM( hsl12 ) AS hsl12
+      INTO TABLE @DATA(lt_zcot0040)
+    FROM zcot0040
+   WHERE rldnr  = '00'
+     AND rrcty  = '1'
+     AND rvers  = 'B1'
+     AND ryear  = @t_data_new-lfdat(4)
+     AND robjnr = @lv_objnr
+     AND rkokrs = @lv_kokrs
+     AND rkstar IN @r_kstar
+    GROUP BY robjnr.
 
 *-- 실적
-    SELECT OBJNR,
-           SUM( WKG001 ) AS WKG001, SUM( WKG002 ) AS WKG002,
-           SUM( WKG003 ) AS WKG003, SUM( WKG004 ) AS WKG004,
-           SUM( WKG005 ) AS WKG005, SUM( WKG006 ) AS WKG006,
-           SUM( WKG007 ) AS WKG007, SUM( WKG008 ) AS WKG008,
-           SUM( WKG009 ) AS WKG009, SUM( WKG010 ) AS WKG010,
-           SUM( WKG011 ) AS WKG011, SUM( WKG012 ) AS WKG012
-      INTO TABLE @DATA(LT_COSP)
-      FROM COSP
-     WHERE LEDNR = '00'
-       AND VERSN = '000'
-       AND WRTTP IN ('04', '60', '21', '22')
-       AND GJAHR = @T_DATA_NEW-LFDAT(4)
-       AND KSTAR IN @R_KSTAR
-       AND OBJNR = @LV_OBJNR
-       AND VRGNG <> 'SDOR'
-     GROUP BY OBJNR.
+    SELECT objnr,
+           SUM( wkg001 ) AS wkg001, SUM( wkg002 ) AS wkg002,
+           SUM( wkg003 ) AS wkg003, SUM( wkg004 ) AS wkg004,
+           SUM( wkg005 ) AS wkg005, SUM( wkg006 ) AS wkg006,
+           SUM( wkg007 ) AS wkg007, SUM( wkg008 ) AS wkg008,
+           SUM( wkg009 ) AS wkg009, SUM( wkg010 ) AS wkg010,
+           SUM( wkg011 ) AS wkg011, SUM( wkg012 ) AS wkg012
+      INTO TABLE @DATA(lt_cosp)
+      FROM cosp
+     WHERE lednr = '00'
+       AND versn = '000'
+       AND wrttp IN ('04', '60', '21', '22')
+       AND gjahr = @t_data_new-lfdat(4)
+       AND kstar IN @r_kstar
+       AND objnr = @lv_objnr
+       AND vrgng <> 'SDOR'
+     GROUP BY objnr.
 
-    SELECT OBJNR,
-           SUM( WKG001 ) AS WKG001, SUM( WKG002 ) AS WKG002,
-           SUM( WKG003 ) AS WKG003, SUM( WKG004 ) AS WKG004,
-           SUM( WKG005 ) AS WKG005, SUM( WKG006 ) AS WKG006,
-           SUM( WKG007 ) AS WKG007, SUM( WKG008 ) AS WKG008,
-           SUM( WKG009 ) AS WKG009, SUM( WKG010 ) AS WKG010,
-           SUM( WKG011 ) AS WKG011, SUM( WKG012 ) AS WKG012
-      INTO TABLE @DATA(LT_COSP_RKU)
-      FROM COSP
-     WHERE LEDNR = '00'
-       AND VERSN = '000'
-       AND WRTTP IN ('04', '60', '21', '22')
-       AND GJAHR = @T_DATA_NEW-LFDAT(4)
-       AND KSTAR IN @R_KSTAR
-       AND OBJNR = @LV_OBJNR
-       AND VRGNG = 'RKU1'
-     GROUP BY OBJNR, KSTAR.
+    SELECT objnr,
+           SUM( wkg001 ) AS wkg001, SUM( wkg002 ) AS wkg002,
+           SUM( wkg003 ) AS wkg003, SUM( wkg004 ) AS wkg004,
+           SUM( wkg005 ) AS wkg005, SUM( wkg006 ) AS wkg006,
+           SUM( wkg007 ) AS wkg007, SUM( wkg008 ) AS wkg008,
+           SUM( wkg009 ) AS wkg009, SUM( wkg010 ) AS wkg010,
+           SUM( wkg011 ) AS wkg011, SUM( wkg012 ) AS wkg012
+      INTO TABLE @DATA(lt_cosp_rku)
+      FROM cosp
+     WHERE lednr = '00'
+       AND versn = '000'
+       AND wrttp IN ('04', '60', '21', '22')
+       AND gjahr = @t_data_new-lfdat(4)
+       AND kstar IN @r_kstar
+       AND objnr = @lv_objnr
+       AND vrgng = 'RKU1'
+     GROUP BY objnr, kstar.
 
-    SELECT OBJNR,
-           SUM( HSL ) AS HSL
-      INTO TABLE @DATA(LT_ACDOCA)
-      FROM ACDOCA
-     WHERE RLDNR = '0L'
-       AND GJAHR = @T_DATA_NEW-LFDAT(4)
-       AND KOKRS = @LV_KOKRS
-       AND RACCT IN @R_KSTAR
-       AND OBJNR = @LV_OBJNR
-       AND BUDAT IN @R_BUDAT
-       AND BLART IN ('DD', 'SS')
-     GROUP BY OBJNR.
+    SELECT objnr,
+           SUM( hsl ) AS hsl
+      INTO TABLE @DATA(lt_acdoca)
+      FROM acdoca
+     WHERE rldnr = '0L'
+       AND gjahr = @t_data_new-lfdat(4)
+       AND kokrs = @lv_kokrs
+       AND racct IN @r_kstar
+       AND objnr = @lv_objnr
+       AND budat IN @r_budat
+       AND blart IN ('DD', 'SS')
+     GROUP BY objnr.
 
-    READ TABLE LT_ZCOT0040 ASSIGNING FIELD-SYMBOL(<LS_ZCOT0040>)
+    READ TABLE lt_zcot0040 ASSIGNING FIELD-SYMBOL(<ls_zcot0040>)
                            INDEX 1.
-    IF SY-SUBRC = 0.
+    IF sy-subrc = 0.
 
-      LOOP AT LT_MONTH.
+      LOOP AT lt_month.
 
-        LV_FIELDNAME = '<LS_ZCOT0040>-HSL' && LT_MONTH-V1.
+        lv_fieldname = '<LS_ZCOT0040>-HSL' && lt_month-v1.
 
-        ASSIGN (LV_FIELDNAME) TO <FS_HSL>.
-        LV_DSUM = LV_DSUM + <FS_HSL>.
+        ASSIGN (lv_fieldname) TO <fs_hsl>.
+        lv_dsum = lv_dsum + <fs_hsl>.
 
 *-- COSP
-        READ TABLE LT_COSP ASSIGNING FIELD-SYMBOL(<LS_COSP>)
-                    WITH KEY OBJNR = <LS_ZCOT0040>-ROBJNR.
+        READ TABLE lt_cosp ASSIGNING FIELD-SYMBOL(<ls_cosp>)
+                    WITH KEY objnr = <ls_zcot0040>-robjnr.
 
-        IF SY-SUBRC = 0.
-          LV_FIELDNAME = '<LS_COSP>-WKG0' && LT_MONTH-V1.
+        IF sy-subrc = 0.
+          lv_fieldname = '<LS_COSP>-WKG0' && lt_month-v1.
 
-          ASSIGN (LV_FIELDNAME) TO <FS_WKG>.
-          LV_FSUM = LV_FSUM + <FS_WKG>.
+          ASSIGN (lv_fieldname) TO <fs_wkg>.
+          lv_fsum = lv_fsum + <fs_wkg>.
         ENDIF.
 
 *-- RKU
-        READ TABLE LT_COSP_RKU ASSIGNING FIELD-SYMBOL(<LS_COSP_RKU>)
-                    WITH KEY OBJNR = <LS_ZCOT0040>-ROBJNR.
+        READ TABLE lt_cosp_rku ASSIGNING FIELD-SYMBOL(<ls_cosp_rku>)
+                    WITH KEY objnr = <ls_zcot0040>-robjnr.
 
-        IF SY-SUBRC = 0.
-          LV_FIELDNAME = '<LS_COSP_RKU>-WKG0' && LT_MONTH-V1.
+        IF sy-subrc = 0.
+          lv_fieldname = '<LS_COSP_RKU>-WKG0' && lt_month-v1.
 
-          ASSIGN (LV_FIELDNAME) TO <FS_WKG>.
-          LV_FSUM = LV_FSUM - <FS_WKG>.
+          ASSIGN (lv_fieldname) TO <fs_wkg>.
+          lv_fsum = lv_fsum - <fs_wkg>.
         ENDIF.
 
       ENDLOOP.
 
-      LOOP AT LT_DATA_NEW WHERE KOSTL = T_DATA_NEW-KOSTL
-                             AND PSPNR = T_DATA_NEW-PSPNR
-                             AND KSTAR IN R_KSTAR
-                             AND LFDAT IN R_BUDAT.
+      LOOP AT lt_data_new WHERE kostl = t_data_new-kostl
+                             AND pspnr = t_data_new-pspnr
+                             AND kstar IN r_kstar
+                             AND lfdat IN r_budat.
 
-        LV_DMBTR_NEW =  LV_DMBTR_NEW + LT_DATA_NEW-DMBTR.
-
-      ENDLOOP.
-
-      LOOP AT T_DATA_OLD WHERE KOSTL = T_DATA_NEW-KOSTL
-                            AND PSPNR = T_DATA_NEW-PSPNR
-                            AND KSTAR IN R_KSTAR
-                            AND LFDAT IN R_BUDAT.
-
-        LV_DMBTR_OLD =  LV_DMBTR_OLD + T_DATA_OLD-DMBTR.
+        lv_dmbtr_new =  lv_dmbtr_new + lt_data_new-dmbtr.
 
       ENDLOOP.
 
-      READ TABLE LT_ACDOCA ASSIGNING FIELD-SYMBOL(<LS_ACDOCA>)
-                    WITH KEY OBJNR = <LS_ZCOT0040>-ROBJNR.
+      LOOP AT t_data_old WHERE kostl = t_data_new-kostl
+                            AND pspnr = t_data_new-pspnr
+                            AND kstar IN r_kstar
+                            AND lfdat IN r_budat.
 
-      IF SY-SUBRC = 0.
+        lv_dmbtr_old =  lv_dmbtr_old + t_data_old-dmbtr.
 
-        LV_FSUM = LV_FSUM - <LS_ACDOCA>-HSL + LV_DMBTR_NEW
-                                            - LV_DMBTR_OLD.
+      ENDLOOP.
 
-        LV_ASUM = LV_DSUM - LV_FSUM.
+      READ TABLE lt_acdoca ASSIGNING FIELD-SYMBOL(<ls_acdoca>)
+                    WITH KEY objnr = <ls_zcot0040>-robjnr.
+
+      IF sy-subrc = 0.
+
+        lv_fsum = lv_fsum - <ls_acdoca>-hsl + lv_dmbtr_new
+                                            - lv_dmbtr_old.
+
+        lv_asum = lv_dsum - lv_fsum.
 
       ELSE.
-        LV_FSUM = LV_FSUM + LV_DMBTR_NEW - LV_DMBTR_OLD.
-        LV_ASUM = LV_DSUM - LV_FSUM.
+        lv_fsum = lv_fsum + lv_dmbtr_new - lv_dmbtr_old.
+        lv_asum = lv_dsum - lv_fsum.
 
       ENDIF.
 
-      IF LV_ASUM < 0.
+      IF lv_asum < 0.
 
-        E_TYPE = 'E'.
+        e_type = 'E'.
 
-        LV_ASUM = ABS( LV_ASUM ).
-        WRITE LV_ASUM TO LV_ASUM_CHAR
-                 CURRENCY T_DATA_NEW-WAERS LEFT-JUSTIFIED NO-GAP.
+        lv_asum = abs( lv_asum ).
+        WRITE lv_asum TO lv_asum_char
+                 CURRENCY t_data_new-waers LEFT-JUSTIFIED NO-GAP.
 
-        MESSAGE S043(ZCO01) WITH LV_ASUM_CHAR
-                            INTO E_MESSAGE.
+        MESSAGE s043(zco01) WITH lv_asum_char
+                            INTO e_message.
         EXIT.
 
       ENDIF.
 
     ELSE.
 
-      E_TYPE = 'E'.
-      MESSAGE S045(ZCO01) INTO E_MESSAGE.
+      e_type = 'E'.
+      MESSAGE s045(zco01) INTO e_message.
 
       EXIT.
 
@@ -473,8 +574,8 @@ FUNCTION ZCO_MM_DOCUMENT_BUDGET_CHECK.
 
   ENDLOOP.
 
-  IF E_TYPE IS INITIAL.
-    E_TYPE = 'S'.
+  IF e_type IS INITIAL.
+    e_type = 'S'.
   ENDIF.
 
 ENDFUNCTION.

@@ -1967,6 +1967,12 @@
    <TPOOL>
     <item>
      <ID>I</ID>
+     <KEY>001</KEY>
+     <ENTRY>관리회계영역</ENTRY>
+     <LENGTH>16</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
      <KEY>002</KEY>
      <ENTRY>WBS 시작일</ENTRY>
      <LENGTH>13</LENGTH>
@@ -2225,6 +2231,30 @@
     </item>
     <item>
      <ID>I</ID>
+     <KEY>C42</KEY>
+     <ENTRY>BU(S)</ENTRY>
+     <LENGTH>17</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>C43</KEY>
+     <ENTRY>BU구분명(S)</ENTRY>
+     <LENGTH>15</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>C44</KEY>
+     <ENTRY>BU(시뮬레이션)</ENTRY>
+     <LENGTH>20</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>C45</KEY>
+     <ENTRY>BU구분명(시뮬레이션)</ENTRY>
+     <LENGTH>22</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
      <KEY>M01</KEY>
      <ENTRY>회사코드1700은 프로젝트 재고유형이 M이어야 합니다.</ENTRY>
      <LENGTH>60</LENGTH>
@@ -2299,6 +2329,12 @@
      <ID>R</ID>
      <ENTRY>[CO] Proj, WBS 마스터 일괄 조회</ENTRY>
      <LENGTH>24</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>PA_KOKRS</KEY>
+     <ENTRY>관리회계 영역</ENTRY>
+     <LENGTH>15</LENGTH>
     </item>
     <item>
      <ID>S</ID>

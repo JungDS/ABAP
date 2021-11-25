@@ -53,6 +53,12 @@ SELECT-OPTIONS: SO_POSID FOR PRPS-POSID MODIF ID WBS
 
 PARAMETERS: PA_PDGR TYPE POSIDGR MODIF ID WBS.
 
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #3, 2021.11.24 13:56:44, MDP_06
+*--------------------------------------------------------------------*
+SELECTION-SCREEN SKIP.
+PARAMETERS PA_EQWBS AS CHECKBOX.
+
 SELECTION-SCREEN: END OF BLOCK BL2.
 
 "__ help

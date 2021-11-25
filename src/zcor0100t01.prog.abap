@@ -55,7 +55,8 @@ DATA: GR_COLUMN TYPE REF TO CL_SALV_COLUMN_TABLE.
 DATA: GV_COLUMN_TEXT TYPE STRING,
       GV_SCRTEXT_S   TYPE SCRTEXT_S,
       GV_SCRTEXT_M   TYPE SCRTEXT_M,
-      GV_SCRTEXT_L   TYPE SCRTEXT_L.
+      GV_SCRTEXT_L   TYPE SCRTEXT_L,
+      GV_TOOLTIP     TYPE LVC_TIP.
 
 DATA: GV_MODE.
 *----------------------------------------------------------------------*

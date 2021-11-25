@@ -5,7 +5,9 @@
    <AREAT>[CO] 유지보수 뷰 펑션 그룹</AREAT>
    <INCLUDES>
     <SOBJ_NAME>LZCO_FG99F00</SOBJ_NAME>
+    <SOBJ_NAME>LZCO_FG99F01</SOBJ_NAME>
     <SOBJ_NAME>LZCO_FG99I00</SOBJ_NAME>
+    <SOBJ_NAME>LZCO_FG99O01</SOBJ_NAME>
     <SOBJ_NAME>LZCO_FG99TOP</SOBJ_NAME>
     <SOBJ_NAME>LZCO_FG99T00</SOBJ_NAME>
     <SOBJ_NAME>SAPLZCO_FG99</SOBJ_NAME>
@@ -1884,6 +1886,612 @@
     </item>
     <item>
      <FUNCNAME>VIEWFRAME_ZCOV1260</FUNCNAME>
+     <SHORT_TEXT>확장 테이블 유지보수: 상위 레벨</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <DEFAULT>&apos;S&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <DBFIELD>DD02V-TABNAME</DBFIELD>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <DBFIELD>E070-TRKORR</DBFIELD>
+       <DEFAULT>&apos; &apos;</DEFAULT>
+      </RSIMP>
+     </IMPORT>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <DBSTRUCT>VIMEXCLFUN</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <DBSTRUCT>VIMDESC</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <DBSTRUCT>VIMNAMTAB</DBSTRUCT>
+      </RSTBL>
+     </TABLES>
+     <EXCEPTION>
+      <RSEXC>
+       <EXCEPTION>NO_VALUE_FOR_SUBSET_IDENT</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>MISSING_CORR_NUMBER</EXCEPTION>
+      </RSEXC>
+     </EXCEPTION>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Aktion mit dem View: anzeigen/ändern (S/U)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Name des Views</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Korrekturnummer für durchgeführte Änderungen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für den DB-Zugriff</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für die Anzeige</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle mit dynam. zu deaktivierenden CUA-Funkt.</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für den View</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für die View-Felder</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>NO_VALUE_FOR_SUBSET_IDENT</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>für &apos;SUBSET&apos;-Feld wurde kein Wert vorgegeben</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>MISSING_CORR_NUMBER</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Korrekturnummer fehlt</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+    <item>
+     <FUNCNAME>VIEWFRAME_ZCOV1270</FUNCNAME>
+     <SHORT_TEXT>확장 테이블 유지보수: 상위 레벨</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <DEFAULT>&apos;S&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <DBFIELD>DD02V-TABNAME</DBFIELD>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <DBFIELD>E070-TRKORR</DBFIELD>
+       <DEFAULT>&apos; &apos;</DEFAULT>
+      </RSIMP>
+     </IMPORT>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <DBSTRUCT>VIMEXCLFUN</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <DBSTRUCT>VIMDESC</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <DBSTRUCT>VIMNAMTAB</DBSTRUCT>
+      </RSTBL>
+     </TABLES>
+     <EXCEPTION>
+      <RSEXC>
+       <EXCEPTION>NO_VALUE_FOR_SUBSET_IDENT</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>MISSING_CORR_NUMBER</EXCEPTION>
+      </RSEXC>
+     </EXCEPTION>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Aktion mit dem View: anzeigen/ändern (S/U)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Name des Views</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Korrekturnummer für durchgeführte Änderungen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für den DB-Zugriff</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für die Anzeige</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle mit dynam. zu deaktivierenden CUA-Funkt.</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für den View</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für die View-Felder</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>NO_VALUE_FOR_SUBSET_IDENT</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>für &apos;SUBSET&apos;-Feld wurde kein Wert vorgegeben</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>MISSING_CORR_NUMBER</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Korrekturnummer fehlt</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+    <item>
+     <FUNCNAME>VIEWFRAME_ZCOV1280</FUNCNAME>
+     <SHORT_TEXT>확장 테이블 유지보수: 상위 레벨</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <DEFAULT>&apos;S&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <DBFIELD>DD02V-TABNAME</DBFIELD>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <DBFIELD>E070-TRKORR</DBFIELD>
+       <DEFAULT>&apos; &apos;</DEFAULT>
+      </RSIMP>
+     </IMPORT>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <DBSTRUCT>VIMEXCLFUN</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <DBSTRUCT>VIMDESC</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <DBSTRUCT>VIMNAMTAB</DBSTRUCT>
+      </RSTBL>
+     </TABLES>
+     <EXCEPTION>
+      <RSEXC>
+       <EXCEPTION>NO_VALUE_FOR_SUBSET_IDENT</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>MISSING_CORR_NUMBER</EXCEPTION>
+      </RSEXC>
+     </EXCEPTION>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Aktion mit dem View: anzeigen/ändern (S/U)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Name des Views</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Korrekturnummer für durchgeführte Änderungen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für den DB-Zugriff</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für die Anzeige</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle mit dynam. zu deaktivierenden CUA-Funkt.</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für den View</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für die View-Felder</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>NO_VALUE_FOR_SUBSET_IDENT</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>für &apos;SUBSET&apos;-Feld wurde kein Wert vorgegeben</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>MISSING_CORR_NUMBER</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Korrekturnummer fehlt</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+    <item>
+     <FUNCNAME>VIEWFRAME_ZCOV1290</FUNCNAME>
+     <SHORT_TEXT>확장 테이블 유지보수: 상위 레벨</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <DEFAULT>&apos;S&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <DBFIELD>DD02V-TABNAME</DBFIELD>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <DBFIELD>E070-TRKORR</DBFIELD>
+       <DEFAULT>&apos; &apos;</DEFAULT>
+      </RSIMP>
+     </IMPORT>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <DBSTRUCT>VIMEXCLFUN</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <DBSTRUCT>VIMDESC</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <DBSTRUCT>VIMNAMTAB</DBSTRUCT>
+      </RSTBL>
+     </TABLES>
+     <EXCEPTION>
+      <RSEXC>
+       <EXCEPTION>NO_VALUE_FOR_SUBSET_IDENT</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>MISSING_CORR_NUMBER</EXCEPTION>
+      </RSEXC>
+     </EXCEPTION>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Aktion mit dem View: anzeigen/ändern (S/U)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Name des Views</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Korrekturnummer für durchgeführte Änderungen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für den DB-Zugriff</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für die Anzeige</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle mit dynam. zu deaktivierenden CUA-Funkt.</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für den View</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für die View-Felder</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>NO_VALUE_FOR_SUBSET_IDENT</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>für &apos;SUBSET&apos;-Feld wurde kein Wert vorgegeben</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>MISSING_CORR_NUMBER</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Korrekturnummer fehlt</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+    <item>
+     <FUNCNAME>VIEWFRAME_ZCOV1300</FUNCNAME>
+     <SHORT_TEXT>확장 테이블 유지보수: 상위 레벨</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <DEFAULT>&apos;S&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <DBFIELD>DD02V-TABNAME</DBFIELD>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <DBFIELD>E070-TRKORR</DBFIELD>
+       <DEFAULT>&apos; &apos;</DEFAULT>
+      </RSIMP>
+     </IMPORT>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <DBSTRUCT>VIMEXCLFUN</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <DBSTRUCT>VIMDESC</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <DBSTRUCT>VIMNAMTAB</DBSTRUCT>
+      </RSTBL>
+     </TABLES>
+     <EXCEPTION>
+      <RSEXC>
+       <EXCEPTION>NO_VALUE_FOR_SUBSET_IDENT</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>MISSING_CORR_NUMBER</EXCEPTION>
+      </RSEXC>
+     </EXCEPTION>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Aktion mit dem View: anzeigen/ändern (S/U)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Name des Views</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Korrekturnummer für durchgeführte Änderungen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für den DB-Zugriff</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für die Anzeige</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle mit dynam. zu deaktivierenden CUA-Funkt.</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für den View</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für die View-Felder</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>NO_VALUE_FOR_SUBSET_IDENT</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>für &apos;SUBSET&apos;-Feld wurde kein Wert vorgegeben</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>MISSING_CORR_NUMBER</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Korrekturnummer fehlt</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+    <item>
+     <FUNCNAME>VIEWFRAME_ZCOV1310</FUNCNAME>
+     <SHORT_TEXT>확장 테이블 유지보수: 상위 레벨</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <DEFAULT>&apos;S&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <DBFIELD>DD02V-TABNAME</DBFIELD>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <DBFIELD>E070-TRKORR</DBFIELD>
+       <DEFAULT>&apos; &apos;</DEFAULT>
+      </RSIMP>
+     </IMPORT>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <DBSTRUCT>VIMEXCLFUN</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <DBSTRUCT>VIMDESC</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <DBSTRUCT>VIMNAMTAB</DBSTRUCT>
+      </RSTBL>
+     </TABLES>
+     <EXCEPTION>
+      <RSEXC>
+       <EXCEPTION>NO_VALUE_FOR_SUBSET_IDENT</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>MISSING_CORR_NUMBER</EXCEPTION>
+      </RSEXC>
+     </EXCEPTION>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Aktion mit dem View: anzeigen/ändern (S/U)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Name des Views</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Korrekturnummer für durchgeführte Änderungen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für den DB-Zugriff</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für die Anzeige</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle mit dynam. zu deaktivierenden CUA-Funkt.</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für den View</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für die View-Felder</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>NO_VALUE_FOR_SUBSET_IDENT</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>für &apos;SUBSET&apos;-Feld wurde kein Wert vorgegeben</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>MISSING_CORR_NUMBER</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Korrekturnummer fehlt</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+    <item>
+     <FUNCNAME>VIEWFRAME_ZCOV1320</FUNCNAME>
      <SHORT_TEXT>확장 테이블 유지보수: 상위 레벨</SHORT_TEXT>
      <IMPORT>
       <RSIMP>
@@ -4873,6 +5481,1026 @@
       </RSFDO>
      </DOCUMENTATION>
     </item>
+    <item>
+     <FUNCNAME>VIEWPROC_ZCOV1270</FUNCNAME>
+     <GLOBAL_FLAG>X</GLOBAL_FLAG>
+     <SHORT_TEXT>하위레벨 확장테이블 유지보수</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>FCODE</PARAMETER>
+       <DEFAULT>&apos;RDED&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <DEFAULT>&apos;S&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <DBFIELD>DD02V-TABNAME</DBFIELD>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <DBFIELD>E070-TRKORR</DBFIELD>
+       <DEFAULT>&apos; &apos;</DEFAULT>
+      </RSIMP>
+     </IMPORT>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>LAST_ACT_ENTRY</PARAMETER>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>UCOMM</PARAMETER>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>UPDATE_REQUIRED</PARAMETER>
+      </RSEXP>
+     </EXPORT>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>CORR_KEYTAB</PARAMETER>
+       <DBSTRUCT>E071K</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <DBSTRUCT>VIMEXCLFUN</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXTRACT</PARAMETER>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>TOTAL</PARAMETER>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <DBSTRUCT>VIMDESC</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <DBSTRUCT>VIMNAMTAB</DBSTRUCT>
+      </RSTBL>
+     </TABLES>
+     <EXCEPTION>
+      <RSEXC>
+       <EXCEPTION>NO_VALUE_FOR_SUBSET_IDENT</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>MISSING_CORR_NUMBER</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>SAVING_CORRECTION_FAILED</EXCEPTION>
+      </RSEXC>
+     </EXCEPTION>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>FCODE</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>gewünschte Funktion des Bausteins</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Aktion mit dem View: anzeigen/ändern (S/U)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Name des Views</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Korrekturnummer für durchgeführte Änderungen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>LAST_ACT_ENTRY</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Index der Cursorposition in der Anzeigetabelle</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>UCOMM</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>letztes User-command innerhalb der Viewpflege</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>UPDATE_REQUIRED</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Flag: Einträge verändert, Sichern erforderlich</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_KEYTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle mit den Keys der zu transport. Einträge</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für den DB-Zugriff</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für die Anzeige</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tab. der nicht zu aktivierenden CUA-Funktionen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXTRACT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tab. der gerade sichtbaren Daten (Anzeigetabelle</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>TOTAL</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle, mit allen von der DB gelesenen Daten</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für den View</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für die View-Felder</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>NO_VALUE_FOR_SUBSET_IDENT</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>für ein &apos;SUBSET&apos;-Feld wurde kein Wert vorgegeben</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>MISSING_CORR_NUMBER</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Korrekturnummer fehlt</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>SAVING_CORRECTION_FAILED</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Fehler beim Sichern der Korrektureinträge</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+    <item>
+     <FUNCNAME>VIEWPROC_ZCOV1280</FUNCNAME>
+     <GLOBAL_FLAG>X</GLOBAL_FLAG>
+     <SHORT_TEXT>하위레벨 확장테이블 유지보수</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>FCODE</PARAMETER>
+       <DEFAULT>&apos;RDED&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <DEFAULT>&apos;S&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <DBFIELD>DD02V-TABNAME</DBFIELD>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <DBFIELD>E070-TRKORR</DBFIELD>
+       <DEFAULT>&apos; &apos;</DEFAULT>
+      </RSIMP>
+     </IMPORT>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>LAST_ACT_ENTRY</PARAMETER>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>UCOMM</PARAMETER>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>UPDATE_REQUIRED</PARAMETER>
+      </RSEXP>
+     </EXPORT>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>CORR_KEYTAB</PARAMETER>
+       <DBSTRUCT>E071K</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <DBSTRUCT>VIMEXCLFUN</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXTRACT</PARAMETER>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>TOTAL</PARAMETER>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <DBSTRUCT>VIMDESC</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <DBSTRUCT>VIMNAMTAB</DBSTRUCT>
+      </RSTBL>
+     </TABLES>
+     <EXCEPTION>
+      <RSEXC>
+       <EXCEPTION>NO_VALUE_FOR_SUBSET_IDENT</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>MISSING_CORR_NUMBER</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>SAVING_CORRECTION_FAILED</EXCEPTION>
+      </RSEXC>
+     </EXCEPTION>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>FCODE</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>gewünschte Funktion des Bausteins</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Aktion mit dem View: anzeigen/ändern (S/U)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Name des Views</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Korrekturnummer für durchgeführte Änderungen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>LAST_ACT_ENTRY</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Index der Cursorposition in der Anzeigetabelle</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>UCOMM</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>letztes User-command innerhalb der Viewpflege</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>UPDATE_REQUIRED</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Flag: Einträge verändert, Sichern erforderlich</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_KEYTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle mit den Keys der zu transport. Einträge</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für den DB-Zugriff</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für die Anzeige</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tab. der nicht zu aktivierenden CUA-Funktionen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXTRACT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tab. der gerade sichtbaren Daten (Anzeigetabelle</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>TOTAL</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle, mit allen von der DB gelesenen Daten</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für den View</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für die View-Felder</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>NO_VALUE_FOR_SUBSET_IDENT</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>für ein &apos;SUBSET&apos;-Feld wurde kein Wert vorgegeben</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>MISSING_CORR_NUMBER</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Korrekturnummer fehlt</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>SAVING_CORRECTION_FAILED</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Fehler beim Sichern der Korrektureinträge</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+    <item>
+     <FUNCNAME>VIEWPROC_ZCOV1290</FUNCNAME>
+     <GLOBAL_FLAG>X</GLOBAL_FLAG>
+     <SHORT_TEXT>하위레벨 확장테이블 유지보수</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>FCODE</PARAMETER>
+       <DEFAULT>&apos;RDED&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <DEFAULT>&apos;S&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <DBFIELD>DD02V-TABNAME</DBFIELD>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <DBFIELD>E070-TRKORR</DBFIELD>
+       <DEFAULT>&apos; &apos;</DEFAULT>
+      </RSIMP>
+     </IMPORT>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>LAST_ACT_ENTRY</PARAMETER>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>UCOMM</PARAMETER>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>UPDATE_REQUIRED</PARAMETER>
+      </RSEXP>
+     </EXPORT>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>CORR_KEYTAB</PARAMETER>
+       <DBSTRUCT>E071K</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <DBSTRUCT>VIMEXCLFUN</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXTRACT</PARAMETER>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>TOTAL</PARAMETER>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <DBSTRUCT>VIMDESC</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <DBSTRUCT>VIMNAMTAB</DBSTRUCT>
+      </RSTBL>
+     </TABLES>
+     <EXCEPTION>
+      <RSEXC>
+       <EXCEPTION>NO_VALUE_FOR_SUBSET_IDENT</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>MISSING_CORR_NUMBER</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>SAVING_CORRECTION_FAILED</EXCEPTION>
+      </RSEXC>
+     </EXCEPTION>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>FCODE</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>gewünschte Funktion des Bausteins</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Aktion mit dem View: anzeigen/ändern (S/U)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Name des Views</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Korrekturnummer für durchgeführte Änderungen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>LAST_ACT_ENTRY</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Index der Cursorposition in der Anzeigetabelle</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>UCOMM</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>letztes User-command innerhalb der Viewpflege</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>UPDATE_REQUIRED</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Flag: Einträge verändert, Sichern erforderlich</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_KEYTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle mit den Keys der zu transport. Einträge</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für den DB-Zugriff</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für die Anzeige</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tab. der nicht zu aktivierenden CUA-Funktionen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXTRACT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tab. der gerade sichtbaren Daten (Anzeigetabelle</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>TOTAL</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle, mit allen von der DB gelesenen Daten</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für den View</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für die View-Felder</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>NO_VALUE_FOR_SUBSET_IDENT</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>für ein &apos;SUBSET&apos;-Feld wurde kein Wert vorgegeben</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>MISSING_CORR_NUMBER</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Korrekturnummer fehlt</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>SAVING_CORRECTION_FAILED</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Fehler beim Sichern der Korrektureinträge</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+    <item>
+     <FUNCNAME>VIEWPROC_ZCOV1300</FUNCNAME>
+     <GLOBAL_FLAG>X</GLOBAL_FLAG>
+     <SHORT_TEXT>하위레벨 확장테이블 유지보수</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>FCODE</PARAMETER>
+       <DEFAULT>&apos;RDED&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <DEFAULT>&apos;S&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <DBFIELD>DD02V-TABNAME</DBFIELD>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <DBFIELD>E070-TRKORR</DBFIELD>
+       <DEFAULT>&apos; &apos;</DEFAULT>
+      </RSIMP>
+     </IMPORT>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>LAST_ACT_ENTRY</PARAMETER>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>UCOMM</PARAMETER>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>UPDATE_REQUIRED</PARAMETER>
+      </RSEXP>
+     </EXPORT>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>CORR_KEYTAB</PARAMETER>
+       <DBSTRUCT>E071K</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <DBSTRUCT>VIMEXCLFUN</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXTRACT</PARAMETER>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>TOTAL</PARAMETER>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <DBSTRUCT>VIMDESC</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <DBSTRUCT>VIMNAMTAB</DBSTRUCT>
+      </RSTBL>
+     </TABLES>
+     <EXCEPTION>
+      <RSEXC>
+       <EXCEPTION>NO_VALUE_FOR_SUBSET_IDENT</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>MISSING_CORR_NUMBER</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>SAVING_CORRECTION_FAILED</EXCEPTION>
+      </RSEXC>
+     </EXCEPTION>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>FCODE</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>gewünschte Funktion des Bausteins</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Aktion mit dem View: anzeigen/ändern (S/U)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Name des Views</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Korrekturnummer für durchgeführte Änderungen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>LAST_ACT_ENTRY</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Index der Cursorposition in der Anzeigetabelle</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>UCOMM</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>letztes User-command innerhalb der Viewpflege</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>UPDATE_REQUIRED</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Flag: Einträge verändert, Sichern erforderlich</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_KEYTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle mit den Keys der zu transport. Einträge</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für den DB-Zugriff</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für die Anzeige</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tab. der nicht zu aktivierenden CUA-Funktionen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXTRACT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tab. der gerade sichtbaren Daten (Anzeigetabelle</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>TOTAL</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle, mit allen von der DB gelesenen Daten</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für den View</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für die View-Felder</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>NO_VALUE_FOR_SUBSET_IDENT</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>für ein &apos;SUBSET&apos;-Feld wurde kein Wert vorgegeben</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>MISSING_CORR_NUMBER</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Korrekturnummer fehlt</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>SAVING_CORRECTION_FAILED</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Fehler beim Sichern der Korrektureinträge</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+    <item>
+     <FUNCNAME>VIEWPROC_ZCOV1310</FUNCNAME>
+     <GLOBAL_FLAG>X</GLOBAL_FLAG>
+     <SHORT_TEXT>하위레벨 확장테이블 유지보수</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>FCODE</PARAMETER>
+       <DEFAULT>&apos;RDED&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <DEFAULT>&apos;S&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <DBFIELD>DD02V-TABNAME</DBFIELD>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <DBFIELD>E070-TRKORR</DBFIELD>
+       <DEFAULT>&apos; &apos;</DEFAULT>
+      </RSIMP>
+     </IMPORT>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>LAST_ACT_ENTRY</PARAMETER>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>UCOMM</PARAMETER>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>UPDATE_REQUIRED</PARAMETER>
+      </RSEXP>
+     </EXPORT>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>CORR_KEYTAB</PARAMETER>
+       <DBSTRUCT>E071K</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <DBSTRUCT>VIMEXCLFUN</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXTRACT</PARAMETER>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>TOTAL</PARAMETER>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <DBSTRUCT>VIMDESC</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <DBSTRUCT>VIMNAMTAB</DBSTRUCT>
+      </RSTBL>
+     </TABLES>
+     <EXCEPTION>
+      <RSEXC>
+       <EXCEPTION>NO_VALUE_FOR_SUBSET_IDENT</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>MISSING_CORR_NUMBER</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>SAVING_CORRECTION_FAILED</EXCEPTION>
+      </RSEXC>
+     </EXCEPTION>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>FCODE</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>gewünschte Funktion des Bausteins</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Aktion mit dem View: anzeigen/ändern (S/U)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Name des Views</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Korrekturnummer für durchgeführte Änderungen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>LAST_ACT_ENTRY</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Index der Cursorposition in der Anzeigetabelle</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>UCOMM</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>letztes User-command innerhalb der Viewpflege</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>UPDATE_REQUIRED</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Flag: Einträge verändert, Sichern erforderlich</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_KEYTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle mit den Keys der zu transport. Einträge</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für den DB-Zugriff</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für die Anzeige</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tab. der nicht zu aktivierenden CUA-Funktionen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXTRACT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tab. der gerade sichtbaren Daten (Anzeigetabelle</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>TOTAL</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle, mit allen von der DB gelesenen Daten</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für den View</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für die View-Felder</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>NO_VALUE_FOR_SUBSET_IDENT</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>für ein &apos;SUBSET&apos;-Feld wurde kein Wert vorgegeben</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>MISSING_CORR_NUMBER</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Korrekturnummer fehlt</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>SAVING_CORRECTION_FAILED</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Fehler beim Sichern der Korrektureinträge</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+    <item>
+     <FUNCNAME>VIEWPROC_ZCOV1320</FUNCNAME>
+     <GLOBAL_FLAG>X</GLOBAL_FLAG>
+     <SHORT_TEXT>하위레벨 확장테이블 유지보수</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>FCODE</PARAMETER>
+       <DEFAULT>&apos;RDED&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <DEFAULT>&apos;S&apos;</DEFAULT>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <DBFIELD>DD02V-TABNAME</DBFIELD>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <DBFIELD>E070-TRKORR</DBFIELD>
+       <DEFAULT>&apos; &apos;</DEFAULT>
+      </RSIMP>
+     </IMPORT>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>LAST_ACT_ENTRY</PARAMETER>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>UCOMM</PARAMETER>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>UPDATE_REQUIRED</PARAMETER>
+      </RSEXP>
+     </EXPORT>
+     <TABLES>
+      <RSTBL>
+       <PARAMETER>CORR_KEYTAB</PARAMETER>
+       <DBSTRUCT>E071K</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <DBSTRUCT>VIMSELLIST</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <DBSTRUCT>VIMEXCLFUN</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>EXTRACT</PARAMETER>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>TOTAL</PARAMETER>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <DBSTRUCT>VIMDESC</DBSTRUCT>
+      </RSTBL>
+      <RSTBL>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <DBSTRUCT>VIMNAMTAB</DBSTRUCT>
+      </RSTBL>
+     </TABLES>
+     <EXCEPTION>
+      <RSEXC>
+       <EXCEPTION>NO_VALUE_FOR_SUBSET_IDENT</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>MISSING_CORR_NUMBER</EXCEPTION>
+      </RSEXC>
+      <RSEXC>
+       <EXCEPTION>SAVING_CORRECTION_FAILED</EXCEPTION>
+      </RSEXC>
+     </EXCEPTION>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>FCODE</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>gewünschte Funktion des Bausteins</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_ACTION</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Aktion mit dem View: anzeigen/ändern (S/U)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>VIEW_NAME</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Name des Views</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_NUMBER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Korrekturnummer für durchgeführte Änderungen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>LAST_ACT_ENTRY</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Index der Cursorposition in der Anzeigetabelle</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>UCOMM</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>letztes User-command innerhalb der Viewpflege</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>UPDATE_REQUIRED</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Flag: Einträge verändert, Sichern erforderlich</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CORR_KEYTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle mit den Keys der zu transport. Einträge</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DBA_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für den DB-Zugriff</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>DPL_SELLIST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Selektionsbedingungen für die Anzeige</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXCL_CUA_FUNCT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tab. der nicht zu aktivierenden CUA-Funktionen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EXTRACT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tab. der gerade sichtbaren Daten (Anzeigetabelle</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>TOTAL</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Tabelle, mit allen von der DB gelesenen Daten</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_HEADER</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für den View</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>X_NAMTAB</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Kontrollblocktabelle für die View-Felder</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>NO_VALUE_FOR_SUBSET_IDENT</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>für ein &apos;SUBSET&apos;-Feld wurde kein Wert vorgegeben</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>MISSING_CORR_NUMBER</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Korrekturnummer fehlt</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>SAVING_CORRECTION_FAILED</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Fehler beim Sichern der Korrektureinträge</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
    </FUNCTIONS>
    <DYNPROS>
     <item>
@@ -6817,7 +8445,7 @@
        <CONT_NAME>TCTRL_ZCOV1110</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1110-ZZHWB</NAME>
-       <TEXT>H.W_하위본부________________________________</TEXT>
+       <TEXT>ENG_하위본부________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -6834,7 +8462,7 @@
        <CONT_NAME>TCTRL_ZCOV1110</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1110-ZZHWBTX</NAME>
-       <TEXT>Huvis.W_하위본부_내역_________________________</TEXT>
+       <TEXT>ENG_하위본부_내역_____________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -12513,6 +14141,1988 @@
       </RPY_DYFLOW>
       <RPY_DYFLOW>
        <LINE> endchain.</LINE>
+      </RPY_DYFLOW>
+     </FLOW_LOGIC>
+    </item>
+    <item>
+     <HEADER>
+      <PROGRAM>SAPLZCO_FG99</PROGRAM>
+      <SCREEN>0021</SCREEN>
+      <LANGUAGE>3</LANGUAGE>
+      <DESCRIPT>뷰 유지보수: 개요 화면 ZCOV1270</DESCRIPT>
+      <TYPE>N</TYPE>
+      <NEXTSCREEN>0021</NEXTSCREEN>
+      <LINES>061</LINES>
+      <COLUMNS>255</COLUMNS>
+     </HEADER>
+     <CONTAINERS>
+      <RPY_DYCATT>
+       <TYPE>SCREEN</TYPE>
+       <NAME>SCREEN</NAME>
+      </RPY_DYCATT>
+      <RPY_DYCATT>
+       <TYPE>TABLE_CTRL</TYPE>
+       <NAME>TCTRL_ZCOV1270</NAME>
+       <ELEMENT_OF>SCREEN</ELEMENT_OF>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>255</LENGTH>
+       <HEIGHT>059</HEIGHT>
+       <C_RESIZE_V>X</C_RESIZE_V>
+       <C_RESIZE_H>X</C_RESIZE_H>
+       <C_SCROLL_V>X</C_SCROLL_V>
+       <C_SCROLL_H>X</C_SCROLL_H>
+       <TC_TABTYPE>ENTRY</TC_TABTYPE>
+       <TC_SEPAR_V>X</TC_SEPAR_V>
+       <TC_SEPAR_H>X</TC_SEPAR_H>
+       <TC_TITLE>X</TC_TITLE>
+       <TC_HEADER>X</TC_HEADER>
+       <TC_CONFIG>X</TC_CONFIG>
+       <TC_SEL_LNS>MULTIPLE</TC_SEL_LNS>
+       <TC_SEL_CLS>NONE</TC_SEL_CLS>
+       <TC_LSEL_CL>X</TC_LSEL_CL>
+       <TC_FIXCOL>001</TC_FIXCOL>
+      </RPY_DYCATT>
+     </CONTAINERS>
+     <FIELDS>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>PUSH_TMPL</TYPE>
+       <NAME>VIM_POSI_PUSH</NAME>
+       <TEXT>____________________</TEXT>
+       <LINE>061</LINE>
+       <COLUMN>019</COLUMN>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <PUSH_FCODE>POSI</PUSH_FCODE>
+       <FORMAT>CHAR</FORMAT>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>VIM_POSITION_INFO</NAME>
+       <TEXT>______________________________</TEXT>
+       <LINE>061</LINE>
+       <COLUMN>040</COLUMN>
+       <LENGTH>030</LENGTH>
+       <VISLENGTH>030</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <UP_LOWER>X</UP_LOWER>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <OUTPUTONLY>X</OUTPUTONLY>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <_--32_DIMENS>X</_--32_DIMENS>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>OKCODE</TYPE>
+       <NAME>OK_CODE</NAME>
+       <TEXT>____________________</TEXT>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <INPUT_FLD>X</INPUT_FLD>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1270</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>VIM_FRAME_FIELD</NAME>
+       <TEXT>____________________________________________________________</TEXT>
+       <LINE>001</LINE>
+       <LENGTH>060</LENGTH>
+       <VISLENGTH>060</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <UP_LOWER>X</UP_LOWER>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_TITLE>X</TC_TITLE>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1270</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCOV1270-ZZIZW</NAME>
+       <TEXT>투자사유____________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>040</LENGTH>
+       <VISLENGTH>004</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>2</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1270</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCOV1270-ZZIZWTX</NAME>
+       <TEXT>투자사유명___________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>040</LENGTH>
+       <VISLENGTH>050</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>V</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1270</CONT_NAME>
+       <TYPE>CHECK</TYPE>
+       <NAME>VIM_MARKED</NAME>
+       <LINE>001</LINE>
+       <LENGTH>001</LENGTH>
+       <VISLENGTH>001</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <TC_SELCOL>X</TC_SELCOL>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1270</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1270-ZZIZW</NAME>
+       <TEXT>__</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>002</LENGTH>
+       <VISLENGTH>004</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <GROUP1>KEY</GROUP1>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1270</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1270-ZZIZWTX</NAME>
+       <TEXT>__________________________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>050</LENGTH>
+       <VISLENGTH>050</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <UP_LOWER>X</UP_LOWER>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+      </RPY_DYFATC>
+     </FIELDS>
+     <FLOW_LOGIC>
+      <RPY_DYFLOW>
+       <LINE>PROCESS BEFORE OUTPUT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE CHECK_INPUT_MODE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_INITIALISIEREN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> LOOP AT EXTRACT WITH CONTROL</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>  TCTRL_ZCOV1270 CURSOR NEXTLINE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   MODULE LISTE_SHOW_LISTE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> ENDLOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>*</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>PROCESS AFTER INPUT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_BEFORE_LOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> LOOP AT EXTRACT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   MODULE LISTE_INIT_WORKAREA.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   CHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1270-ZZIZW .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1270-ZZIZWTX .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   ENDCHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   CHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1270-ZZIZW .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    MODULE LISTE_UPDATE_LISTE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   ENDCHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> ENDLOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_AFTER_LOOP.</LINE>
+      </RPY_DYFLOW>
+     </FLOW_LOGIC>
+    </item>
+    <item>
+     <HEADER>
+      <PROGRAM>SAPLZCO_FG99</PROGRAM>
+      <SCREEN>0022</SCREEN>
+      <LANGUAGE>3</LANGUAGE>
+      <DESCRIPT>뷰 유지보수: 개요 화면 ZCOV1280</DESCRIPT>
+      <TYPE>N</TYPE>
+      <NEXTSCREEN>0022</NEXTSCREEN>
+      <LINES>061</LINES>
+      <COLUMNS>255</COLUMNS>
+     </HEADER>
+     <CONTAINERS>
+      <RPY_DYCATT>
+       <TYPE>SCREEN</TYPE>
+       <NAME>SCREEN</NAME>
+      </RPY_DYCATT>
+      <RPY_DYCATT>
+       <TYPE>TABLE_CTRL</TYPE>
+       <NAME>TCTRL_ZCOV1280</NAME>
+       <ELEMENT_OF>SCREEN</ELEMENT_OF>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>255</LENGTH>
+       <HEIGHT>059</HEIGHT>
+       <C_RESIZE_V>X</C_RESIZE_V>
+       <C_RESIZE_H>X</C_RESIZE_H>
+       <C_SCROLL_V>X</C_SCROLL_V>
+       <C_SCROLL_H>X</C_SCROLL_H>
+       <TC_TABTYPE>ENTRY</TC_TABTYPE>
+       <TC_SEPAR_V>X</TC_SEPAR_V>
+       <TC_SEPAR_H>X</TC_SEPAR_H>
+       <TC_TITLE>X</TC_TITLE>
+       <TC_HEADER>X</TC_HEADER>
+       <TC_CONFIG>X</TC_CONFIG>
+       <TC_SEL_LNS>MULTIPLE</TC_SEL_LNS>
+       <TC_SEL_CLS>NONE</TC_SEL_CLS>
+       <TC_LSEL_CL>X</TC_LSEL_CL>
+       <TC_FIXCOL>001</TC_FIXCOL>
+      </RPY_DYCATT>
+     </CONTAINERS>
+     <FIELDS>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>PUSH_TMPL</TYPE>
+       <NAME>VIM_POSI_PUSH</NAME>
+       <TEXT>____________________</TEXT>
+       <LINE>061</LINE>
+       <COLUMN>019</COLUMN>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <PUSH_FCODE>POSI</PUSH_FCODE>
+       <FORMAT>CHAR</FORMAT>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>VIM_POSITION_INFO</NAME>
+       <TEXT>______________________________</TEXT>
+       <LINE>061</LINE>
+       <COLUMN>040</COLUMN>
+       <LENGTH>030</LENGTH>
+       <VISLENGTH>030</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <UP_LOWER>X</UP_LOWER>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <OUTPUTONLY>X</OUTPUTONLY>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <_--32_DIMENS>X</_--32_DIMENS>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>OKCODE</TYPE>
+       <NAME>OK_CODE</NAME>
+       <TEXT>____________________</TEXT>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <INPUT_FLD>X</INPUT_FLD>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1280</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>VIM_FRAME_FIELD</NAME>
+       <TEXT>____________________________________________________________</TEXT>
+       <LINE>001</LINE>
+       <LENGTH>060</LENGTH>
+       <VISLENGTH>060</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <UP_LOWER>X</UP_LOWER>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_TITLE>X</TC_TITLE>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1280</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCOV1280-ZZCD1</NAME>
+       <TEXT>설비대분류코드_______</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>014</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>F</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1280</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCOV1280-ZZCD1TX</NAME>
+       <TEXT>설비대분류코드명________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>016</LENGTH>
+       <VISLENGTH>050</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>F</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1280</CONT_NAME>
+       <TYPE>CHECK</TYPE>
+       <NAME>VIM_MARKED</NAME>
+       <LINE>001</LINE>
+       <LENGTH>001</LENGTH>
+       <VISLENGTH>001</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <TC_SELCOL>X</TC_SELCOL>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1280</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1280-ZZCD1</NAME>
+       <TEXT>_</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>001</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <GROUP1>KEY</GROUP1>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1280</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1280-ZZCD1TX</NAME>
+       <TEXT>__________________________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>050</LENGTH>
+       <VISLENGTH>050</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <UP_LOWER>X</UP_LOWER>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+      </RPY_DYFATC>
+     </FIELDS>
+     <FLOW_LOGIC>
+      <RPY_DYFLOW>
+       <LINE>PROCESS BEFORE OUTPUT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE CHECK_INPUT_MODE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_INITIALISIEREN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> LOOP AT EXTRACT WITH CONTROL</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>  TCTRL_ZCOV1280 CURSOR NEXTLINE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   MODULE LISTE_SHOW_LISTE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> ENDLOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>*</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>PROCESS AFTER INPUT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_BEFORE_LOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> LOOP AT EXTRACT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   MODULE LISTE_INIT_WORKAREA.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   CHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1280-ZZCD1 .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1280-ZZCD1TX .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   ENDCHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   CHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1280-ZZCD1 .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    MODULE LISTE_UPDATE_LISTE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   ENDCHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> ENDLOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_AFTER_LOOP.</LINE>
+      </RPY_DYFLOW>
+     </FLOW_LOGIC>
+    </item>
+    <item>
+     <HEADER>
+      <PROGRAM>SAPLZCO_FG99</PROGRAM>
+      <SCREEN>0023</SCREEN>
+      <LANGUAGE>3</LANGUAGE>
+      <DESCRIPT>뷰 유지보수: 개요 화면 ZCOV1290</DESCRIPT>
+      <TYPE>N</TYPE>
+      <NEXTSCREEN>0023</NEXTSCREEN>
+      <LINES>061</LINES>
+      <COLUMNS>255</COLUMNS>
+     </HEADER>
+     <CONTAINERS>
+      <RPY_DYCATT>
+       <TYPE>SCREEN</TYPE>
+       <NAME>SCREEN</NAME>
+      </RPY_DYCATT>
+      <RPY_DYCATT>
+       <TYPE>TABLE_CTRL</TYPE>
+       <NAME>TCTRL_ZCOV1290</NAME>
+       <ELEMENT_OF>SCREEN</ELEMENT_OF>
+       <LINE>003</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>255</LENGTH>
+       <HEIGHT>056</HEIGHT>
+       <C_RESIZE_V>X</C_RESIZE_V>
+       <C_RESIZE_H>X</C_RESIZE_H>
+       <C_SCROLL_V>X</C_SCROLL_V>
+       <C_SCROLL_H>X</C_SCROLL_H>
+       <TC_TABTYPE>ENTRY</TC_TABTYPE>
+       <TC_SEPAR_V>X</TC_SEPAR_V>
+       <TC_SEPAR_H>X</TC_SEPAR_H>
+       <TC_TITLE>X</TC_TITLE>
+       <TC_HEADER>X</TC_HEADER>
+       <TC_CONFIG>X</TC_CONFIG>
+       <TC_SEL_LNS>MULTIPLE</TC_SEL_LNS>
+       <TC_SEL_CLS>NONE</TC_SEL_CLS>
+       <TC_LSEL_CL>X</TC_LSEL_CL>
+       <TC_FIXCOL>001</TC_FIXCOL>
+      </RPY_DYCATT>
+     </CONTAINERS>
+     <FIELDS>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>ZCOV1290-ZZCD1</NAME>
+       <TEXT>설비대분류__________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>015</LENGTH>
+       <VISLENGTH>015</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>F</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <LABELLEFT>X</LABELLEFT>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1290-ZZCD1</NAME>
+       <TEXT>_</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>023</COLUMN>
+       <LENGTH>001</LENGTH>
+       <VISLENGTH>001</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <DICT_I_FKY>X</DICT_I_FKY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1290-ZZCD1TX</NAME>
+       <TEXT>__________________________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>028</COLUMN>
+       <LENGTH>050</LENGTH>
+       <VISLENGTH>050</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <UP_LOWER>X</UP_LOWER>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <OUTPUTONLY>X</OUTPUTONLY>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>PUSH_TMPL</TYPE>
+       <NAME>VIM_POSI_PUSH</NAME>
+       <TEXT>____________________</TEXT>
+       <LINE>061</LINE>
+       <COLUMN>019</COLUMN>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <PUSH_FCODE>POSI</PUSH_FCODE>
+       <FORMAT>CHAR</FORMAT>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>VIM_POSITION_INFO</NAME>
+       <TEXT>______________________________</TEXT>
+       <LINE>061</LINE>
+       <COLUMN>040</COLUMN>
+       <LENGTH>030</LENGTH>
+       <VISLENGTH>030</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <UP_LOWER>X</UP_LOWER>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <OUTPUTONLY>X</OUTPUTONLY>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <_--32_DIMENS>X</_--32_DIMENS>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>OKCODE</TYPE>
+       <NAME>OK_CODE</NAME>
+       <TEXT>____________________</TEXT>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <INPUT_FLD>X</INPUT_FLD>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1290</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>VIM_FRAME_FIELD</NAME>
+       <TEXT>____________________________________________________________</TEXT>
+       <LINE>001</LINE>
+       <LENGTH>060</LENGTH>
+       <VISLENGTH>060</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <UP_LOWER>X</UP_LOWER>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_TITLE>X</TC_TITLE>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1290</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCOV1290-ZZCD2</NAME>
+       <TEXT>설비중분류코드_______</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>014</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>F</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1290</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCOV1290-ZZCD2TX</NAME>
+       <TEXT>설비중분류코드명________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>016</LENGTH>
+       <VISLENGTH>050</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>F</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1290</CONT_NAME>
+       <TYPE>CHECK</TYPE>
+       <NAME>VIM_MARKED</NAME>
+       <LINE>001</LINE>
+       <LENGTH>001</LENGTH>
+       <VISLENGTH>001</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <TC_SELCOL>X</TC_SELCOL>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1290</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1290-ZZCD2</NAME>
+       <TEXT>__</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>002</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <GROUP1>KEY</GROUP1>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1290</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1290-ZZCD2TX</NAME>
+       <TEXT>__________________________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>050</LENGTH>
+       <VISLENGTH>050</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <UP_LOWER>X</UP_LOWER>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+      </RPY_DYFATC>
+     </FIELDS>
+     <FLOW_LOGIC>
+      <RPY_DYFLOW>
+       <LINE>PROCESS BEFORE OUTPUT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE CHECK_INPUT_MODE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_INITIALISIEREN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> LOOP AT EXTRACT WITH CONTROL</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>  TCTRL_ZCOV1290 CURSOR NEXTLINE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   MODULE LISTE_SHOW_LISTE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> ENDLOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE FILL_SUBSTFLDS.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>*</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>PROCESS AFTER INPUT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_BEFORE_LOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> LOOP AT EXTRACT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   MODULE LISTE_INIT_WORKAREA.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   CHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1290-ZZCD2 .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1290-ZZCD2TX .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   ENDCHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   CHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1290-ZZCD2 .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    MODULE LISTE_UPDATE_LISTE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   ENDCHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> ENDLOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_AFTER_LOOP.</LINE>
+      </RPY_DYFLOW>
+     </FLOW_LOGIC>
+    </item>
+    <item>
+     <HEADER>
+      <PROGRAM>SAPLZCO_FG99</PROGRAM>
+      <SCREEN>0024</SCREEN>
+      <LANGUAGE>3</LANGUAGE>
+      <DESCRIPT>뷰 유지보수: 개요 화면 ZCOV1300</DESCRIPT>
+      <TYPE>N</TYPE>
+      <NEXTSCREEN>0024</NEXTSCREEN>
+      <LINES>061</LINES>
+      <COLUMNS>255</COLUMNS>
+     </HEADER>
+     <CONTAINERS>
+      <RPY_DYCATT>
+       <TYPE>SCREEN</TYPE>
+       <NAME>SCREEN</NAME>
+      </RPY_DYCATT>
+      <RPY_DYCATT>
+       <TYPE>TABLE_CTRL</TYPE>
+       <NAME>TCTRL_ZCOV1300</NAME>
+       <ELEMENT_OF>SCREEN</ELEMENT_OF>
+       <LINE>004</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>255</LENGTH>
+       <HEIGHT>054</HEIGHT>
+       <C_RESIZE_V>X</C_RESIZE_V>
+       <C_RESIZE_H>X</C_RESIZE_H>
+       <C_SCROLL_V>X</C_SCROLL_V>
+       <C_SCROLL_H>X</C_SCROLL_H>
+       <TC_TABTYPE>ENTRY</TC_TABTYPE>
+       <TC_SEPAR_V>X</TC_SEPAR_V>
+       <TC_SEPAR_H>X</TC_SEPAR_H>
+       <TC_TITLE>X</TC_TITLE>
+       <TC_HEADER>X</TC_HEADER>
+       <TC_CONFIG>X</TC_CONFIG>
+       <TC_SEL_LNS>MULTIPLE</TC_SEL_LNS>
+       <TC_SEL_CLS>NONE</TC_SEL_CLS>
+       <TC_LSEL_CL>X</TC_LSEL_CL>
+       <TC_FIXCOL>001</TC_FIXCOL>
+      </RPY_DYCATT>
+     </CONTAINERS>
+     <FIELDS>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>ZCOV1300-ZZCD1</NAME>
+       <TEXT>설비대분류_____</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>010</LENGTH>
+       <VISLENGTH>010</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>F</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <LABELLEFT>X</LABELLEFT>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1300-ZZCD1</NAME>
+       <TEXT>_</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>023</COLUMN>
+       <LENGTH>001</LENGTH>
+       <VISLENGTH>001</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <DICT_I_FKY>X</DICT_I_FKY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1300-ZZCD1TX</NAME>
+       <TEXT>__________________________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>028</COLUMN>
+       <LENGTH>050</LENGTH>
+       <VISLENGTH>050</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <UP_LOWER>X</UP_LOWER>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <OUTPUTONLY>X</OUTPUTONLY>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>ZCOV1300-ZZCD2</NAME>
+       <TEXT>설비중분류_____</TEXT>
+       <LINE>002</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>010</LENGTH>
+       <VISLENGTH>010</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>F</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <LABELLEFT>X</LABELLEFT>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1300-ZZCD2</NAME>
+       <TEXT>__</TEXT>
+       <LINE>002</LINE>
+       <COLUMN>023</COLUMN>
+       <LENGTH>002</LENGTH>
+       <VISLENGTH>002</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <DICT_I_FKY>X</DICT_I_FKY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1300-ZZCD2TX</NAME>
+       <TEXT>__________________________________________________</TEXT>
+       <LINE>002</LINE>
+       <COLUMN>028</COLUMN>
+       <LENGTH>050</LENGTH>
+       <VISLENGTH>050</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <UP_LOWER>X</UP_LOWER>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <OUTPUTONLY>X</OUTPUTONLY>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>PUSH_TMPL</TYPE>
+       <NAME>VIM_POSI_PUSH</NAME>
+       <TEXT>____________________</TEXT>
+       <LINE>061</LINE>
+       <COLUMN>019</COLUMN>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <PUSH_FCODE>POSI</PUSH_FCODE>
+       <FORMAT>CHAR</FORMAT>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>VIM_POSITION_INFO</NAME>
+       <TEXT>______________________________</TEXT>
+       <LINE>061</LINE>
+       <COLUMN>040</COLUMN>
+       <LENGTH>030</LENGTH>
+       <VISLENGTH>030</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <UP_LOWER>X</UP_LOWER>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <OUTPUTONLY>X</OUTPUTONLY>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <_--32_DIMENS>X</_--32_DIMENS>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>OKCODE</TYPE>
+       <NAME>OK_CODE</NAME>
+       <TEXT>____________________</TEXT>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <INPUT_FLD>X</INPUT_FLD>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1300</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>VIM_FRAME_FIELD</NAME>
+       <TEXT>____________________________________________________________</TEXT>
+       <LINE>001</LINE>
+       <LENGTH>060</LENGTH>
+       <VISLENGTH>060</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <UP_LOWER>X</UP_LOWER>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_TITLE>X</TC_TITLE>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1300</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCOV1300-ZZCD3</NAME>
+       <TEXT>설비소분류코드_______</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>014</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>F</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1300</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCOV1300-ZZCD3TX</NAME>
+       <TEXT>설비소분류코드명________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>016</LENGTH>
+       <VISLENGTH>050</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>F</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1300</CONT_NAME>
+       <TYPE>CHECK</TYPE>
+       <NAME>VIM_MARKED</NAME>
+       <LINE>001</LINE>
+       <LENGTH>001</LENGTH>
+       <VISLENGTH>001</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <TC_SELCOL>X</TC_SELCOL>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1300</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1300-ZZCD3</NAME>
+       <TEXT>__</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>002</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <GROUP1>KEY</GROUP1>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1300</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1300-ZZCD3TX</NAME>
+       <TEXT>__________________________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>050</LENGTH>
+       <VISLENGTH>050</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <UP_LOWER>X</UP_LOWER>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+      </RPY_DYFATC>
+     </FIELDS>
+     <FLOW_LOGIC>
+      <RPY_DYFLOW>
+       <LINE>PROCESS BEFORE OUTPUT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE CHECK_INPUT_MODE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_INITIALISIEREN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> LOOP AT EXTRACT WITH CONTROL</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>  TCTRL_ZCOV1300 CURSOR NEXTLINE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   MODULE LISTE_SHOW_LISTE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> ENDLOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE FILL_SUBSTFLDS.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>*</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>PROCESS AFTER INPUT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_BEFORE_LOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> LOOP AT EXTRACT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   MODULE LISTE_INIT_WORKAREA.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   CHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1300-ZZCD3 .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1300-ZZCD3TX .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   ENDCHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   CHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1300-ZZCD3 .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    MODULE LISTE_UPDATE_LISTE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   ENDCHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> ENDLOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_AFTER_LOOP.</LINE>
+      </RPY_DYFLOW>
+     </FLOW_LOGIC>
+    </item>
+    <item>
+     <HEADER>
+      <PROGRAM>SAPLZCO_FG99</PROGRAM>
+      <SCREEN>0025</SCREEN>
+      <LANGUAGE>3</LANGUAGE>
+      <DESCRIPT>뷰 유지보수: 개요 화면 ZCOV1310</DESCRIPT>
+      <TYPE>N</TYPE>
+      <NEXTSCREEN>0025</NEXTSCREEN>
+      <LINES>061</LINES>
+      <COLUMNS>255</COLUMNS>
+     </HEADER>
+     <CONTAINERS>
+      <RPY_DYCATT>
+       <TYPE>SCREEN</TYPE>
+       <NAME>SCREEN</NAME>
+      </RPY_DYCATT>
+      <RPY_DYCATT>
+       <TYPE>TABLE_CTRL</TYPE>
+       <NAME>TCTRL_ZCOV1310</NAME>
+       <ELEMENT_OF>SCREEN</ELEMENT_OF>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>255</LENGTH>
+       <HEIGHT>059</HEIGHT>
+       <C_RESIZE_V>X</C_RESIZE_V>
+       <C_RESIZE_H>X</C_RESIZE_H>
+       <C_SCROLL_V>X</C_SCROLL_V>
+       <C_SCROLL_H>X</C_SCROLL_H>
+       <TC_TABTYPE>ENTRY</TC_TABTYPE>
+       <TC_SEPAR_V>X</TC_SEPAR_V>
+       <TC_SEPAR_H>X</TC_SEPAR_H>
+       <TC_TITLE>X</TC_TITLE>
+       <TC_HEADER>X</TC_HEADER>
+       <TC_CONFIG>X</TC_CONFIG>
+       <TC_SEL_LNS>MULTIPLE</TC_SEL_LNS>
+       <TC_SEL_CLS>NONE</TC_SEL_CLS>
+       <TC_LSEL_CL>X</TC_LSEL_CL>
+       <TC_FIXCOL>004</TC_FIXCOL>
+      </RPY_DYCATT>
+     </CONTAINERS>
+     <FIELDS>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>PUSH_TMPL</TYPE>
+       <NAME>VIM_POSI_PUSH</NAME>
+       <TEXT>____________________</TEXT>
+       <LINE>061</LINE>
+       <COLUMN>019</COLUMN>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <PUSH_FCODE>POSI</PUSH_FCODE>
+       <FORMAT>CHAR</FORMAT>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>VIM_POSITION_INFO</NAME>
+       <TEXT>______________________________</TEXT>
+       <LINE>061</LINE>
+       <COLUMN>040</COLUMN>
+       <LENGTH>030</LENGTH>
+       <VISLENGTH>030</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <UP_LOWER>X</UP_LOWER>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <OUTPUTONLY>X</OUTPUTONLY>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <_--32_DIMENS>X</_--32_DIMENS>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>OKCODE</TYPE>
+       <NAME>OK_CODE</NAME>
+       <TEXT>____________________</TEXT>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <INPUT_FLD>X</INPUT_FLD>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1310</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>VIM_FRAME_FIELD</NAME>
+       <TEXT>____________________________________________________________</TEXT>
+       <LINE>001</LINE>
+       <LENGTH>060</LENGTH>
+       <VISLENGTH>060</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <UP_LOWER>X</UP_LOWER>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_TITLE>X</TC_TITLE>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1310</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCOV1310-BUKRS</NAME>
+       <TEXT>CoCd____________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>040</LENGTH>
+       <VISLENGTH>004</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>4</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1310</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCOV1310-ZZBGU</NAME>
+       <TEXT>사업구분____________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>040</LENGTH>
+       <VISLENGTH>010</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>1</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1310</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCOV1310-ZZBGD</NAME>
+       <TEXT>사업구분상세__________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>003</COLUMN>
+       <LENGTH>040</LENGTH>
+       <VISLENGTH>010</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>1</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1310</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCOV1310-ZZPRG</NAME>
+       <TEXT>발주처_유형__________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>004</COLUMN>
+       <LENGTH>040</LENGTH>
+       <VISLENGTH>010</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>1</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1310</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCOV1310-WW120</NAME>
+       <TEXT>BU구분____________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>005</COLUMN>
+       <LENGTH>040</LENGTH>
+       <VISLENGTH>004</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>4</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1310</CONT_NAME>
+       <TYPE>CHECK</TYPE>
+       <NAME>VIM_MARKED</NAME>
+       <LINE>001</LINE>
+       <LENGTH>001</LENGTH>
+       <VISLENGTH>001</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <TC_SELCOL>X</TC_SELCOL>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1310</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1310-BUKRS</NAME>
+       <TEXT>__________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>010</LENGTH>
+       <VISLENGTH>010</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <GROUP1>KEY</GROUP1>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <PARAM_ID>BUK</PARAM_ID>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <DICT_I_FKY>X</DICT_I_FKY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1310</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1310-ZZBGU</NAME>
+       <TEXT>____________________</TEXT>
+       <DROPDOWN>K</DROPDOWN>
+       <LINE>001</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>022</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <GROUP1>KEY</GROUP1>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <DICT_I_FKY>X</DICT_I_FKY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1310</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1310-ZZBGD</NAME>
+       <TEXT>____________________</TEXT>
+       <DROPDOWN>K</DROPDOWN>
+       <LINE>001</LINE>
+       <COLUMN>003</COLUMN>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>022</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <GROUP1>KEY</GROUP1>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <DICT_I_FKY>X</DICT_I_FKY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1310</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1310-ZZPRG</NAME>
+       <TEXT>____________________</TEXT>
+       <DROPDOWN>K</DROPDOWN>
+       <LINE>001</LINE>
+       <COLUMN>004</COLUMN>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>022</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <GROUP1>KEY</GROUP1>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <DICT_I_FKY>X</DICT_I_FKY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1310</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1310-WW120</NAME>
+       <TEXT>____________________</TEXT>
+       <DROPDOWN>K</DROPDOWN>
+       <LINE>001</LINE>
+       <COLUMN>005</COLUMN>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>022</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <DICT_I_FKY>X</DICT_I_FKY>
+      </RPY_DYFATC>
+     </FIELDS>
+     <FLOW_LOGIC>
+      <RPY_DYFLOW>
+       <LINE>PROCESS BEFORE OUTPUT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_INITIALISIEREN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> LOOP AT EXTRACT WITH CONTROL</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>  TCTRL_ZCOV1310 CURSOR NEXTLINE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   MODULE LISTE_SHOW_LISTE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> ENDLOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>*</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>PROCESS AFTER INPUT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_BEFORE_LOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> LOOP AT EXTRACT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   MODULE LISTE_INIT_WORKAREA.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   CHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1310-BUKRS .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1310-ZZBGU .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1310-ZZBGD .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1310-ZZPRG .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1310-WW120 .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   ENDCHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   CHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1310-BUKRS .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1310-ZZBGU .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1310-ZZBGD .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1310-ZZPRG .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    MODULE LISTE_UPDATE_LISTE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   ENDCHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> ENDLOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_AFTER_LOOP.</LINE>
+      </RPY_DYFLOW>
+     </FLOW_LOGIC>
+    </item>
+    <item>
+     <HEADER>
+      <PROGRAM>SAPLZCO_FG99</PROGRAM>
+      <SCREEN>0026</SCREEN>
+      <LANGUAGE>3</LANGUAGE>
+      <DESCRIPT>뷰 유지보수: 개요 화면 ZCOV1320</DESCRIPT>
+      <TYPE>N</TYPE>
+      <NEXTSCREEN>0026</NEXTSCREEN>
+      <LINES>061</LINES>
+      <COLUMNS>255</COLUMNS>
+     </HEADER>
+     <CONTAINERS>
+      <RPY_DYCATT>
+       <TYPE>SCREEN</TYPE>
+       <NAME>SCREEN</NAME>
+      </RPY_DYCATT>
+      <RPY_DYCATT>
+       <TYPE>TABLE_CTRL</TYPE>
+       <NAME>TCTRL_ZCOV1320</NAME>
+       <ELEMENT_OF>SCREEN</ELEMENT_OF>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>255</LENGTH>
+       <HEIGHT>059</HEIGHT>
+       <C_RESIZE_V>X</C_RESIZE_V>
+       <C_RESIZE_H>X</C_RESIZE_H>
+       <C_SCROLL_V>X</C_SCROLL_V>
+       <C_SCROLL_H>X</C_SCROLL_H>
+       <TC_TABTYPE>ENTRY</TC_TABTYPE>
+       <TC_SEPAR_V>X</TC_SEPAR_V>
+       <TC_SEPAR_H>X</TC_SEPAR_H>
+       <TC_TITLE>X</TC_TITLE>
+       <TC_HEADER>X</TC_HEADER>
+       <TC_CONFIG>X</TC_CONFIG>
+       <TC_SEL_LNS>MULTIPLE</TC_SEL_LNS>
+       <TC_SEL_CLS>NONE</TC_SEL_CLS>
+       <TC_LSEL_CL>X</TC_LSEL_CL>
+       <TC_FIXCOL>001</TC_FIXCOL>
+      </RPY_DYCATT>
+     </CONTAINERS>
+     <FIELDS>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>PUSH_TMPL</TYPE>
+       <NAME>VIM_POSI_PUSH</NAME>
+       <TEXT>____________________</TEXT>
+       <LINE>061</LINE>
+       <COLUMN>019</COLUMN>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <PUSH_FCODE>POSI</PUSH_FCODE>
+       <FORMAT>CHAR</FORMAT>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>VIM_POSITION_INFO</NAME>
+       <TEXT>______________________________</TEXT>
+       <LINE>061</LINE>
+       <COLUMN>040</COLUMN>
+       <LENGTH>030</LENGTH>
+       <VISLENGTH>030</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <UP_LOWER>X</UP_LOWER>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <OUTPUTONLY>X</OUTPUTONLY>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <_--32_DIMENS>X</_--32_DIMENS>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>OKCODE</TYPE>
+       <NAME>OK_CODE</NAME>
+       <TEXT>____________________</TEXT>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <INPUT_FLD>X</INPUT_FLD>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1320</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>VIM_FRAME_FIELD</NAME>
+       <TEXT>____________________________________________________________</TEXT>
+       <LINE>001</LINE>
+       <LENGTH>060</LENGTH>
+       <VISLENGTH>060</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <UP_LOWER>X</UP_LOWER>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_TITLE>X</TC_TITLE>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1320</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCOV1320-PSPNR</NAME>
+       <TEXT>WBS_요소_____________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>043</LENGTH>
+       <VISLENGTH>024</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>F</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1320</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCOV1320-POST1</NAME>
+       <TEXT>WBS_설명__________________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>048</LENGTH>
+       <VISLENGTH>040</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>F</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1320</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCOV1320-WW120</NAME>
+       <TEXT>BU____________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>003</COLUMN>
+       <LENGTH>038</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>F</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1320</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCOV1320-BEZEK</NAME>
+       <TEXT>BU이름________________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>004</COLUMN>
+       <LENGTH>044</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>F</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1320</CONT_NAME>
+       <TYPE>CHECK</TYPE>
+       <NAME>VIM_MARKED</NAME>
+       <LINE>001</LINE>
+       <LENGTH>001</LENGTH>
+       <VISLENGTH>001</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <TC_SELCOL>X</TC_SELCOL>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1320</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1320-PSPNR</NAME>
+       <TEXT>?_______________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>024</LENGTH>
+       <VISLENGTH>024</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <GROUP1>KEY</GROUP1>
+       <FORMAT>NUMC</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <CONV_EXIT>ABPSP</CONV_EXIT>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>O</REQU_ENTRY>
+       <MATCHCODE>PRP</MATCHCODE>
+       <DICT_I_FKY>X</DICT_I_FKY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1320</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1320-POST1</NAME>
+       <TEXT>________________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>040</LENGTH>
+       <VISLENGTH>040</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <UP_LOWER>X</UP_LOWER>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <OUTPUTONLY>X</OUTPUTONLY>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1320</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1320-WW120</NAME>
+       <TEXT>?_</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>003</COLUMN>
+       <LENGTH>002</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>O</REQU_ENTRY>
+       <DICT_I_FKY>X</DICT_I_FKY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCOV1320</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCOV1320-BEZEK</NAME>
+       <TEXT>____________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>004</COLUMN>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <UP_LOWER>X</UP_LOWER>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <OUTPUTONLY>X</OUTPUTONLY>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+     </FIELDS>
+     <FLOW_LOGIC>
+      <RPY_DYFLOW>
+       <LINE>PROCESS BEFORE OUTPUT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_INITIALISIEREN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> LOOP AT EXTRACT WITH CONTROL</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>  TCTRL_ZCOV1320 CURSOR NEXTLINE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   MODULE LISTE_SHOW_LISTE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> ENDLOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>*</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>PROCESS AFTER INPUT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_BEFORE_LOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> LOOP AT EXTRACT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   MODULE LISTE_INIT_WORKAREA.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   CHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1320-PSPNR .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1320-POST1 .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1320-WW120 .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1320-BEZEK .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    MODULE COMPLETE_ZCOV1320 ON CHAIN-REQUEST.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   ENDCHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   CHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    FIELD ZCOV1320-PSPNR .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>    MODULE LISTE_UPDATE_LISTE.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>   ENDCHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> ENDLOOP.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE> MODULE LISTE_AFTER_LOOP.</LINE>
       </RPY_DYFLOW>
      </FLOW_LOGIC>
     </item>
