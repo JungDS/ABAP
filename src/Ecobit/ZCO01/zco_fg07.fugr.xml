@@ -425,7 +425,6 @@
        <CONT_NAME>TCTRL_ZCOV000</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV000-BUTXT</NAME>
-       <TEXT>회사_이름___________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -459,7 +458,6 @@
        <CONT_NAME>TCTRL_ZCOV000</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV000-AEDAT</NAME>
-       <TEXT>변경일_____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>004</COLUMN>
        <LENGTH>040</LENGTH>
@@ -476,7 +474,6 @@
        <CONT_NAME>TCTRL_ZCOV000</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV000-AENAM</NAME>
-       <TEXT>변경자_____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>005</COLUMN>
        <LENGTH>040</LENGTH>
@@ -493,7 +490,6 @@
        <CONT_NAME>TCTRL_ZCOV000</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV000-AEZET</NAME>
-       <TEXT>변경시간____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>006</COLUMN>
        <LENGTH>040</LENGTH>

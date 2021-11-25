@@ -67,7 +67,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOS0050-KOKRS</NAME>
-       <TEXT>관리회계_영역________</TEXT>
        <LINE>002</LINE>
        <COLUMN>003</COLUMN>
        <LENGTH>015</LENGTH>
@@ -84,7 +83,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0050-KOKRS</NAME>
-       <TEXT>____</TEXT>
        <LINE>002</LINE>
        <COLUMN>028</COLUMN>
        <LENGTH>004</LENGTH>
@@ -101,7 +99,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0050-BEZEI</NAME>
-       <TEXT>_________________________</TEXT>
        <LINE>002</LINE>
        <COLUMN>034</COLUMN>
        <LENGTH>025</LENGTH>
@@ -119,7 +116,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOS0050-GJAHR</NAME>
-       <TEXT>회계연도___________</TEXT>
        <LINE>003</LINE>
        <COLUMN>003</COLUMN>
        <LENGTH>015</LENGTH>
@@ -136,7 +132,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0050-GJAHR</NAME>
-       <TEXT>____</TEXT>
        <LINE>003</LINE>
        <COLUMN>028</COLUMN>
        <LENGTH>004</LENGTH>
@@ -154,7 +149,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOS0050-VERSN</NAME>
-       <TEXT>버전_____________</TEXT>
        <LINE>004</LINE>
        <COLUMN>003</COLUMN>
        <LENGTH>015</LENGTH>
@@ -171,7 +165,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0050-VERSN</NAME>
-       <TEXT>___</TEXT>
        <LINE>004</LINE>
        <COLUMN>028</COLUMN>
        <LENGTH>003</LENGTH>
@@ -189,7 +182,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0050-VTEXT</NAME>
-       <TEXT>______________________________</TEXT>
        <LINE>004</LINE>
        <COLUMN>033</COLUMN>
        <LENGTH>030</LENGTH>
@@ -224,7 +216,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0050-SKSTAR</NAME>
-       <TEXT>__________</TEXT>
        <LINE>005</LINE>
        <COLUMN>028</COLUMN>
        <LENGTH>010</LENGTH>
@@ -242,7 +233,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0050-SKTEXT</NAME>
-       <TEXT>____________________</TEXT>
        <LINE>005</LINE>
        <COLUMN>040</COLUMN>
        <LENGTH>020</LENGTH>
@@ -277,7 +267,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0050-RKSTAR</NAME>
-       <TEXT>__________</TEXT>
        <LINE>006</LINE>
        <COLUMN>028</COLUMN>
        <LENGTH>010</LENGTH>
@@ -295,7 +284,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0050-RKTEXT</NAME>
-       <TEXT>____________________</TEXT>
        <LINE>006</LINE>
        <COLUMN>040</COLUMN>
        <LENGTH>020</LENGTH>
@@ -313,7 +301,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOS0050-KOSTL</NAME>
-       <TEXT>코스트_센터_________</TEXT>
        <LINE>007</LINE>
        <COLUMN>003</COLUMN>
        <LENGTH>015</LENGTH>
@@ -330,7 +317,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0050-KOSTL</NAME>
-       <TEXT>__________</TEXT>
        <LINE>007</LINE>
        <COLUMN>028</COLUMN>
        <LENGTH>010</LENGTH>
@@ -349,7 +335,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0050-KOSTLTX</NAME>
-       <TEXT>____________________</TEXT>
        <LINE>007</LINE>
        <COLUMN>040</COLUMN>
        <LENGTH>020</LENGTH>
@@ -368,7 +353,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOS0050-POSID</NAME>
-       <TEXT>WBS_요소_________</TEXT>
        <LINE>008</LINE>
        <COLUMN>003</COLUMN>
        <LENGTH>015</LENGTH>
@@ -385,7 +369,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0050-POSID</NAME>
-       <TEXT>________________________</TEXT>
        <LINE>008</LINE>
        <COLUMN>028</COLUMN>
        <LENGTH>024</LENGTH>
@@ -404,7 +387,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0050-POST1</NAME>
-       <TEXT>________________________________________</TEXT>
        <LINE>008</LINE>
        <COLUMN>054</COLUMN>
        <LENGTH>040</LENGTH>
@@ -441,7 +423,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0050-GWKEY</NAME>
-       <TEXT>______________</TEXT>
        <LINE>009</LINE>
        <COLUMN>028</COLUMN>
        <LENGTH>014</LENGTH>
@@ -862,7 +843,6 @@
        <CONT_NAME>TC1</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0051-MONTH</NAME>
-       <TEXT>__________</TEXT>
        <ROLLING>X</ROLLING>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
@@ -879,7 +859,6 @@
        <CONT_NAME>TC1</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0051-SHSTL</NAME>
-       <TEXT>_______________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>023</LENGTH>
@@ -898,7 +877,6 @@
        <CONT_NAME>TC1</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0051-SAHSTL</NAME>
-       <TEXT>_______________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>003</COLUMN>
        <LENGTH>023</LENGTH>
@@ -917,7 +895,6 @@
        <CONT_NAME>TC1</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0051-RHSTL</NAME>
-       <TEXT>_______________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>004</COLUMN>
        <LENGTH>023</LENGTH>
@@ -936,7 +913,6 @@
        <CONT_NAME>TC1</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0051-RAHSTL</NAME>
-       <TEXT>_______________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>005</COLUMN>
        <LENGTH>023</LENGTH>
@@ -955,7 +931,6 @@
        <CONT_NAME>TC1</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0051-MHSTL</NAME>
-       <TEXT>_______________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>006</COLUMN>
        <LENGTH>023</LENGTH>
@@ -974,7 +949,6 @@
        <CONT_NAME>TC1</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0051-MSHSTL</NAME>
-       <TEXT>_______________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>007</COLUMN>
        <LENGTH>023</LENGTH>
@@ -993,7 +967,6 @@
        <CONT_NAME>TC1</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOS0051-RSHSTL</NAME>
-       <TEXT>_______________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>008</COLUMN>
        <LENGTH>023</LENGTH>

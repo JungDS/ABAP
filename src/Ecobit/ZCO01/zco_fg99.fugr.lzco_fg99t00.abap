@@ -1,7 +1,5 @@
 *---------------------------------------------------------------------*
 *    view related data declarations
-*   generation date: 2021.10.05 at 14:02:30
-*   view maintenance generator version: #001407#
 *---------------------------------------------------------------------*
 *...processing: ZCOT1210........................................*
 DATA:  BEGIN OF STATUS_ZCOT1210                      .   "state vector

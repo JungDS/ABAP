@@ -6611,7 +6611,6 @@
        <CONT_NAME>TCTRL_ZCOV0020</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV0020-ZZIVC</NAME>
-       <TEXT>투자여부____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -6628,7 +6627,6 @@
        <CONT_NAME>TCTRL_ZCOV0020</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV0020-ZZIVCTX</NAME>
-       <TEXT>투자여부_내역_________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -6873,7 +6871,6 @@
        <CONT_NAME>TCTRL_ZCOV1010</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1010-ZZSCT</NAME>
-       <TEXT>매출유형____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -6890,7 +6887,6 @@
        <CONT_NAME>TCTRL_ZCOV1010</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1010-ZZSCTTX</NAME>
-       <TEXT>매출유형_내역_________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -7135,7 +7131,6 @@
        <CONT_NAME>TCTRL_ZCOV1020</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1020-ZZPHA</NAME>
-       <TEXT>프로젝트_단계_________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -7152,7 +7147,6 @@
        <CONT_NAME>TCTRL_ZCOV1020</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1020-ZZPHATX</NAME>
-       <TEXT>프로젝트_단계_내역______________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -7397,7 +7391,6 @@
        <CONT_NAME>TCTRL_ZCOV1030</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1030-ZZWBT</NAME>
-       <TEXT>WBS_유형__________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -7414,7 +7407,6 @@
        <CONT_NAME>TCTRL_ZCOV1030</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1030-ZZWBTTX</NAME>
-       <TEXT>WBS_유형_내역_______________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -7659,7 +7651,6 @@
        <CONT_NAME>TCTRL_ZCOV1040</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1040-ZZBGU</NAME>
-       <TEXT>사업구분____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -7676,7 +7667,6 @@
        <CONT_NAME>TCTRL_ZCOV1040</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1040-ZZBGUTX</NAME>
-       <TEXT>사업구분_내역_________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -7921,7 +7911,6 @@
        <CONT_NAME>TCTRL_ZCOV1100</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1100-ZZPRG</NAME>
-       <TEXT>발주처_유형__________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -7938,7 +7927,6 @@
        <CONT_NAME>TCTRL_ZCOV1100</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1100-ZZPRGTX</NAME>
-       <TEXT>발주처_유형_내역_______________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -8183,7 +8171,6 @@
        <CONT_NAME>TCTRL_ZCOV1090</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1090-ZZADT</NAME>
-       <TEXT>행정구역____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -8200,7 +8187,6 @@
        <CONT_NAME>TCTRL_ZCOV1090</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1090-ZZADTTX</NAME>
-       <TEXT>행정구역_내역_________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -8445,7 +8431,6 @@
        <CONT_NAME>TCTRL_ZCOV1110</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1110-ZZHWB</NAME>
-       <TEXT>ENG_하위본부________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -8462,7 +8447,6 @@
        <CONT_NAME>TCTRL_ZCOV1110</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1110-ZZHWBTX</NAME>
-       <TEXT>ENG_하위본부_내역_____________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -8707,7 +8691,6 @@
        <CONT_NAME>TCTRL_ZCOV1070</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1070-ZZBAG</NAME>
-       <TEXT>사업소유무___________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -8724,7 +8707,6 @@
        <CONT_NAME>TCTRL_ZCOV1070</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1070-ZZBAGTX</NAME>
-       <TEXT>사업소유무내역_________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -8907,7 +8889,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1050-ZZBGU</NAME>
-       <TEXT>사업구분________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>020</LENGTH>
@@ -8942,7 +8923,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1050-ZZBGUTX</NAME>
-       <TEXT>사업구분_내역_____________</TEXT>
        <LINE>002</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>020</LENGTH>
@@ -9038,7 +9018,6 @@
        <CONT_NAME>TCTRL_ZCOV1050</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1050-ZZBGD</NAME>
-       <TEXT>사업구분상세__________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -9055,7 +9034,6 @@
        <CONT_NAME>TCTRL_ZCOV1050</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1050-ZZBGDTX</NAME>
-       <TEXT>사업구분상세_내역_______________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -9303,7 +9281,6 @@
        <CONT_NAME>TCTRL_ZCOV1120</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1120-COTYP</NAME>
-       <TEXT>수주유형____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -9320,7 +9297,6 @@
        <CONT_NAME>TCTRL_ZCOV1120</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1120-COTXT</NAME>
-       <TEXT>수주유형_내역_________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -9565,7 +9541,6 @@
        <CONT_NAME>TCTRL_ZCOV1130</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1130-CTYPE</NAME>
-       <TEXT>통제유형____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -9582,7 +9557,6 @@
        <CONT_NAME>TCTRL_ZCOV1130</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1130-CTEXT</NAME>
-       <TEXT>통제유형_내역_________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -9827,7 +9801,6 @@
        <CONT_NAME>TCTRL_ZCOV1140</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1140-KSTAR</NAME>
-       <TEXT>원가요소____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -10135,7 +10108,6 @@
        <CONT_NAME>TCTRL_ZCOV1150</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1150-PRCTR</NAME>
-       <TEXT>손익_센터___________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -10152,7 +10124,6 @@
        <CONT_NAME>TCTRL_ZCOV1150</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1150-KTEXT</NAME>
-       <TEXT>이름______________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -10169,7 +10140,6 @@
        <CONT_NAME>TCTRL_ZCOV1150</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1150-BUKRS</NAME>
-       <TEXT>CoCd____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>003</COLUMN>
        <LENGTH>040</LENGTH>
@@ -10186,7 +10156,6 @@
        <CONT_NAME>TCTRL_ZCOV1150</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1150-BUTXT</NAME>
-       <TEXT>회사_이름___________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>004</COLUMN>
        <LENGTH>040</LENGTH>
@@ -10487,7 +10456,6 @@
        <CONT_NAME>TCTRL_ZCOT1210</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOT1210-SYSID</NAME>
-       <TEXT>SAP_System_ID___________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -10504,7 +10472,6 @@
        <CONT_NAME>TCTRL_ZCOT1210</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOT1210-GWTYP</NAME>
-       <TEXT>예산결재_유형_________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -10521,7 +10488,6 @@
        <CONT_NAME>TCTRL_ZCOT1210</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOT1210-URL</NAME>
-       <TEXT>인터넷_링크__________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>003</COLUMN>
        <LENGTH>040</LENGTH>
@@ -10792,7 +10758,6 @@
        <CONT_NAME>TCTRL_ZCOV1220</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1220-WERKS</NAME>
-       <TEXT>Plnt____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -10809,7 +10774,6 @@
        <CONT_NAME>TCTRL_ZCOV1220</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1220-NAME1</NAME>
-       <TEXT>성_1_____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -10826,7 +10790,6 @@
        <CONT_NAME>TCTRL_ZCOV1220</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1220-MATNR</NAME>
-       <TEXT>자재______________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>003</COLUMN>
        <LENGTH>040</LENGTH>
@@ -10843,7 +10806,6 @@
        <CONT_NAME>TCTRL_ZCOV1220</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1220-MAKTX</NAME>
-       <TEXT>자재내역____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>004</COLUMN>
        <LENGTH>040</LENGTH>
@@ -10860,7 +10822,6 @@
        <CONT_NAME>TCTRL_ZCOV1220</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1220-NETPR</NAME>
-       <TEXT>단가______________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>005</COLUMN>
        <LENGTH>040</LENGTH>
@@ -10877,7 +10838,6 @@
        <CONT_NAME>TCTRL_ZCOV1220</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1220-WAERS</NAME>
-       <TEXT>통화______________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>006</COLUMN>
        <LENGTH>040</LENGTH>
@@ -10947,7 +10907,6 @@
        <CONT_NAME>TCTRL_ZCOV1220</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1220-MATNR</NAME>
-       <TEXT>________________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>003</COLUMN>
        <LENGTH>040</LENGTH>
@@ -10968,7 +10927,6 @@
        <CONT_NAME>TCTRL_ZCOV1220</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1220-MAKTX</NAME>
-       <TEXT>________________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>004</COLUMN>
        <LENGTH>040</LENGTH>
@@ -11221,7 +11179,6 @@
        <CONT_NAME>TCTRL_ZCOV1230</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1230-BUKRS</NAME>
-       <TEXT>CoCd____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -11238,7 +11195,6 @@
        <CONT_NAME>TCTRL_ZCOV1230</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1230-BUTXT</NAME>
-       <TEXT>회사_이름___________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -11255,7 +11211,6 @@
        <CONT_NAME>TCTRL_ZCOV1230</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1230-POSID</NAME>
-       <TEXT>WBS_요소__________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>003</COLUMN>
        <LENGTH>040</LENGTH>
@@ -11272,7 +11227,6 @@
        <CONT_NAME>TCTRL_ZCOV1230</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1230-SAKNR</NAME>
-       <TEXT>G/L_계정__________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>004</COLUMN>
        <LENGTH>040</LENGTH>
@@ -11289,7 +11243,6 @@
        <CONT_NAME>TCTRL_ZCOV1230</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1230-TXT20</NAME>
-       <TEXT>내역______________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>005</COLUMN>
        <LENGTH>040</LENGTH>
@@ -11727,7 +11680,6 @@
        <CONT_NAME>TCTRL_ZCOT1250</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOT1250-LTEXT</NAME>
-       <TEXT>________________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -11987,7 +11939,6 @@
        <CONT_NAME>TCTRL_ZCOV1260</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1260-BUKRS</NAME>
-       <TEXT>CoCd____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -12004,7 +11955,6 @@
        <CONT_NAME>TCTRL_ZCOV1260</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1260-SPMON</NAME>
-       <TEXT>월_______________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -12021,7 +11971,6 @@
        <CONT_NAME>TCTRL_ZCOV1260</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1260-FMATNR</NAME>
-       <TEXT>제품______________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>003</COLUMN>
        <LENGTH>040</LENGTH>
@@ -12038,7 +11987,6 @@
        <CONT_NAME>TCTRL_ZCOV1260</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1260-WERKS</NAME>
-       <TEXT>Plnt____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>004</COLUMN>
        <LENGTH>040</LENGTH>
@@ -12055,7 +12003,6 @@
        <CONT_NAME>TCTRL_ZCOV1260</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1260-LIFNR</NAME>
-       <TEXT>공급업체____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>005</COLUMN>
        <LENGTH>040</LENGTH>
@@ -12072,7 +12019,6 @@
        <CONT_NAME>TCTRL_ZCOV1260</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1260-MATKL</NAME>
-       <TEXT>자재_그룹___________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>006</COLUMN>
        <LENGTH>040</LENGTH>
@@ -12089,7 +12035,6 @@
        <CONT_NAME>TCTRL_ZCOV1260</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1260-RMATNR</NAME>
-       <TEXT>원자재_____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>007</COLUMN>
        <LENGTH>040</LENGTH>
@@ -12106,7 +12051,6 @@
        <CONT_NAME>TCTRL_ZCOV1260</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1260-BELNR1</NAME>
-       <TEXT>제조원가_전표_________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>008</COLUMN>
        <LENGTH>040</LENGTH>
@@ -12123,7 +12067,6 @@
        <CONT_NAME>TCTRL_ZCOV1260</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1260-BELNR2</NAME>
-       <TEXT>재고_역분개_전표_______________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>009</COLUMN>
        <LENGTH>040</LENGTH>
@@ -12140,7 +12083,6 @@
        <CONT_NAME>TCTRL_ZCOV1260</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1260-BELNR3</NAME>
-       <TEXT>매출원가_전표_________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>010</COLUMN>
        <LENGTH>040</LENGTH>
@@ -12157,7 +12099,6 @@
        <CONT_NAME>TCTRL_ZCOV1260</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1260-ERNAM</NAME>
-       <TEXT>생성자_____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>011</COLUMN>
        <LENGTH>040</LENGTH>
@@ -12174,7 +12115,6 @@
        <CONT_NAME>TCTRL_ZCOV1260</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1260-AENAM</NAME>
-       <TEXT>변경자_____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>012</COLUMN>
        <LENGTH>040</LENGTH>
@@ -12245,7 +12185,6 @@
        <CONT_NAME>TCTRL_ZCOV1260</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-FMATNR</NAME>
-       <TEXT>________________________________________</TEXT>
        <ROLLING>X</ROLLING>
        <LINE>001</LINE>
        <COLUMN>003</COLUMN>
@@ -12326,7 +12265,6 @@
        <CONT_NAME>TCTRL_ZCOV1260</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-RMATNR</NAME>
-       <TEXT>________________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>007</COLUMN>
        <LENGTH>040</LENGTH>
@@ -12566,7 +12504,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-BUKRS</NAME>
-       <TEXT>회사_코드__________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>015</LENGTH>
@@ -12583,7 +12520,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-BUKRS</NAME>
-       <TEXT>____</TEXT>
        <LINE>001</LINE>
        <COLUMN>022</COLUMN>
        <LENGTH>004</LENGTH>
@@ -12602,7 +12538,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-SPMON</NAME>
-       <TEXT>월______________</TEXT>
        <LINE>002</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>015</LENGTH>
@@ -12619,7 +12554,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-SPMON</NAME>
-       <TEXT>_______</TEXT>
        <LINE>002</LINE>
        <COLUMN>022</COLUMN>
        <LENGTH>007</LENGTH>
@@ -12637,7 +12571,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-FMATNR</NAME>
-       <TEXT>제품__________________</TEXT>
        <LINE>003</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>020</LENGTH>
@@ -12654,7 +12587,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-FMATNR</NAME>
-       <TEXT>________________________________________</TEXT>
        <LINE>003</LINE>
        <COLUMN>022</COLUMN>
        <LENGTH>040</LENGTH>
@@ -12672,7 +12604,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-WERKS</NAME>
-       <TEXT>플랜트____________</TEXT>
        <LINE>004</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>015</LENGTH>
@@ -12689,7 +12620,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-WERKS</NAME>
-       <TEXT>____</TEXT>
        <LINE>004</LINE>
        <COLUMN>022</COLUMN>
        <LENGTH>004</LENGTH>
@@ -12724,7 +12654,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-LIFNR</NAME>
-       <TEXT>공급업체___________</TEXT>
        <LINE>007</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>015</LENGTH>
@@ -12741,7 +12670,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-LIFNR</NAME>
-       <TEXT>__________</TEXT>
        <LINE>007</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>010</LENGTH>
@@ -12760,7 +12688,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-MATKL</NAME>
-       <TEXT>자재_그룹__________</TEXT>
        <LINE>008</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>015</LENGTH>
@@ -12777,7 +12704,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-MATKL</NAME>
-       <TEXT>_________</TEXT>
        <LINE>008</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>009</LENGTH>
@@ -12795,7 +12721,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-BWRBTR</NAME>
-       <TEXT>기초재고금액______________</TEXT>
        <LINE>009</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -12812,7 +12737,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-BWRBTR</NAME>
-       <TEXT>_______________________________</TEXT>
        <LINE>009</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>031</LENGTH>
@@ -12830,7 +12754,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-BMENGE</NAME>
-       <TEXT>수량(기초이월)____________</TEXT>
        <LINE>010</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -12847,7 +12770,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-BMENGE</NAME>
-       <TEXT>_.___.___.___,___</TEXT>
        <LINE>010</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>017</LENGTH>
@@ -12864,7 +12786,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-BMEINS</NAME>
-       <TEXT>기본_단위__________</TEXT>
        <LINE>011</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>015</LENGTH>
@@ -12881,7 +12802,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-BMEINS</NAME>
-       <TEXT>___</TEXT>
        <LINE>011</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>003</LENGTH>
@@ -12899,7 +12819,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-FMENGE</NAME>
-       <TEXT>생산_수량_______________</TEXT>
        <LINE>012</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -12916,7 +12835,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-FMENGE</NAME>
-       <TEXT>_.___.___.___,___</TEXT>
        <LINE>012</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>017</LENGTH>
@@ -12933,7 +12851,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-FMEINS</NAME>
-       <TEXT>기본_단위__________</TEXT>
        <LINE>013</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>015</LENGTH>
@@ -12950,7 +12867,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-FMEINS</NAME>
-       <TEXT>___</TEXT>
        <LINE>013</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>003</LENGTH>
@@ -12968,7 +12884,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-RMATNR</NAME>
-       <TEXT>원자재_________________</TEXT>
        <LINE>014</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -12985,7 +12900,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-RMATNR</NAME>
-       <TEXT>________________________________________</TEXT>
        <LINE>014</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>040</LENGTH>
@@ -13003,7 +12917,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-RMENGE</NAME>
-       <TEXT>수량(원재료_투입)__________</TEXT>
        <LINE>015</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13020,7 +12933,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-RMENGE</NAME>
-       <TEXT>_.___.___.___,___</TEXT>
        <LINE>015</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>017</LENGTH>
@@ -13037,7 +12949,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-RMEINS</NAME>
-       <TEXT>기본_단위__________</TEXT>
        <LINE>016</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>015</LENGTH>
@@ -13054,7 +12965,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-RMEINS</NAME>
-       <TEXT>___</TEXT>
        <LINE>016</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>003</LENGTH>
@@ -13072,7 +12982,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-RWRBTR</NAME>
-       <TEXT>금액(재료비)_____________</TEXT>
        <LINE>017</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13089,7 +12998,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-RWRBTR</NAME>
-       <TEXT>_______________________________</TEXT>
        <LINE>017</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>031</LENGTH>
@@ -13107,7 +13015,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-D1WRBTR</NAME>
-       <TEXT>재료비차이1______________</TEXT>
        <LINE>018</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13124,7 +13031,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-D1WRBTR</NAME>
-       <TEXT>_______________________________</TEXT>
        <LINE>018</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>031</LENGTH>
@@ -13142,7 +13048,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-D2WRBTR</NAME>
-       <TEXT>구매가격차이_1____________</TEXT>
        <LINE>019</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13159,7 +13064,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-D2WRBTR</NAME>
-       <TEXT>_______________________________</TEXT>
        <LINE>019</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>031</LENGTH>
@@ -13177,7 +13081,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-D3WRBTR</NAME>
-       <TEXT>구매가격차이_2____________</TEXT>
        <LINE>020</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13194,7 +13097,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-D3WRBTR</NAME>
-       <TEXT>_______________________________</TEXT>
        <LINE>020</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>031</LENGTH>
@@ -13212,7 +13114,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-D4WRBTR</NAME>
-       <TEXT>재고조정금액______________</TEXT>
        <LINE>021</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13229,7 +13130,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-D4WRBTR</NAME>
-       <TEXT>_______________________________</TEXT>
        <LINE>021</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>031</LENGTH>
@@ -13247,7 +13147,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-LWRBTR</NAME>
-       <TEXT>노무비_________________</TEXT>
        <LINE>022</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13264,7 +13163,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-LWRBTR</NAME>
-       <TEXT>_______________________________</TEXT>
        <LINE>022</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>031</LENGTH>
@@ -13282,7 +13180,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-MWRBTR</NAME>
-       <TEXT>경비__________________</TEXT>
        <LINE>023</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13299,7 +13196,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-MWRBTR</NAME>
-       <TEXT>_______________________________</TEXT>
        <LINE>023</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>031</LENGTH>
@@ -13317,7 +13213,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-ZCOGM</NAME>
-       <TEXT>제조원가________________</TEXT>
        <LINE>024</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13334,7 +13229,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-ZCOGM</NAME>
-       <TEXT>_______________________________</TEXT>
        <LINE>024</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>031</LENGTH>
@@ -13352,7 +13246,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-SMENGE</NAME>
-       <TEXT>판매수량________________</TEXT>
        <LINE>025</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13369,7 +13262,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-SMENGE</NAME>
-       <TEXT>_.___.___.___,___V</TEXT>
        <LINE>025</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>018</LENGTH>
@@ -13387,7 +13279,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-SMEINS</NAME>
-       <TEXT>기본_단위__________</TEXT>
        <LINE>026</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>015</LENGTH>
@@ -13404,7 +13295,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-SMEINS</NAME>
-       <TEXT>___</TEXT>
        <LINE>026</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>003</LENGTH>
@@ -13422,7 +13312,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-SWRBTR</NAME>
-       <TEXT>매출액(SD)_____________</TEXT>
        <LINE>027</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13439,7 +13328,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-SWRBTR</NAME>
-       <TEXT>_______________________________</TEXT>
        <LINE>027</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>031</LENGTH>
@@ -13457,7 +13345,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-ZCOGS</NAME>
-       <TEXT>매출원가________________</TEXT>
        <LINE>028</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13474,7 +13361,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-ZCOGS</NAME>
-       <TEXT>_______________________________</TEXT>
        <LINE>028</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>031</LENGTH>
@@ -13492,7 +13378,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-EMENGE</NAME>
-       <TEXT>수량(기말)_MM___________</TEXT>
        <LINE>029</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13509,7 +13394,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-EMENGE</NAME>
-       <TEXT>_.___.___.___,___</TEXT>
        <LINE>029</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>017</LENGTH>
@@ -13526,7 +13410,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-EMEINS</NAME>
-       <TEXT>기본_단위__________</TEXT>
        <LINE>030</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>015</LENGTH>
@@ -13543,7 +13426,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-EMEINS</NAME>
-       <TEXT>___</TEXT>
        <LINE>030</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>003</LENGTH>
@@ -13561,7 +13443,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-EWRBTR</NAME>
-       <TEXT>기말재고금액______________</TEXT>
        <LINE>031</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13578,7 +13459,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-EWRBTR</NAME>
-       <TEXT>_______________________________</TEXT>
        <LINE>031</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>031</LENGTH>
@@ -13596,7 +13476,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-EUWRBTR</NAME>
-       <TEXT>재고금액(기말단가)__________</TEXT>
        <LINE>032</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13613,7 +13492,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-EUWRBTR</NAME>
-       <TEXT>_______________________________</TEXT>
        <LINE>032</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>031</LENGTH>
@@ -13631,7 +13509,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-BELNR1</NAME>
-       <TEXT>제조원가_전표_____________</TEXT>
        <LINE>033</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13648,7 +13525,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-BELNR1</NAME>
-       <TEXT>__________</TEXT>
        <LINE>033</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>010</LENGTH>
@@ -13665,7 +13541,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-BELNR2</NAME>
-       <TEXT>재고_역분개_전표___________</TEXT>
        <LINE>034</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13682,7 +13557,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-BELNR2</NAME>
-       <TEXT>__________</TEXT>
        <LINE>034</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>010</LENGTH>
@@ -13699,7 +13573,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-BELNR3</NAME>
-       <TEXT>매출원가_전표_____________</TEXT>
        <LINE>035</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
@@ -13716,7 +13589,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-BELNR3</NAME>
-       <TEXT>__________</TEXT>
        <LINE>035</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>010</LENGTH>
@@ -13733,7 +13605,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-TWAER</NAME>
-       <TEXT>통화_____________</TEXT>
        <LINE>036</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>015</LENGTH>
@@ -13750,7 +13621,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-TWAER</NAME>
-       <TEXT>_____</TEXT>
        <LINE>036</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>005</LENGTH>
@@ -13767,7 +13637,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-ERDAT</NAME>
-       <TEXT>생성일__________</TEXT>
        <LINE>037</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>013</LENGTH>
@@ -13784,7 +13653,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-ERDAT</NAME>
-       <TEXT>__________</TEXT>
        <LINE>037</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>010</LENGTH>
@@ -13800,7 +13668,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-ERZET</NAME>
-       <TEXT>시간_____________</TEXT>
        <LINE>038</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>015</LENGTH>
@@ -13817,7 +13684,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-ERZET</NAME>
-       <TEXT>________</TEXT>
        <LINE>038</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>008</LENGTH>
@@ -13833,7 +13699,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-ERNAM</NAME>
-       <TEXT>생성자____________</TEXT>
        <LINE>039</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>015</LENGTH>
@@ -13850,7 +13715,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-ERNAM</NAME>
-       <TEXT>____________</TEXT>
        <LINE>039</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>012</LENGTH>
@@ -13866,7 +13730,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-AEDAT</NAME>
-       <TEXT>변경일____________</TEXT>
        <LINE>040</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>015</LENGTH>
@@ -13883,7 +13746,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-AEDAT</NAME>
-       <TEXT>__________</TEXT>
        <LINE>040</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>010</LENGTH>
@@ -13899,7 +13761,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-AEZET</NAME>
-       <TEXT>변경시간___________</TEXT>
        <LINE>041</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>015</LENGTH>
@@ -13916,7 +13777,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-AEZET</NAME>
-       <TEXT>________</TEXT>
        <LINE>041</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>008</LENGTH>
@@ -13932,7 +13792,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCOV1260-AENAM</NAME>
-       <TEXT>변경자____________</TEXT>
        <LINE>042</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>015</LENGTH>
@@ -13949,7 +13808,6 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1260-AENAM</NAME>
-       <TEXT>____________</TEXT>
        <LINE>042</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>012</LENGTH>
@@ -14252,7 +14110,6 @@
        <CONT_NAME>TCTRL_ZCOV1270</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1270-ZZIZW</NAME>
-       <TEXT>투자사유____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -14269,7 +14126,6 @@
        <CONT_NAME>TCTRL_ZCOV1270</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1270-ZZIZWTX</NAME>
-       <TEXT>투자사유명___________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -15484,7 +15340,6 @@
        <CONT_NAME>TCTRL_ZCOV1310</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1310-BUKRS</NAME>
-       <TEXT>CoCd____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
        <LENGTH>040</LENGTH>
@@ -15501,7 +15356,6 @@
        <CONT_NAME>TCTRL_ZCOV1310</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1310-ZZBGU</NAME>
-       <TEXT>사업구분____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
@@ -15518,7 +15372,6 @@
        <CONT_NAME>TCTRL_ZCOV1310</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1310-ZZBGD</NAME>
-       <TEXT>사업구분상세__________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>003</COLUMN>
        <LENGTH>040</LENGTH>
@@ -15535,7 +15388,6 @@
        <CONT_NAME>TCTRL_ZCOV1310</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1310-ZZPRG</NAME>
-       <TEXT>발주처_유형__________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>004</COLUMN>
        <LENGTH>040</LENGTH>
@@ -15552,7 +15404,6 @@
        <CONT_NAME>TCTRL_ZCOV1310</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>*ZCOV1310-WW120</NAME>
-       <TEXT>BU구분____________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>005</COLUMN>
        <LENGTH>040</LENGTH>
@@ -15989,7 +15840,6 @@
        <CONT_NAME>TCTRL_ZCOV1320</CONT_NAME>
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCOV1320-POST1</NAME>
-       <TEXT>________________________________________</TEXT>
        <LINE>001</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>040</LENGTH>
