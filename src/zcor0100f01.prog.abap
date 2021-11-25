@@ -82,6 +82,11 @@ FORM SELECTED_DATA_RTN .
   PERFORM SELECTED_MAIN_DATA.
   PERFORM ADDITIONAL_DATA.
 
+*--------------------------------------------------------------------*
+* [CO] ESG Pjt. 기존PGM 고도화 - 2021.11.10 14:25:25, MDP_06
+*--------------------------------------------------------------------*
+  PERFORM ADDITIONAL_DATA_2.
+
 ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form MAKE_RANGE_VARIABLE
@@ -146,10 +151,22 @@ FORM SELECTED_MAIN_DATA .
         LEFT OUTER JOIN TGSBT AS E
                      ON E~SPRAS = SY-LANGU
                     AND B~PGSBR = E~GSBER
-   WHERE B~PBUKR IN R_PBUKR
+
+*--------------------------------------------------------------------*
+* [CO] ESG Pjt. 기존PGM 고도화 - 2021.11.10 14:25:25, MDP_06
+*--------------------------------------------------------------------*
+   WHERE A~PROFL NE 'Z000003'   " 설비WBS를 위한 Profile 제외
+     AND B~PBUKR IN R_PBUKR
      AND B~PRCTR IN R_PRCTR
      AND C~PSTRT >= PA_PSTRT
      AND C~PENDE <= PA_PENDE.
+
+*-- 기존 조건절
+*   WHERE B~PBUKR IN R_PBUKR
+*     AND B~PRCTR IN R_PRCTR
+*     AND C~PSTRT >= PA_PSTRT
+*     AND C~PENDE <= PA_PENDE.
+
 
   GV_COUNT = LINES( GT_ITAB ).
 
@@ -486,6 +503,16 @@ FORM SET_COLUMNS_TECHNICAL  USING IR_COLUMNS TYPE REF TO
 
         ENDIF.
 
+*--------------------------------------------------------------------*
+* [CO] ESG Pjt. 기존PGM 고도화 - 2021.11.10 14:25:25, MDP_06
+*--------------------------------------------------------------------*
+        PERFORM SET_TOOLTIP_TEXT USING    <COLUMN_REF>-COLUMNNAME
+                                 CHANGING GV_TOOLTIP.
+        IF GV_TOOLTIP IS NOT INITIAL.
+          GR_COLUMN->SET_TOOLTIP( GV_TOOLTIP ).
+        ENDIF.
+
+
       ENDLOOP.
 
     CATCH CX_SALV_NOT_FOUND.
@@ -646,6 +673,16 @@ FORM SET_COLUMN_TEXT  USING    PV_COLUMNNAME
     WHEN 'ZZCOP'.
       PV_COLUMN_TEXT = TEXT-C38.
 
+*--------------------------------------------------------------------*
+* [CO] ESG Pjt. 기존PGM 고도화 - 2021.11.10 14:25:25, MDP_06
+*--------------------------------------------------------------------*
+    WHEN 'WW120'.
+      PV_COLUMN_TEXT = TEXT-C42.
+
+    WHEN 'BEZEK'.
+      PV_COLUMN_TEXT = TEXT-C43.
+
+
     WHEN 'TXT302'.
       PV_COLUMN_TEXT = TEXT-C34.
 
@@ -758,5 +795,108 @@ FORM SCR_USER_COMMAND_HELP .
       PERFORM CALL_POPUP_HELP(ZCAR9000) USING SY-REPID SY-DYNNR SY-LANGU ''.
     WHEN OTHERS.
   ENDCASE.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form ADDITIONAL_DATA_2
+*&---------------------------------------------------------------------*
+* [CO] ESG Pjt. 기존PGM 고도화 - 2021.11.10 14:25:25, MDP_06
+* - BU 정보 추가
+*&---------------------------------------------------------------------*
+FORM ADDITIONAL_DATA_2 .
+
+  DATA LR_POSID   TYPE RANGE OF PRPS-POSID WITH HEADER LINE.
+  DATA LS_COPA    TYPE CE11000.
+
+
+  CHECK GT_OUTTAB[] IS NOT INITIAL.
+
+
+  " WBS 내부번호 조회
+  LR_POSID[] = CORRESPONDING #( GT_OUTTAB MAPPING LOW = POSID ).
+  LR_POSID   = VALUE #( SIGN   = 'I'
+                        OPTION = 'EQ' ).
+  MODIFY LR_POSID TRANSPORTING SIGN OPTION WHERE SIGN IS INITIAL.
+
+  SORT LR_POSID BY LOW.
+  DELETE ADJACENT DUPLICATES FROM LR_POSID COMPARING LOW.
+
+  SELECT POSID, PSPNR
+    FROM PRPS
+   WHERE POSID IN @LR_POSID
+    INTO TABLE @DATA(LT_PRPS).
+
+  SORT LT_PRPS BY POSID PSPNR.
+
+
+  " BU구분명 조회
+  SELECT WW120, BEZEK
+    FROM T25A1
+   WHERE SPRAS EQ @SY-LANGU
+    INTO TABLE @DATA(LT_T25A1).
+
+  SORT LT_T25A1 BY WW120.
+
+
+
+  " BU구분 및 BU구분명 출력데이터에 반영
+
+  LOOP AT GT_OUTTAB INTO GS_OUTTAB.
+
+    " WBS 정보 조회
+    READ TABLE LT_PRPS INTO DATA(LS_PRPS)
+                       WITH KEY POSID = GS_OUTTAB-POSID
+                                BINARY SEARCH.
+    CHECK SY-SUBRC EQ 0.
+
+    LS_COPA = VALUE #( BUKRS = GS_OUTTAB-PBUKR
+                       WW040 = GS_OUTTAB-ZZBGU
+                       WW050 = GS_OUTTAB-ZZBGD
+                       WW100 = GS_OUTTAB-ZZPRG ).
+
+    " BU구분 조회
+    CALL FUNCTION 'ZCO_GET_BU_TYPE_BY_MAPPING'
+      EXPORTING
+        I_PSPNR        = LS_PRPS-PSPNR      " WBS 요소
+        I_COPA         = LS_COPA            " BU구분을 위한 추가정보
+      IMPORTING
+        E_WW120        = GS_OUTTAB-WW120.   " BU구분
+
+    " BU구분 조회결과 점검
+    CHECK GS_OUTTAB-WW120 IS NOT INITIAL.
+
+    " BU구분명 조회
+    READ TABLE LT_T25A1 INTO DATA(LS_T25A1)
+                        WITH KEY WW120 = GS_OUTTAB-WW120
+                                 BINARY SEARCH.
+    IF SY-SUBRC EQ 0.
+      GS_OUTTAB-BEZEK = LS_T25A1-BEZEK.
+    ENDIF.
+
+    MODIFY GT_OUTTAB FROM GS_OUTTAB TRANSPORTING WW120 BEZEK.
+
+  ENDLOOP.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form SET_TOOLTIP_TEXT
+*&---------------------------------------------------------------------*
+* [CO] ESG Pjt. 기존PGM 고도화 - 2021.11.10 14:25:25, MDP_06
+*&---------------------------------------------------------------------*
+FORM SET_TOOLTIP_TEXT USING    PV_COLUMNNAME
+                      CHANGING PV_TOOLTIP.
+
+  CLEAR PV_TOOLTIP.
+
+  CASE PV_COLUMNNAME.
+
+    WHEN 'WW120'.
+      PV_TOOLTIP = TEXT-C44.
+
+    WHEN 'BEZEK'.
+      PV_TOOLTIP = TEXT-C45.
+
+  ENDCASE.
+
 
 ENDFORM.

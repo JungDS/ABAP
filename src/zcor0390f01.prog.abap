@@ -142,7 +142,7 @@ ENDFORM.
 FORM selected_data_rtn .
   CLEAR : gt_display, gt_display[].
 
-*  PERFORM SET_RANGES_VALUE.
+**  PERFORM SET_RANGES_VALUE.
   PERFORM set_ranges_objnr.
 
   PERFORM set_kstar_ranges_value USING: '0401101001' '0499999999' 'A01',
@@ -232,8 +232,14 @@ FORM selected_data_rtn .
     SELECT a~posid,  b~zzsct, b~zzscttx
       FROM prps AS a INNER JOIN zcot1010t AS b
        ON a~zzsct =  b~zzsct
+**********************************************************************
+      JOIN PROJ AS C ON C~PSPNR EQ A~PSPHI
+**********************************************************************
       FOR ALL ENTRIES IN @lt_display
      WHERE a~posid = @lt_display-posid
+**********************************************************************
+       AND C~PROFL IN @R_PROFL
+**********************************************************************
       INTO TABLE @DATA(lt_zzsct).
 
 
@@ -376,6 +382,21 @@ FORM set_ranges_objnr .
     ENDLOOP.
 
   ENDIF.
+
+
+
+*--------------------------------------------------------------------*
+* [CO] ESG Pjt. 설비WBS 검색제외 - 2021.11.10 14:25:25, MDP_06
+*--------------------------------------------------------------------*
+  IF PA_EQWBS IS INITIAL.
+    " 설비WBS 제외
+    R_PROFL[] = VALUE #( ( CONV #( 'EEQZ000003' ) ) ).
+  ELSE.
+    " 설비WBS 포함
+    CLEAR: R_PROFL, R_PROFL[].
+  ENDIF.
+
+
 ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form READ_HIERARCHY_TABLES
@@ -1231,6 +1252,7 @@ FORM set_kstar_ranges_value  USING    pv_from
                                       pv_to
                                       pv_field.
 
+
   CLEAR: r_kstar, r_kstar[], gt_itab, gt_itab[].
 
   MOVE: 'I'          TO r_kstar-sign,
@@ -1256,6 +1278,9 @@ FORM set_kstar_ranges_value  USING    pv_from
          SUM( a~wkg012 ) AS wkg012
     FROM cosp AS a JOIN prps AS b
                      ON a~objnr = b~objnr
+**********************************************************************
+                   JOIN PROJ AS C ON C~PSPNR EQ B~PSPHI
+**********************************************************************
    WHERE a~lednr  = '00'
      AND a~gjahr  = @pa_gjahr
      AND a~versn  = @pa_versn
@@ -1263,6 +1288,9 @@ FORM set_kstar_ranges_value  USING    pv_from
      AND a~objnr IN @r_objnr
      AND a~kstar IN @r_kstar
      AND b~pbukr IN @so_bukrs
+**********************************************************************
+     AND C~PROFL IN @R_PROFL
+**********************************************************************
    GROUP BY b~posid, b~post1
   UNION ALL
   SELECT b~posid, b~post1, 'KRW' AS twaer,
@@ -1280,6 +1308,9 @@ FORM set_kstar_ranges_value  USING    pv_from
          SUM( a~wkg012 ) AS wkg012
     FROM coss AS a JOIN prps AS b
                      ON a~objnr = b~objnr
+**********************************************************************
+                   JOIN PROJ AS C ON C~PSPNR EQ B~PSPHI
+**********************************************************************
    WHERE a~lednr  = '00'
      AND a~gjahr  = @pa_gjahr
      AND a~versn  = @pa_versn
@@ -1287,6 +1318,9 @@ FORM set_kstar_ranges_value  USING    pv_from
      AND a~objnr IN @r_objnr
      AND a~kstar IN @r_kstar
      AND b~pbukr IN @so_bukrs
+**********************************************************************
+     AND C~PROFL IN @R_PROFL
+**********************************************************************
    GROUP BY b~posid, b~post1
     INTO TABLE @gt_itab.
 
@@ -1403,6 +1437,9 @@ FORM get_kagru_ranges_value  USING    pv_kagru
          SUM( a~wkg012 ) AS wkg012
     FROM cosp AS a JOIN prps AS b
                      ON a~objnr = b~objnr
+**********************************************************************
+                   JOIN PROJ AS C ON C~PSPNR EQ B~PSPHI
+**********************************************************************
    WHERE a~lednr  = '00'
      AND a~gjahr  = @pa_gjahr
      AND a~versn  = @pa_versn
@@ -1410,6 +1447,9 @@ FORM get_kagru_ranges_value  USING    pv_kagru
      AND a~objnr IN @r_objnr
      AND a~kstar IN @r_kstar
      AND b~pbukr IN @so_bukrs
+**********************************************************************
+     AND C~PROFL IN @R_PROFL
+**********************************************************************
    GROUP BY b~posid, b~post1
   UNION ALL
   SELECT b~posid, b~post1, 'KRW' AS twaer,
@@ -1427,6 +1467,9 @@ FORM get_kagru_ranges_value  USING    pv_kagru
          SUM( a~wkg012 ) AS wkg012
     FROM coss AS a JOIN prps AS b
                      ON a~objnr = b~objnr
+**********************************************************************
+                   JOIN PROJ AS C ON C~PSPNR EQ B~PSPHI
+**********************************************************************
    WHERE a~lednr  = '00'
      AND a~gjahr  = @pa_gjahr
      AND a~versn  = @pa_versn
@@ -1434,6 +1477,9 @@ FORM get_kagru_ranges_value  USING    pv_kagru
      AND a~objnr IN @r_objnr
      AND a~kstar IN @r_kstar
      AND b~pbukr IN @so_bukrs
+**********************************************************************
+     AND C~PROFL IN @R_PROFL
+**********************************************************************
    GROUP BY b~posid, b~post1
     INTO TABLE @gt_itab.
 

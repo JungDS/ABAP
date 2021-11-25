@@ -4,56 +4,65 @@
 *&---------------------------------------------------------------------*
 *&      Module  STATUS_0100  OUTPUT
 *&---------------------------------------------------------------------*
-MODULE STATUS_0100 OUTPUT.
+MODULE status_0100 OUTPUT.
 
-  DATA FCODE TYPE TABLE OF SY-UCOMM.
+  DATA fcode TYPE TABLE OF sy-ucomm.
 
-  REFRESH FCODE.
+  REFRESH fcode.
 
-  CASE GV_MODE.
+  CASE gv_mode.
 
     WHEN 'S'.
-      APPEND '&SAV' TO FCODE.
+      APPEND '&SAV' TO fcode.
+      " ADD BSGSM_FCM
+      APPEND '&EDIT' TO fcode.
+      APPEND '&DELE' TO fcode.
+    WHEN OTHERS.
+
+       IF gv_flag IS INITIAL.  " IT FCM  롤...
+        APPEND '&DELE' TO fcode.
+      ENDIF.
+
 
   ENDCASE.
 
-  SET PF-STATUS 'PF_0100' EXCLUDING FCODE.
+  SET PF-STATUS 'PF_0100' EXCLUDING fcode.
   SET TITLEBAR  'TT_0100'.
 
 ENDMODULE.                 " STATUS_0100  OUTPUT
 *&---------------------------------------------------------------------*
 *&      Module  ALV_INIT_DISPLAY_0100  OUTPUT
 *&---------------------------------------------------------------------*
-MODULE ALV_INIT_DISPLAY_0100 OUTPUT.
+MODULE alv_init_display_0100 OUTPUT.
 
   "-- 화면의  GRID가 BOUND되었는지 확인한다.
-  IF GR_GRID1 IS NOT BOUND.
+  IF gr_grid1 IS NOT BOUND.
 
     "-- GRID의 INSTANCE를 생성한다.
-    PERFORM CREATE_INSTANCE_0100.
+    PERFORM create_instance_0100.
 
     "-- GRID의 LAYOUT 속성을 정의한다.
-    PERFORM INIT_LAYOUT_0100.
+    PERFORM init_layout_0100.
 
     "-- ALV Standard toolbar button cotrol
-    PERFORM SET_GRID_EXCLUDE_0100.
+    PERFORM set_grid_exclude_0100.
 
     "-- ALV Sort
-    PERFORM ALV_SORT_0100.
+    PERFORM alv_sort_0100.
 
     "-- Field Attribute을 사용자의 요구사항에 맞게 변경
-    PERFORM APPEND_FIELDCAT_0100.
+    PERFORM append_fieldcat_0100.
 
     "-- ALV Top of page - create object
-    PERFORM TOP_OF_PAGE_CREATE_OBJECT_0100.
+    PERFORM top_of_page_create_object_0100.
     "-- ALV Top of page - make data & display
-    PERFORM MAKE_TOP_OF_PAGE_DATA_0100.
+    PERFORM make_top_of_page_data_0100.
 
     "-- ALV Events 등록
-    PERFORM REGIST_ALV_EVENT_0100 USING GR_GRID1.
+    PERFORM regist_alv_event_0100 USING gr_grid1.
 
     "-- ALV Display
-    PERFORM DISPLAY_ALV_GRID_0100.
+    PERFORM display_alv_grid_0100.
 
 *    "-- ALV Title
 *    PERFORM DISPLAY_ALV_TITLE_0100.
@@ -61,7 +70,7 @@ MODULE ALV_INIT_DISPLAY_0100 OUTPUT.
   ELSE.
 
     "-- ALV Refresh
-    PERFORM REFRESH_GRID_0100.
+    PERFORM refresh_grid_0100.
 
   ENDIF.
 

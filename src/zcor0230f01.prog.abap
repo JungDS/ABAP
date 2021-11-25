@@ -185,6 +185,19 @@ FORM SET_RANGES_VALUE .
   APPEND R_COST.
   CLEAR  R_COST.
 
+
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #2 - 2021.11.18 13:24:41, MDP_06
+*--------------------------------------------------------------------*
+  IF PA_EQWBS IS INITIAL.
+    " 설비WBS 제외
+    R_PROFL[] = VALUE #( ( CONV #( 'EEQZ000003' ) ) ).
+  ELSE.
+    " 설비WBS 포함
+    CLEAR: R_PROFL, R_PROFL[].
+  ENDIF.
+
+
 ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form SET_RANGES_OBJNR
@@ -334,6 +347,11 @@ FORM GET_SALE_DATA .
   ELSE.
     LV_WRTTP = '01'.
   ENDIF.
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #2 - 2021.11.18 13:24:41, MDP_06
+*--------------------------------------------------------------------*
+* 프로젝트 프로파일 조회조건 추가
+*--------------------------------------------------------------------*
 
   SELECT B~POSID, B~POST1, 'KRW' AS TWAER,
          SUM( A~WKG001 ) AS WKG001,
@@ -350,6 +368,8 @@ FORM GET_SALE_DATA .
          SUM( A~WKG012 ) AS WKG012
     FROM COSP AS A JOIN PRPS AS B
                      ON A~OBJNR = B~OBJNR
+                   JOIN PROJ AS C
+                     ON B~PSPHI = C~PSPNR
    WHERE A~LEDNR  = '00'
      AND A~GJAHR  = @PA_GJAHR
      AND A~VERSN  = @PA_VERSN
@@ -357,6 +377,7 @@ FORM GET_SALE_DATA .
      AND A~OBJNR IN @R_OBJNR
      AND A~KSTAR IN @R_SALE
      AND B~PBUKR  = @PA_BUKRS
+     AND C~PROFL IN @R_PROFL
    GROUP BY B~POSID, B~POST1
   UNION ALL
   SELECT B~POSID, B~POST1, 'KRW' AS TWAER,
@@ -374,6 +395,8 @@ FORM GET_SALE_DATA .
          SUM( A~WKG012 ) AS WKG012
     FROM COSS AS A JOIN PRPS AS B
                      ON A~OBJNR = B~OBJNR
+                   JOIN PROJ AS C
+                     ON B~PSPHI = C~PSPNR
    WHERE A~LEDNR  = '00'
      AND A~GJAHR  = @PA_GJAHR
      AND A~VERSN  = @PA_VERSN
@@ -381,6 +404,7 @@ FORM GET_SALE_DATA .
      AND A~OBJNR IN @R_OBJNR
      AND A~KSTAR IN @R_SALE
      AND B~PBUKR  = @PA_BUKRS
+     AND C~PROFL IN @R_PROFL
    GROUP BY B~POSID, B~POST1
     INTO TABLE @GT_SALE.
 
@@ -398,7 +422,21 @@ FORM SET_SALE_DATA .
 
   FIELD-SYMBOLS: <FS_TOT> TYPE ANY.
 
-  LOOP AT GT_SALE ASSIGNING FIELD-SYMBOL(<FS_DATA>).
+
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #2 - 2021.11.18 13:24:41, MDP_06
+*--------------------------------------------------------------------*
+* COSS / COSP 금액 합산 후 비율 계산( 정산으로 인해 +-0 인 항목 조치 )
+*--------------------------------------------------------------------*
+  DATA: LT_SALE_COLLECT LIKE GT_SALE.
+
+  LOOP AT GT_SALE INTO GS_SALE.
+    COLLECT GS_SALE INTO LT_SALE_COLLECT.
+  ENDLOOP.
+
+
+  LOOP AT LT_SALE_COLLECT ASSIGNING FIELD-SYMBOL(<FS_DATA>).
+*  LOOP AT GT_SALE ASSIGNING FIELD-SYMBOL(<FS_DATA>).
     LS_SALE-POSID = <FS_DATA>-POSID.
     LS_SALE-POST1 = <FS_DATA>-POST1.
     LS_SALE-TWAER = <FS_DATA>-TWAER.
@@ -428,7 +466,8 @@ FORM SET_SALE_DATA .
 
     LV_SUM_TOT = LV_SUM_TOT + LS_SALE-SALE_R.
 
-    APPEND LS_SALE TO GT_SALE_SUM.
+    COLLECT LS_SALE INTO GT_SALE_SUM.
+*    APPEND LS_SALE TO GT_SALE_SUM.
     CLEAR LS_SALE.
   ENDLOOP.
 
@@ -456,6 +495,11 @@ FORM GET_COST_DATA .
     LV_WRTTP = '01'.
   ENDIF.
 
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #2 - 2021.11.18 13:24:41, MDP_06
+*--------------------------------------------------------------------*
+* 프로젝트 프로파일 조회조건 추가
+*--------------------------------------------------------------------*
   SELECT B~POSID, B~POST1, 'KRW' AS TWAER,
          SUM( A~WKG001 ) AS WKG001,
          SUM( A~WKG002 ) AS WKG002,
@@ -471,6 +515,8 @@ FORM GET_COST_DATA .
          SUM( A~WKG012 ) AS WKG012
     FROM COSP AS A JOIN PRPS AS B
                      ON A~OBJNR = B~OBJNR
+                   JOIN PROJ AS C
+                     ON B~PSPHI = C~PSPNR
    WHERE A~LEDNR  = '00'
      AND A~GJAHR  = @PA_GJAHR
      AND A~VERSN  = @PA_VERSN
@@ -478,6 +524,7 @@ FORM GET_COST_DATA .
      AND A~OBJNR IN @R_OBJNR
      AND A~KSTAR IN @R_COST
      AND B~PBUKR  = @PA_BUKRS
+     AND C~PROFL IN @R_PROFL
    GROUP BY B~POSID, B~POST1
   UNION ALL
   SELECT B~POSID, B~POST1, 'KRW' AS TWAER,
@@ -495,6 +542,8 @@ FORM GET_COST_DATA .
          SUM( A~WKG012 ) AS WKG012
     FROM COSS AS A JOIN PRPS AS B
                      ON A~OBJNR = B~OBJNR
+                   JOIN PROJ AS C
+                     ON B~PSPHI = C~PSPNR
    WHERE A~LEDNR  = '00'
      AND A~GJAHR  = @PA_GJAHR
      AND A~VERSN  = @PA_VERSN
@@ -502,6 +551,7 @@ FORM GET_COST_DATA .
      AND A~OBJNR IN @R_OBJNR
      AND A~KSTAR IN @R_COST
      AND B~PBUKR  = @PA_BUKRS
+     AND C~PROFL IN @R_PROFL
    GROUP BY B~POSID, B~POST1
     INTO TABLE @GT_COST.
 
@@ -519,7 +569,21 @@ FORM SET_COST_DATA .
 
   FIELD-SYMBOLS: <FS_TOT> TYPE ANY.
 
-  LOOP AT GT_COST ASSIGNING FIELD-SYMBOL(<FS_DATA>).
+
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #2 - 2021.11.18 13:24:41, MDP_06
+*--------------------------------------------------------------------*
+* COSS / COSP 금액 합산 후 비율 계산( 정산으로 인해 +-0 인 항목 조치 )
+*--------------------------------------------------------------------*
+  DATA: LT_COST_COLLECT LIKE GT_COST.
+
+  LOOP AT GT_COST INTO GS_COST.
+    COLLECT GS_COST INTO LT_COST_COLLECT.
+  ENDLOOP.
+
+
+  LOOP AT LT_COST_COLLECT ASSIGNING FIELD-SYMBOL(<FS_DATA>).
+*  LOOP AT GT_COST ASSIGNING FIELD-SYMBOL(<FS_DATA>).
     LS_COST-POSID = <FS_DATA>-POSID.
     LS_COST-POST1 = <FS_DATA>-POST1.
     LS_COST-TWAER = <FS_DATA>-TWAER.
@@ -549,7 +613,8 @@ FORM SET_COST_DATA .
 
     LV_SUM_TOT = LV_SUM_TOT + LS_COST-COST_R.
 
-    APPEND LS_COST TO GT_COST_SUM.
+    COLLECT LS_COST INTO GT_COST_SUM.
+*    APPEND LS_COST TO GT_COST_SUM.
     CLEAR LS_COST.
   ENDLOOP.
 

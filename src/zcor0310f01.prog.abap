@@ -713,10 +713,13 @@ FORM CHECK_CONTROLLING_AREA .
     MESSAGE E027  WITH TEXT-003.
   ENDIF.
 
-  IF PA_GJAHR > '2019'.
-    SET CURSOR FIELD 'PA_GJAHR'.
-    MESSAGE E000  WITH TEXT-E06.
-  ENDIF.
+*강현수 2019년 을 2021이 가능하도록 풀어주세요.  20211007..
+*오후 04:06  ...
+
+*  IF PA_GJAHR > '2019'.
+*    SET CURSOR FIELD 'PA_GJAHR'.
+*    MESSAGE E000  WITH TEXT-E06.
+*  ENDIF.
 
 ENDFORM.
 *&---------------------------------------------------------------------*

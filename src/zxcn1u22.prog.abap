@@ -14,3 +14,28 @@
  CNCI_PRPS_EXP-ZZIVC = ZCOS0020-ZZIVC.
  CNCI_PRPS_EXP-ZZCYP = ZCOS0020-ZZCYP.
  CNCI_PRPS_EXP-ZZCOP = ZCOS0020-ZZCOP.
+
+
+*--------------------------------------------------------------------*
+* [CO] ESG Pjt. 설비WBS 고객필드 UserExit - 2021.09.29 17:09:56, MDP_06
+*--------------------------------------------------------------------*
+ CNCI_PRPS_EXP-ZZIZW = ZCOS0021-ZZIZW.
+ CNCI_PRPS_EXP-ZZCD1 = ZCOS0021-ZZCD1.
+ CNCI_PRPS_EXP-ZZCD2 = ZCOS0021-ZZCD2.
+ CNCI_PRPS_EXP-ZZCD3 = ZCOS0021-ZZCD3.
+ CNCI_PRPS_EXP-ZZTRD = ZCOS0021-ZZTRD.
+ CNCI_PRPS_EXP-ZZTCV = ZCOS0021-ZZTCV.
+ CNCI_PRPS_EXP-ZZWAE = ZCOS0021-ZZWAE.
+ CNCI_PRPS_EXP-ZZRT1 = ZCOS0021-ZZRT1.
+ CNCI_PRPS_EXP-ZZRT2 = ZCOS0021-ZZRT2.
+ CNCI_PRPS_EXP-ZZRT3 = ZCOS0021-ZZRT3.
+ CNCI_PRPS_EXP-ZZDT1 = ZCOS0021-ZZDT1.
+ CNCI_PRPS_EXP-ZZDT2 = ZCOS0021-ZZDT2.
+ CNCI_PRPS_EXP-ZZDT3 = ZCOS0021-ZZDT3.
+
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 설비WBS 고객필드 추가, 2021.11.22 17:36:19, MDP_06
+*--------------------------------------------------------------------*
+  CNCI_PRPS_EXP-ZZUNT = ZCOS0021-ZZUNT.  " 호기(Unit)
+  CNCI_PRPS_EXP-ZZCMD = ZCOS0021-ZZCMD.  " 공사착공일(Commencement Date)
+  CNCI_PRPS_EXP-ZZCPD = ZCOS0021-ZZCPD.  " 공사준공일(Completion Date)

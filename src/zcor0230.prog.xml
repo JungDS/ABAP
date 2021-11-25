@@ -353,6 +353,12 @@
     </item>
     <item>
      <ID>S</ID>
+     <KEY>PA_EQWBS</KEY>
+     <ENTRY>설비WBS 포함</ENTRY>
+     <LENGTH>16</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
      <KEY>PA_GJAHR</KEY>
      <ENTRY>회계연도</ENTRY>
      <LENGTH>12</LENGTH>

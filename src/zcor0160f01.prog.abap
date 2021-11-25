@@ -470,6 +470,19 @@ FORM set_ranges_objnr .
 
   ENDIF.
 
+
+*--------------------------------------------------------------------*
+* [CO] ESG Pjt. 설비WBS 검색제외 - 2021.11.10 14:25:25, MDP_06
+*--------------------------------------------------------------------*
+  IF PA_EQWBS IS INITIAL.
+    " 설비WBS 제외
+    R_PROFL[] = VALUE #( ( CONV #( 'EEQZ000003' ) ) ).
+  ELSE.
+    " 설비WBS 포함
+    CLEAR: R_PROFL, R_PROFL[].
+  ENDIF.
+
+
   SELECT b~pspid, b~post1 AS psptx,
          a~objnr, a~pspnr, a~posid, a~post1
     FROM prps AS a
@@ -487,6 +500,7 @@ FORM set_ranges_objnr .
      AND a~pbukr IN @r_bukrs
      AND a~prctr IN @r_prctr1
      AND b~pspid IN @r_pspid
+     AND B~PROFL IN @R_PROFL    " 설비WBS 제외 점검추가 2021.11.10
     ORDER BY b~pspid, a~posid.
 
   IF sy-subrc <> 0 .

@@ -361,6 +361,30 @@
      <MSGNR>058</MSGNR>
      <TEXT>선택된 Column이 없습니다.</TEXT>
     </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>059</MSGNR>
+     <TEXT>비율(%)의 합산 결과는 100% 여야 합니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>060</MSGNR>
+     <TEXT>설비 WBS의 사용자 필드를 입력해야 합니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>061</MSGNR>
+     <TEXT>설비 WBS 번호(E.00)는 회사코드와 일치해야 합니다.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>062</MSGNR>
+     <TEXT>프로파일과 WBS 번호는 일치해야 합니다.</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

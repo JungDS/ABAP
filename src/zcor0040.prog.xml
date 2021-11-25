@@ -83,6 +83,16 @@
     </STA>
     <FUN>
      <RSMPE_FUNT>
+      <CODE>&amp;ADD</CODE>
+      <TEXTNO>001</TEXTNO>
+      <TEXT_TYPE>S</TEXT_TYPE>
+      <TEXT_NAME>ICON_INSERT_ROW</TEXT_NAME>
+      <ICON_ID>@17@</ICON_ID>
+      <FUN_TEXT>행추가</FUN_TEXT>
+      <ICON_TEXT>행추가</ICON_TEXT>
+      <INFO_TEXT>행추가</INFO_TEXT>
+     </RSMPE_FUNT>
+     <RSMPE_FUNT>
       <CODE>&amp;BCK</CODE>
       <TEXTNO>001</TEXTNO>
       <TYPE>E</TYPE>
@@ -97,6 +107,26 @@
       <TEXT_NAME>ICON_CANCEL</TEXT_NAME>
       <ICON_ID>@0W@</ICON_ID>
       <FUN_TEXT>취소</FUN_TEXT>
+     </RSMPE_FUNT>
+     <RSMPE_FUNT>
+      <CODE>&amp;DELE</CODE>
+      <TEXTNO>001</TEXTNO>
+      <TEXT_TYPE>S</TEXT_TYPE>
+      <TEXT_NAME>ICON_DELETE</TEXT_NAME>
+      <ICON_ID>@11@</ICON_ID>
+      <FUN_TEXT>삭제</FUN_TEXT>
+      <ICON_TEXT>삭제</ICON_TEXT>
+      <INFO_TEXT>삭제</INFO_TEXT>
+     </RSMPE_FUNT>
+     <RSMPE_FUNT>
+      <CODE>&amp;EDIT</CODE>
+      <TEXTNO>001</TEXTNO>
+      <TEXT_TYPE>S</TEXT_TYPE>
+      <TEXT_NAME>ICON_EDIT_FILE</TEXT_NAME>
+      <ICON_ID>@HL@</ICON_ID>
+      <FUN_TEXT>편집</FUN_TEXT>
+      <ICON_TEXT>편집</ICON_TEXT>
+      <INFO_TEXT>편집</INFO_TEXT>
      </RSMPE_FUNT>
      <RSMPE_FUNT>
       <CODE>&amp;EXT</CODE>
@@ -114,12 +144,22 @@
       <FUN_TEXT>Help</FUN_TEXT>
      </RSMPE_FUNT>
      <RSMPE_FUNT>
+      <CODE>&amp;REFR</CODE>
+      <TEXTNO>001</TEXTNO>
+      <TEXT_TYPE>S</TEXT_TYPE>
+      <TEXT_NAME>ICON_REFRESH</TEXT_NAME>
+      <ICON_ID>@42@</ICON_ID>
+      <FUN_TEXT>Refresh</FUN_TEXT>
+     </RSMPE_FUNT>
+     <RSMPE_FUNT>
       <CODE>&amp;SAV</CODE>
       <TEXTNO>001</TEXTNO>
       <TEXT_TYPE>S</TEXT_TYPE>
       <TEXT_NAME>ICON_SYSTEM_SAVE</TEXT_NAME>
       <ICON_ID>@2L@</ICON_ID>
       <FUN_TEXT>저장</FUN_TEXT>
+      <ICON_TEXT>저장</ICON_TEXT>
+      <INFO_TEXT>저장</INFO_TEXT>
      </RSMPE_FUNT>
     </FUN>
     <BUT>
@@ -129,8 +169,38 @@
       <NO>01</NO>
       <PFNO>13</PFNO>
      </RSMPE_BUT>
+     <RSMPE_BUT>
+      <PFK_CODE>000001</PFK_CODE>
+      <CODE>0001</CODE>
+      <NO>02</NO>
+      <PFNO>08</PFNO>
+     </RSMPE_BUT>
+     <RSMPE_BUT>
+      <PFK_CODE>000001</PFK_CODE>
+      <CODE>0001</CODE>
+      <NO>03</NO>
+      <PFNO>02</PFNO>
+     </RSMPE_BUT>
+     <RSMPE_BUT>
+      <PFK_CODE>000001</PFK_CODE>
+      <CODE>0001</CODE>
+      <NO>04</NO>
+      <PFNO>32</PFNO>
+     </RSMPE_BUT>
+     <RSMPE_BUT>
+      <PFK_CODE>000001</PFK_CODE>
+      <CODE>0001</CODE>
+      <NO>05</NO>
+      <PFNO>14</PFNO>
+     </RSMPE_BUT>
     </BUT>
     <PFK>
+     <RSMPE_PFK>
+      <CODE>000001</CODE>
+      <PFNO>02</PFNO>
+      <FUNCODE>&amp;EDIT</FUNCODE>
+      <FUNNO>001</FUNNO>
+     </RSMPE_PFK>
      <RSMPE_PFK>
       <CODE>000001</CODE>
       <PFNO>03</PFNO>
@@ -139,8 +209,8 @@
      </RSMPE_PFK>
      <RSMPE_PFK>
       <CODE>000001</CODE>
-      <PFNO>11</PFNO>
-      <FUNCODE>&amp;SAV</FUNCODE>
+      <PFNO>08</PFNO>
+      <FUNCODE>&amp;REFR</FUNCODE>
       <FUNNO>001</FUNNO>
      </RSMPE_PFK>
      <RSMPE_PFK>
@@ -157,12 +227,34 @@
      </RSMPE_PFK>
      <RSMPE_PFK>
       <CODE>000001</CODE>
+      <PFNO>14</PFNO>
+      <FUNCODE>&amp;DELE</FUNCODE>
+      <FUNNO>001</FUNNO>
+     </RSMPE_PFK>
+     <RSMPE_PFK>
+      <CODE>000001</CODE>
       <PFNO>15</PFNO>
       <FUNCODE>&amp;EXT</FUNCODE>
       <FUNNO>001</FUNNO>
      </RSMPE_PFK>
+     <RSMPE_PFK>
+      <CODE>000001</CODE>
+      <PFNO>16</PFNO>
+      <FUNCODE>&amp;ADD</FUNCODE>
+      <FUNNO>001</FUNNO>
+     </RSMPE_PFK>
+     <RSMPE_PFK>
+      <CODE>000001</CODE>
+      <PFNO>32</PFNO>
+      <FUNCODE>&amp;SAV</FUNCODE>
+      <FUNNO>001</FUNNO>
+     </RSMPE_PFK>
     </PFK>
     <SET>
+     <RSMPE_STAF>
+      <STATUS>PF_0100</STATUS>
+      <FUNCTION>&amp;ADD</FUNCTION>
+     </RSMPE_STAF>
      <RSMPE_STAF>
       <STATUS>PF_0100</STATUS>
       <FUNCTION>&amp;BCK</FUNCTION>
@@ -173,11 +265,23 @@
      </RSMPE_STAF>
      <RSMPE_STAF>
       <STATUS>PF_0100</STATUS>
+      <FUNCTION>&amp;DELE</FUNCTION>
+     </RSMPE_STAF>
+     <RSMPE_STAF>
+      <STATUS>PF_0100</STATUS>
+      <FUNCTION>&amp;EDIT</FUNCTION>
+     </RSMPE_STAF>
+     <RSMPE_STAF>
+      <STATUS>PF_0100</STATUS>
       <FUNCTION>&amp;EXT</FUNCTION>
      </RSMPE_STAF>
      <RSMPE_STAF>
       <STATUS>PF_0100</STATUS>
       <FUNCTION>&amp;HELP</FUNCTION>
+     </RSMPE_STAF>
+     <RSMPE_STAF>
+      <STATUS>PF_0100</STATUS>
+      <FUNCTION>&amp;REFR</FUNCTION>
      </RSMPE_STAF>
      <RSMPE_STAF>
       <STATUS>PF_0100</STATUS>
@@ -223,6 +327,12 @@
      <ID>I</ID>
      <KEY>002</KEY>
      <ENTRY>예산통제유형</ENTRY>
+     <LENGTH>14</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>011</KEY>
+     <ENTRY>회사코드</ENTRY>
      <LENGTH>14</LENGTH>
     </item>
     <item>
@@ -341,6 +451,24 @@
     </item>
     <item>
      <ID>I</ID>
+     <KEY>F01</KEY>
+     <ENTRY>상태</ENTRY>
+     <LENGTH>12</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>K15</KEY>
+     <ENTRY>전체선택</ENTRY>
+     <LENGTH>14</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>K16</KEY>
+     <ENTRY>전체해졔</ENTRY>
+     <LENGTH>14</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
      <KEY>PT1</KEY>
      <ENTRY>저장</ENTRY>
      <LENGTH>12</LENGTH>
@@ -354,7 +482,7 @@
     <item>
      <ID>I</ID>
      <KEY>PT4</KEY>
-     <ENTRY>변경확인</ENTRY>
+     <ENTRY>확인</ENTRY>
      <LENGTH>14</LENGTH>
     </item>
     <item>
@@ -378,7 +506,7 @@
     <item>
      <ID>I</ID>
      <KEY>QT4</KEY>
-     <ENTRY>변경사항이 존재합니다. 저장 후 종료 하시겠습니까?</ENTRY>
+     <ENTRY>종료 하시겠습니까?</ENTRY>
      <LENGTH>56</LENGTH>
     </item>
     <item>
@@ -413,8 +541,15 @@
     </item>
     <item>
      <ID>R</ID>
-     <ENTRY>[CO] 예산기준 정보 관리</ENTRY>
-     <LENGTH>15</LENGTH>
+     <ENTRY>[CO] 회사코드별 예산기준 정보 관리</ENTRY>
+     <LENGTH>21</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>PA_BUKRS</KEY>
+     <ENTRY>.</ENTRY>
+     <LENGTH>13</LENGTH>
+     <SPLIT>D</SPLIT>
     </item>
     <item>
      <ID>S</ID>

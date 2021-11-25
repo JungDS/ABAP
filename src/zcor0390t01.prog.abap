@@ -105,8 +105,8 @@ DATA: LT_DISPLAY  LIKE TABLE OF ZCOS0370 WITH HEADER LINE.
 RANGES: R_SALE  FOR COSP-KSTAR,
         R_COST  FOR COSP-KSTAR,
         R_KSTAR FOR COSP-KSTAR,
-        R_OBJNR FOR PRPS-OBJNR.
-
+        R_OBJNR FOR PRPS-OBJNR,
+        R_PROFL FOR PROJ-PROFL. " 211124_설비프로파일 구분을 위해 추가
 *----------------------------------------------------------------------*
 * FIELD-SYMBOLS
 *----------------------------------------------------------------------*
