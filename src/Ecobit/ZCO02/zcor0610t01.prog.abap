@@ -163,8 +163,8 @@ DATA: BEGIN OF GS_DISPLAY,
         WKG012P         LIKE COSP-WKG012,         " 12월계획
         WKG012A         LIKE COSP-WKG012,         " 12월실적
 
-        PSTRT           LIKE PRTE-PSTRT,          " 시작일
-        PENDE           LIKE PRTE-PENDE,          " 종료일
+*        PSTRT           LIKE PRTE-PSTRT,          " 시작일
+*        PENDE           LIKE PRTE-PENDE,          " 종료일
         OBJNR           LIKE PRPS-OBJNR,          " 오브젝트
         TDLINE          LIKE BAPITLINE-TDLINE,    " 비고
 *--------------------------------------------------------------------*

@@ -83,8 +83,8 @@ DATA: BEGIN OF GS_DISPLAY,
         PSPIDTX         LIKE PROJ-POST1,            " 프로젝트명
         POSID           LIKE PRPS-POSID,            " WBS
         POSIDTX         LIKE PRPS-POST1,            " WBS명
-        PSTRT           LIKE PRTE-PSTRT,            " 시작일
-        PENDE           LIKE PRTE-PENDE,            " 종료일
+*        PSTRT           LIKE PRTE-PSTRT,            " 시작일
+*        PENDE           LIKE PRTE-PENDE,            " 종료일
         ZZIZW           LIKE PRPS-ZZIZW,            " 투자사유
         ZZIZWTX         LIKE ZCOT1270T-ZZIZWTX,     " 투자사유명
         ZZCD1           LIKE PRPS-ZZCD1,            " 대분류
@@ -93,31 +93,31 @@ DATA: BEGIN OF GS_DISPLAY,
         ZZCD2TX         LIKE ZCOT1290T-ZZCD2TX,     " 중분류명
         ZZCD3           LIKE PRPS-ZZCD3,            " 소분류
         ZZCD3TX         LIKE ZCOT1300T-ZZCD3TX,     " 소분류명
-        ZZTRD           LIKE PRPS-ZZTRD,            " 거래처명
+*        ZZTRD           LIKE PRPS-ZZTRD,            " 거래처명
         ZZTCV           LIKE ZCOS0021-ZZTCV,        " 계약금액
         ZZWAE           LIKE ZCOS0021-ZZWAE,        " 통화
-        ZZRT1           LIKE ZCOS0021-ZZRT1,        " 계약금%
-        ZZRT2           LIKE ZCOS0021-ZZRT2,        " 중도금%
-        ZZRT3           LIKE ZCOS0021-ZZRT3,        " 잔금%
-        ZZDT1           LIKE ZCOS0021-ZZDT1,        " 계약금예정일
-        ZZDT2           LIKE ZCOS0021-ZZDT2,        " 중도금예정일
-        ZZDT3           LIKE ZCOS0021-ZZDT3,        " 잔금예정일
+*        ZZRT1           LIKE ZCOS0021-ZZRT1,        " 계약금%
+*        ZZRT2           LIKE ZCOS0021-ZZRT2,        " 중도금%
+*        ZZRT3           LIKE ZCOS0021-ZZRT3,        " 잔금%
+*        ZZDT1           LIKE ZCOS0021-ZZDT1,        " 계약금예정일
+*        ZZDT2           LIKE ZCOS0021-ZZDT2,        " 중도금예정일
+*        ZZDT3           LIKE ZCOS0021-ZZDT3,        " 잔금예정일
         ZZUNT           LIKE ZCOS0021-ZZUNT,        " 호기
         ZZCMD           LIKE ZCOS0021-ZZCMD,        " 공사착공일
         ZZCPD           LIKE ZCOS0021-ZZCPD,        " 공사준공일
-        USR00           LIKE PRPS-USR00,            " 발주자
-        USR01           LIKE PRPS-USR01,            " 부서
-        USR02           LIKE PRPS-USR02,            " 점검유형
-        USR03           LIKE PRPS-USR03,            " 고장유형
-        USR08           LIKE PRPS-USR08,            " 계약발주일
-        USR09           LIKE PRPS-USR09,            " 점검일
-        USR10           LIKE PRPS-USR10,            " 사전계획
+*        USR00           LIKE PRPS-USR00,            " 발주자
+*        USR01           LIKE PRPS-USR01,            " 부서
+*        USR02           LIKE PRPS-USR02,            " 점검유형
+*        USR03           LIKE PRPS-USR03,            " 고장유형
+*        USR08           LIKE PRPS-USR08,            " 계약발주일
+*        USR09           LIKE PRPS-USR09,            " 점검일
+*        USR10           LIKE PRPS-USR10,            " 사전계획
         ZZWBT           LIKE PRPS-ZZWBT,            " WBS유형
         ZZWBTTX         LIKE ZCOT1030T-ZZWBTTX,     " WBS유형명
         ZZCYP           LIKE PRPS-ZZCYP,            " 통제유형
         ZZCYPTX         LIKE ZCOT1130T-CTEXT,       " 통제유형명
-        TDLINE          LIKE BAPITLINE-TDLINE,      " 비고
-        TDLINE_TAB      TYPE LDPS_TXT_TAB,          " 비고(MultiLine)
+*        TDLINE          LIKE BAPITLINE-TDLINE,      " 비고
+*        TDLINE_TAB      TYPE LDPS_TXT_TAB,          " 비고(MultiLine)
 *--------------------------------------------------------------------*
         OBJNR           LIKE PRPS-OBJNR,            " 오브젝트
         MESSAGE         LIKE BAPIRET2-MESSAGE,      " 결과메시지

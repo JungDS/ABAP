@@ -161,6 +161,32 @@ DATA: BEGIN OF GS_CHECK,
         PROZS   TYPE COBRB-PROZS,
       END OF GS_CHECK.
 
+
+DATA: BEGIN OF GS_1310,
+        BUKRS   LIKE ZCOT1310-BUKRS,
+        BUTXT   LIKE T001-BUTXT,
+        ZZBGU   LIKE ZCOT1310-ZZBGU,
+        ZZBGUTX LIKE ZCOT1040T-ZZBGUTX,
+        ZZBGD   LIKE ZCOT1310-ZZBGD,
+        ZZBGDTX LIKE ZCOT1050T-ZZBGDTX,
+        ZZPRG   LIKE ZCOT1310-ZZPRG,
+        ZZPRGTX LIKE ZCOT1100T-ZZPRGTX,
+        WW120   LIKE ZCOT1310-WW120,
+        BEZEK   LIKE T25A1-BEZEK,
+        AEDAT   LIKE ZCOT1310-AEDAT,
+        AEZET   LIKE ZCOT1310-AEZET,
+        AENAM   LIKE ZCOT1310-AENAM,
+      END OF GS_1310.
+
+DATA: BEGIN OF GS_1320,
+        PSPNR   LIKE ZCOT1320-PSPNR,
+        POST1   LIKE PRPS-POST1,
+        WW120   LIKE ZCOT1320-WW120,
+        BEZEK   LIKE T25A1-BEZEK,
+        AEDAT   LIKE ZCOT1320-AEDAT,
+        AEZET   LIKE ZCOT1320-AEZET,
+        AENAM   LIKE ZCOT1320-AENAM,
+      END OF GS_1320.
 *---------------------------------------------------------------------*
 * INTERNAL TABLE
 *---------------------------------------------------------------------*
@@ -174,6 +200,8 @@ DATA GT_T001          LIKE TABLE OF GS_T001.
 DATA GT_1050          LIKE TABLE OF GS_1050.
 *DATA GT_1100          LIKE TABLE OF GS_1100.
 DATA GT_CHECK         LIKE TABLE OF GS_CHECK.
+DATA GT_1310          LIKE TABLE OF GS_1310.
+DATA GT_1320          LIKE TABLE OF GS_1320.
 
 *---------------------------------------------------------------------*
 * ALV
@@ -186,6 +214,8 @@ DATA GR_ALV             TYPE REF TO ZCL_CO_ALV.
 DATA GR_GRID            TYPE REF TO CL_GUI_ALV_GRID.
 DATA GR_EVENT_RECEIVER  TYPE REF TO LCL_EVENT_RECEIVER.
 
+DATA GR_CON_DIALOG      TYPE REF TO CL_GUI_DIALOGBOX_CONTAINER.
+DATA GR_ALV_DIALOG      TYPE REF TO ZCL_CO_ALV.
 
 *---------------------------------------------------------------------*
 * BDC

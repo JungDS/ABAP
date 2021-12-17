@@ -602,9 +602,14 @@ FORM MAKE_FIELDCATALOG_0100 .
 
         LS_FIELDCAT-NO_OUT = GC_X.
 
+      WHEN 'RCDATA'.
+        LS_FIELDCAT-HOTSPOT = GC_X.
+
       WHEN 'STYLE'
         OR 'COLOR'.
         LS_FIELDCAT-TECH = GC_X.
+
+
 
     ENDCASE.
 
@@ -647,7 +652,7 @@ FORM MAKE_FIELDCATALOG_0100 .
       WHEN 'R_CD_T'.      LV_TEXT = 'R.CD_T'.
       WHEN 'R_CD_GRP'.    LV_TEXT = 'R.CD_G'.
       WHEN 'R_CD_TXT'.    LV_TEXT = 'R.CD명'.
-                          LV_TOOLTIP = 'Receiver Company Code or Group 이름'.
+                          LV_TOOLTIP = 'Receiver 회사코드 or Group 이름'.
 
       WHEN 'R_BA_F'.      LV_TEXT = 'R.BA_F'.
       WHEN 'R_BA_T'.      LV_TEXT = 'R.BA_T'.
@@ -677,7 +682,7 @@ FORM MAKE_FIELDCATALOG_0100 .
       WHEN 'SDATE'.       LV_TEXT = '시작일'.
       WHEN 'EDATE'.       LV_TEXT = '종료일'.
       WHEN 'CRDATE'.      LV_TEXT = '생성일'.
-      WHEN 'MODDATE'.     LV_TEXT = '생성일최종변경일'.
+      WHEN 'MODDATE'.     LV_TEXT = '최종변경일'.
       WHEN 'MODUSER'.     LV_TEXT = '최종변경자'.
       WHEN 'LASTEXEC'.    LV_TEXT = '최종수행일'.
       WHEN 'PROC_GROUP'.  LV_TEXT = '실행그룹'.
@@ -782,6 +787,14 @@ FORM HANDLE_HOTSPOT_CLICK  USING PS_ROW_ID     TYPE LVC_S_ROW
             SET PARAMETER ID 'PRO' FIELD <FS_VALUE>.
             CALL TRANSACTION 'CJ03' AND SKIP FIRST SCREEN.
           ENDIF.
+
+        WHEN 'RCDAT'.
+
+          CHECK <FS_VALUE>(1) EQ 'Z'.
+
+          SET PARAMETER ID 'KYR' FIELD <FS_VALUE>.
+          CALL TRANSACTION 'KEUH' AND SKIP FIRST SCREEN.
+
 
         WHEN OTHERS.
           IF PS_COLUMN_ID-FIELDNAME+5(3) EQ 'GRP'.

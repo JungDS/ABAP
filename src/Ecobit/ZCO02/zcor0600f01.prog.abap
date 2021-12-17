@@ -513,9 +513,11 @@ FORM MAKE_FIELDCATALOG_0100 .
 *        LS_FIELDCAT-OUTPUTLEN = 35.
 
       WHEN 'PSTRT'.
+        LS_FIELDCAT-NO_OUT = GC_X.
 *        LS_FIELDCAT-JUST   = GC_C.
 
       WHEN 'PENDE'.
+        LS_FIELDCAT-NO_OUT = GC_X.
 *        LS_FIELDCAT-JUST   = GC_C.
 
       WHEN 'ZZIZW'.

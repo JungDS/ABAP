@@ -91,25 +91,25 @@ DATA: BEGIN OF GS_DATA,
         ZZCD1           LIKE PRPS-ZZCD1,          " 대분류
         ZZCD2           LIKE PRPS-ZZCD2,          " 중분류
         ZZCD3           LIKE PRPS-ZZCD3,          " 소분류
-        ZZTRD           LIKE PRPS-ZZTRD,          " 거래처
+*        ZZTRD           LIKE PRPS-ZZTRD,          " 거래처
         ZZTCV           LIKE PRPS-ZZTCV,          " 계약금액
         ZZWAE           LIKE PRPS-ZZWAE,          " 통화 키
-        ZZRT1           LIKE PRPS-ZZRT1,          " 계약금 비율(%)
-        ZZRT2           LIKE PRPS-ZZRT2,          " 중도금 비율(%)
-        ZZRT3           LIKE PRPS-ZZRT3,          " 잔금 비율(%)
-        ZZDT1           LIKE PRPS-ZZDT1,          " 계약금 지급예정일
-        ZZDT2           LIKE PRPS-ZZDT2,          " 중도금 지급예정일
-        ZZDT3           LIKE PRPS-ZZDT3,          " 잔금 지급예정일
+*        ZZRT1           LIKE PRPS-ZZRT1,          " 계약금 비율(%)
+*        ZZRT2           LIKE PRPS-ZZRT2,          " 중도금 비율(%)
+*        ZZRT3           LIKE PRPS-ZZRT3,          " 잔금 비율(%)
+*        ZZDT1           LIKE PRPS-ZZDT1,          " 계약금 지급예정일
+*        ZZDT2           LIKE PRPS-ZZDT2,          " 중도금 지급예정일
+*        ZZDT3           LIKE PRPS-ZZDT3,          " 잔금 지급예정일
         ZZUNT           LIKE PRPS-ZZUNT,          " 호기
         ZZCMD           LIKE PRPS-ZZCMD,          " 공사착공일
         ZZCPD           LIKE PRPS-ZZCPD,          " 공사준공일
-        USR00           LIKE PRPS-USR00,          " 발주자
-        USR01           LIKE PRPS-USR01,          " 부서
-        USR02           LIKE PRPS-USR02,          " 점검유형
-        USR03           LIKE PRPS-USR03,          " 고장유형
-        USR08           LIKE PRPS-USR08,          " 계약발주일
-        USR09           LIKE PRPS-USR09,          " 점검일
-        USR10           LIKE PRPS-USR10,          " 사전계획
+*        USR00           LIKE PRPS-USR00,          " 발주자
+*        USR01           LIKE PRPS-USR01,          " 부서
+*        USR02           LIKE PRPS-USR02,          " 점검유형
+*        USR03           LIKE PRPS-USR03,          " 고장유형
+*        USR08           LIKE PRPS-USR08,          " 계약발주일
+*        USR09           LIKE PRPS-USR09,          " 점검일
+*        USR10           LIKE PRPS-USR10,          " 사전계획
         ZZWBT           LIKE PRPS-ZZWBT,          " WBS유형
         ZZCYP           LIKE PRPS-ZZCYP,          " 통제유형
         ERDAT           LIKE PRPS-ERDAT,          " 생성일
@@ -145,26 +145,26 @@ DATA: BEGIN OF GS_DISPLAY,
         ZZCD3           LIKE PRPS-ZZCD3,          " 소분류
         ZZCD3TX         LIKE ZCOT1300T-ZZCD3TX,   " 소분류명
 
-        ZZTRD           LIKE PRPS-ZZTRD,          " 거래처명
+*        ZZTRD           LIKE PRPS-ZZTRD,          " 거래처명
         ZZTCV           LIKE ZCOS0021-ZZTCV,      " 계약금액
         ZZWAE           LIKE PRPS-ZZWAE,          " 통화
-        ZZRT1           LIKE PRPS-ZZRT1,          " 계약금%
-        ZZRT2           LIKE PRPS-ZZRT2,          " 중도금%
-        ZZRT3           LIKE PRPS-ZZRT3,          " 잔금%
-        ZZDT1           LIKE PRPS-ZZDT1,          " 계약금예정일
-        ZZDT2           LIKE PRPS-ZZDT2,          " 중도금예정일
-        ZZDT3           LIKE PRPS-ZZDT3,          " 잔금예정일
+*        ZZRT1           LIKE PRPS-ZZRT1,          " 계약금%
+*        ZZRT2           LIKE PRPS-ZZRT2,          " 중도금%
+*        ZZRT3           LIKE PRPS-ZZRT3,          " 잔금%
+*        ZZDT1           LIKE PRPS-ZZDT1,          " 계약금예정일
+*        ZZDT2           LIKE PRPS-ZZDT2,          " 중도금예정일
+*        ZZDT3           LIKE PRPS-ZZDT3,          " 잔금예정일
         ZZUNT           LIKE PRPS-ZZUNT,          " 호기
         ZZCMD           LIKE PRPS-ZZCMD,          " 공사착공일
         ZZCPD           LIKE PRPS-ZZCPD,          " 공사준공일
 
-        USR00           LIKE PRPS-USR00,          " 발주자
-        USR01           LIKE PRPS-USR01,          " 부서
-        USR02           LIKE PRPS-USR02,          " 점검유형
-        USR03           LIKE PRPS-USR03,          " 고장유형
-        USR08           LIKE PRPS-USR08,          " 계약발주일
-        USR09           LIKE PRPS-USR09,          " 점검일
-        USR10           LIKE PRPS-USR10,          " 사전계획
+*        USR00           LIKE PRPS-USR00,          " 발주자
+*        USR01           LIKE PRPS-USR01,          " 부서
+*        USR02           LIKE PRPS-USR02,          " 점검유형
+*        USR03           LIKE PRPS-USR03,          " 고장유형
+*        USR08           LIKE PRPS-USR08,          " 계약발주일
+*        USR09           LIKE PRPS-USR09,          " 점검일
+*        USR10           LIKE PRPS-USR10,          " 사전계획
 
         ZZWBT           LIKE PRPS-ZZWBT,          " WBS유형
         ZZCYP           LIKE PRPS-ZZCYP,          " 통제유형

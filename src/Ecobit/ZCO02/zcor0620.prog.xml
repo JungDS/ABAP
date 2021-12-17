@@ -398,6 +398,12 @@
     </item>
     <item>
      <ID>I</ID>
+     <KEY>E37</KEY>
+     <ENTRY>[공사준공일]이 존재하지 않습니다.</ENTRY>
+     <LENGTH>29</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
      <KEY>F01</KEY>
      <ENTRY>상태</ENTRY>
      <LENGTH>12</LENGTH>

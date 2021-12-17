@@ -611,7 +611,7 @@ FORM MAKE_FIELDCATALOG_0100 .
       WHEN 'ZZCMD'
         OR 'ZZCPD'.
         LS_FIELDCAT-JUST      = GC_C.
-        LS_FIELDCAT-NO_OUT    = GC_X.
+*        LS_FIELDCAT-NO_OUT    = GC_X.
 
       WHEN 'KSTAR'.
         LS_FIELDCAT-JUST      = GC_C.

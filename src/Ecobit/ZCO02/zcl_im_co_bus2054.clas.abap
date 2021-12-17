@@ -25,6 +25,47 @@ CLASS ZCL_IM_CO_BUS2054 IMPLEMENTATION.
 
   METHOD IF_EX_BAPIEXT_BUS2054~CREATE_EXIT1.
 
+DEFINE __APPEND_ERROR_MESSAGE.
+
+  APPEND INITIAL LINE TO RETURN ASSIGNING <FS_RETURN>.
+
+  IF SY-SUBRC EQ 0.
+
+    " & 필드는 필수입니다.
+    <FS_RETURN> = VALUE #(
+      TYPE        = 'E'
+      ID          = 'ZCO01'
+      NUMBER      = '026'
+      MESSAGE_V1  = &2
+      FIELD       = &1
+    ).
+
+    CALL FUNCTION 'MESSAGE_TEXT_BUILD'
+      EXPORTING
+        MSGID               = <FS_RETURN>-ID
+        MSGNR               = <FS_RETURN>-NUMBER
+        MSGV1               = <FS_RETURN>-MESSAGE_V1
+      IMPORTING
+        MESSAGE_TEXT_OUTPUT = <FS_RETURN>-MESSAGE.
+
+    UNASSIGN <FS_RETURN>.
+  ENDIF.
+
+END-OF-DEFINITION.
+DEFINE __CHECK_CUSTOM_FIELD.
+
+  ASSIGN COMPONENT &1 OF STRUCTURE <FS_CUSTOM_FIELDS> TO <FS_VALUE>.
+
+  IF SY-SUBRC EQ 0.
+    IF <FS_VALUE> IS INITIAL.
+      __APPEND_ERROR_MESSAGE &1 &2.
+    ENDIF.
+
+    UNASSIGN <FS_VALUE>.
+  ENDIF.
+
+END-OF-DEFINITION.
+
     DATA LS_PROJECT             TYPE BAPI_BUS2001_NEW.
     DATA LS_PROJECT_DETAIL      TYPE BAPI_BUS2001_DETAIL.
     DATA LR_CUSTOM_FIELDS       TYPE REF TO DATA.
@@ -32,6 +73,16 @@ CLASS ZCL_IM_CO_BUS2054 IMPLEMENTATION.
 
     FIELD-SYMBOLS <FS_RETURN>   TYPE BAPIRET2.
     FIELD-SYMBOLS <FS_VALUE>    TYPE ANY.
+
+    " 시작일자 ~ 종료일자 필수입력 점검
+    " T-마켓에서 시작일자~종료일자 사이에 현재일자일 경우만 사용되어
+    " 공란일 경우에 사용할 수가 업어서 필수체크한다.
+
+    LOOP AT I_WBS_ELEMENT_TABLE INTO DATA(LS_WBS).
+      IF LS_WBS-WBS_BASIC_FINISH_DATE IS INITIAL.
+        __APPEND_ERROR_MESSAGE 'PSTRT' '시작일자'.
+      ENDIF.
+    ENDLOOP.
 
 
     " 설비 WBS 만 필수 여부 점검
@@ -57,62 +108,27 @@ CLASS ZCL_IM_CO_BUS2054 IMPLEMENTATION.
       AND EXTENSIONIN[] IS NOT INITIAL.
 
     " 확장필드 정보
-    READ TABLE EXTENSIONIN INTO DATA(LS_IN) INDEX 1.
+    LOOP AT EXTENSIONIN INTO DATA(LS_IN).
 
-    IF LR_CUSTOM_FIELDS IS NOT INITIAL.
-      FREE LR_CUSTOM_FIELDS.
-    ENDIF.
-
-    CREATE DATA LR_CUSTOM_FIELDS TYPE (LS_IN-STRUCTURE).
-    ASSIGN LR_CUSTOM_FIELDS->* TO FIELD-SYMBOL(<FS_CUSTOM_FIELDS>).
-
-    CHECK SY-SUBRC EQ 0.
-
-    " 확장필드 구조에 값 전달
-    <FS_CUSTOM_FIELDS> = LS_IN-VALUEPART1.
-
-DEFINE __CHECK_VALUE.
-
-  ASSIGN COMPONENT &1 OF STRUCTURE <FS_CUSTOM_FIELDS> TO <FS_VALUE>.
-
-  IF SY-SUBRC EQ 0.
-    IF <FS_VALUE> IS INITIAL.
-
-      APPEND INITIAL LINE TO RETURN ASSIGNING <FS_RETURN>.
-
-      IF SY-SUBRC EQ 0.
-
-        " & 필드는 필수입니다.
-        <FS_RETURN> = VALUE #(
-          TYPE        = 'E'
-          ID          = 'ZCO01'
-          NUMBER      = '026'
-          MESSAGE_V1  = &2
-          FIELD       = &1
-        ).
-
-        CALL FUNCTION 'MESSAGE_TEXT_BUILD'
-          EXPORTING
-            MSGID               = <FS_RETURN>-ID
-            MSGNR               = <FS_RETURN>-NUMBER
-            MSGV1               = <FS_RETURN>-MESSAGE_V1
-          IMPORTING
-            MESSAGE_TEXT_OUTPUT = <FS_RETURN>-MESSAGE.
-
-        UNASSIGN <FS_RETURN>.
+      IF LR_CUSTOM_FIELDS IS NOT INITIAL.
+        FREE LR_CUSTOM_FIELDS.
       ENDIF.
-    ENDIF.
 
-    UNASSIGN <FS_VALUE>.
-  ENDIF.
+      CREATE DATA LR_CUSTOM_FIELDS TYPE (LS_IN-STRUCTURE).
+      ASSIGN LR_CUSTOM_FIELDS->* TO FIELD-SYMBOL(<FS_CUSTOM_FIELDS>).
 
-END-OF-DEFINITION.
+      CHECK SY-SUBRC EQ 0.
 
-    " 필수필드 체크
-    __CHECK_VALUE : 'ZZIZW' '투자사유',
-                    'ZZCD1' '설비분류코드(대분류)',
-                    'ZZWBT' 'WBS 유형',
-                    'ZZCYP' '통제유형'.
+      " 확장필드 구조에 값 전달
+      <FS_CUSTOM_FIELDS> = LS_IN-VALUEPART1.
+
+
+      " 필수필드 체크
+      __CHECK_CUSTOM_FIELD : 'ZZIZW' '투자사유',
+                             'ZZCD1' '설비분류코드(대분류)',
+                             'ZZWBT' 'WBS 유형',
+                             'ZZCYP' '통제유형'.
+    ENDLOOP.
 
   ENDMETHOD.
 

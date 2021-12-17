@@ -601,19 +601,19 @@ FORM MAKE_DISPLAY_DATA .
     PERFORM CHECK_ZZCYP.    " 통제유형
 
     __SET_DATE:
-      TEXT-F09 GS_EXCEL-PSTRT GS_DISPLAY-PSTRT,   " 시작일
-      TEXT-F10 GS_EXCEL-PENDE GS_DISPLAY-PENDE,   " 종료일
-      TEXT-F24 GS_EXCEL-ZZDT1 GS_DISPLAY-ZZDT1,   " 계약금예정일
-      TEXT-F25 GS_EXCEL-ZZDT2 GS_DISPLAY-ZZDT2,   " 중도금예정일
-      TEXT-F26 GS_EXCEL-ZZDT3 GS_DISPLAY-ZZDT3,   " 잔금예정일
+*      TEXT-F09 GS_EXCEL-PSTRT GS_DISPLAY-PSTRT,   " 시작일
+*      TEXT-F10 GS_EXCEL-PENDE GS_DISPLAY-PENDE,   " 종료일
+*      TEXT-F24 GS_EXCEL-ZZDT1 GS_DISPLAY-ZZDT1,   " 계약금예정일
+*      TEXT-F25 GS_EXCEL-ZZDT2 GS_DISPLAY-ZZDT2,   " 중도금예정일
+*      TEXT-F26 GS_EXCEL-ZZDT3 GS_DISPLAY-ZZDT3,   " 잔금예정일
       TEXT-F28 GS_EXCEL-ZZCMD GS_DISPLAY-ZZCMD,   " 공사착공일
-      TEXT-F29 GS_EXCEL-ZZCPD GS_DISPLAY-ZZCPD,   " 공사준공일
-      TEXT-F34 GS_EXCEL-USR08 GS_DISPLAY-USR08,   " 계약발주일
-      TEXT-F35 GS_EXCEL-USR09 GS_DISPLAY-USR09.   " 점검일
+      TEXT-F29 GS_EXCEL-ZZCPD GS_DISPLAY-ZZCPD.   " 공사준공일
+*      TEXT-F34 GS_EXCEL-USR08 GS_DISPLAY-USR08,   " 계약발주일
+*      TEXT-F35 GS_EXCEL-USR09 GS_DISPLAY-USR09.   " 점검일
 
-    " 비고(멀티라인처리)
-    PERFORM MAKE_TDLINE_TAB USING    GS_DISPLAY-TDLINE
-                            CHANGING GS_DISPLAY-TDLINE_TAB.
+*    " 비고(멀티라인처리)
+*    PERFORM MAKE_TDLINE_TAB USING    GS_DISPLAY-TDLINE
+*                            CHANGING GS_DISPLAY-TDLINE_TAB.
 
     APPEND GS_DISPLAY TO GT_DISPLAY.
   ENDLOOP.
@@ -1008,10 +1008,10 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 FORM CHECK_PSTRT .
 
-  CHECK GS_EXCEL-PSTRT IS INITIAL.
-
-  " [시작일]이 존재하지 않습니다.
-  __ERROR TEXT-E18.
+*  CHECK GS_EXCEL-PSTRT IS INITIAL.
+*
+*  " [시작일]이 존재하지 않습니다.
+*  __ERROR TEXT-E18.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
@@ -1019,17 +1019,17 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 FORM CHECK_PENDE .
 
-  IF GS_EXCEL-PENDE IS INITIAL.
-
-    " [종료일]이 존재하지 않습니다.
-    __ERROR TEXT-E19.
-
-  ELSEIF GS_EXCEL-PSTRT GT GS_EXCEL-PENDE.
-
-    " [시작일]이 [종료일]보다 이후입니다.
-    __ERROR TEXT-E20.
-
-  ENDIF.
+*  IF GS_EXCEL-PENDE IS INITIAL.
+*
+*    " [종료일]이 존재하지 않습니다.
+*    __ERROR TEXT-E19.
+*
+*  ELSEIF GS_EXCEL-PSTRT GT GS_EXCEL-PENDE.
+*
+*    " [시작일]이 [종료일]보다 이후입니다.
+*    __ERROR TEXT-E20.
+*
+*  ENDIF.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
@@ -1125,22 +1125,30 @@ ENDFORM.
 FORM CHECK_ZZWAE .
 
 
-  CHECK GS_EXCEL-ZZWAE IS NOT INITIAL.
+  IF GS_EXCEL-ZZWAE IS INITIAL.
 
-  READ TABLE GT_TCURC TRANSPORTING NO FIELDS
-                      WITH KEY WAERS = GS_EXCEL-ZZWAE
-                               BINARY SEARCH.
-
-  IF SY-SUBRC EQ 0.
-    " 통화코드 점검 이후 금액 소수점 단위 조정
-    PERFORM AMOUNT_TO_SAP USING GS_DISPLAY-ZZWAE
-                                GS_DISPLAY-ZZTCV.
+    IF GS_EXCEL-ZZTCV IS NOT INITIAL.
+      " [통화코드]가 존재하지 않습니다.
+      __ERROR TEXT-E25.
+    ENDIF.
 
   ELSE.
 
-    " [통화코드]가 존재하지 않습니다.
-    __ERROR TEXT-E25.
+    READ TABLE GT_TCURC TRANSPORTING NO FIELDS
+                        WITH KEY WAERS = GS_EXCEL-ZZWAE
+                                 BINARY SEARCH.
 
+    IF SY-SUBRC EQ 0.
+      " 통화코드 점검 이후 금액 소수점 단위 조정
+      PERFORM AMOUNT_TO_SAP USING GS_DISPLAY-ZZWAE
+                                  GS_DISPLAY-ZZTCV.
+
+    ELSE.
+
+      " [통화코드]가 존재하지 않습니다.
+      __ERROR TEXT-E25.
+
+    ENDIF.
   ENDIF.
 
 ENDFORM.
@@ -1149,18 +1157,18 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 FORM CHECK_RATE .
 
-  CHECK NOT ( GS_DISPLAY-ZZRT1 EQ 0
-          AND GS_DISPLAY-ZZRT2 EQ 0
-          AND GS_DISPLAY-ZZRT3 EQ 0 ).
-
-  IF GS_DISPLAY-ZZRT1 +
-     GS_DISPLAY-ZZRT2 +
-     GS_DISPLAY-ZZRT3 NE 100.
-
-    " [계약금%]/[중도금%]/[잔금%]은 합계는 100%가 되어야 합니다.
-    __ERROR TEXT-E26.
-
-  ENDIF.
+*  CHECK NOT ( GS_DISPLAY-ZZRT1 EQ 0
+*          AND GS_DISPLAY-ZZRT2 EQ 0
+*          AND GS_DISPLAY-ZZRT3 EQ 0 ).
+*
+*  IF GS_DISPLAY-ZZRT1 +
+*     GS_DISPLAY-ZZRT2 +
+*     GS_DISPLAY-ZZRT3 NE 100.
+*
+*    " [계약금%]/[중도금%]/[잔금%]은 합계는 100%가 되어야 합니다.
+*    __ERROR TEXT-E26.
+*
+*  ENDIF.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
@@ -1180,12 +1188,16 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 FORM CHECK_ZZCPD .
 
-  CHECK GS_EXCEL-ZZCMD IS NOT INITIAL
-    AND GS_EXCEL-ZZCPD IS NOT INITIAL
-    AND GS_EXCEL-ZZCMD GT GS_EXCEL-ZZCPD.
+  IF GS_EXCEL-ZZCPD IS INITIAL.
+   " [공사준공일]이 존재하지 않습니다.
+   __ERROR TEXT-E37.
+  ELSE.
+    CHECK GS_EXCEL-ZZCMD IS NOT INITIAL
+      AND GS_EXCEL-ZZCMD GT GS_EXCEL-ZZCPD.
 
-  " [공사착공일]이 [공사준공일]보다 이후입니다.
-  __ERROR TEXT-E35.
+    " [공사착공일]이 [공사준공일]보다 이후입니다.
+    __ERROR TEXT-E35.
+  ENDIF.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
@@ -1193,10 +1205,10 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 FORM CHECK_USR00 .
 
-  CHECK GS_EXCEL-USR00 IS INITIAL.
-
-  " [발주자]이 존재하지 않습니다.
-  __ERROR TEXT-E28.
+*  CHECK GS_EXCEL-USR00 IS INITIAL.
+*
+*  " [발주자]이 존재하지 않습니다.
+*  __ERROR TEXT-E28.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
@@ -1204,10 +1216,10 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 FORM CHECK_USR01 .
 
-  CHECK GS_EXCEL-USR01 IS INITIAL.
-
-  " [부서]가 존재하지 않습니다.
-  __ERROR TEXT-E29.
+*  CHECK GS_EXCEL-USR01 IS INITIAL.
+*
+*  " [부서]가 존재하지 않습니다.
+*  __ERROR TEXT-E29.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
@@ -1215,11 +1227,11 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 FORM CHECK_USR10 .
 
-  CHECK NOT ( GS_EXCEL-USR10 IS INITIAL
-           OR GS_EXCEL-USR10 EQ GC_X ).
-
-  " [사전계획]은 공백 또는 'X'만 허용합니다.
-  __ERROR TEXT-E30.
+*  CHECK NOT ( GS_EXCEL-USR10 IS INITIAL
+*           OR GS_EXCEL-USR10 EQ GC_X ).
+*
+*  " [사전계획]은 공백 또는 'X'만 허용합니다.
+*  __ERROR TEXT-E30.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
@@ -1420,17 +1432,20 @@ FORM BAPI_BUS2054_CREATE TABLES PT_WBS TYPE STANDARD TABLE
       WBS_ACCOUNT_ASSIGNMENT_ELEMENT  = GC_X                " 지시자: 계정 지정 요소
       CALENDAR                        = GS_T001-LAND1       " 공장 달력 키
       CURRENCY                        = GS_T001-WAERS       " WBS 요소 통화
-      USER_FIELD_KEY                  = 'Z000001'	          " 사용자 정의 필드에 대한 키워드 ID
-      USER_FIELD_CHAR20_1             = GS_DISPLAY-USR00    " 발주자
-      USER_FIELD_CHAR20_2             = GS_DISPLAY-USR01    " 부서
-      USER_FIELD_CHAR10_1             = GS_DISPLAY-USR02    " 점검유형
-      USER_FIELD_CHAR10_2             = GS_DISPLAY-USR03    " 고장유형
-      USER_FIELD_DATE1                = GS_DISPLAY-USR08    " 계약발주일
-      USER_FIELD_DATE2                = GS_DISPLAY-USR09    " 점검일
-      USER_FIELD_FLAG1                = GS_DISPLAY-USR10    " 사전계획
+      USER_FIELD_KEY                  = '0000001'	          " 사용자 정의 필드에 대한 키워드 ID
+*      USER_FIELD_KEY                  = 'Z000001'            " 사용자 정의 필드에 대한 키워드 ID
+*      USER_FIELD_CHAR20_1             = GS_DISPLAY-USR00    " 발주자
+*      USER_FIELD_CHAR20_2             = GS_DISPLAY-USR01    " 부서
+*      USER_FIELD_CHAR10_1             = GS_DISPLAY-USR02    " 점검유형
+*      USER_FIELD_CHAR10_2             = GS_DISPLAY-USR03    " 고장유형
+*      USER_FIELD_DATE1                = GS_DISPLAY-USR08    " 계약발주일
+*      USER_FIELD_DATE2                = GS_DISPLAY-USR09    " 점검일
+*      USER_FIELD_FLAG1                = GS_DISPLAY-USR10    " 사전계획
       WBS_SUMMARIZATION               = GC_X                " 프로젝트 집계
-      WBS_BASIC_START_DATE            = GS_DISPLAY-PSTRT    " WBS 요소: 기본 시작일
-      WBS_BASIC_FINISH_DATE           = GS_DISPLAY-PENDE    " WBS 요소: 기본종료일
+      WBS_BASIC_START_DATE            = '20010101'          " WBS 요소: 기본 시작일
+      WBS_BASIC_FINISH_DATE           = '20471231'          " GS_DISPLAY-PENDE    " WBS 요소: 기본종료일
+*      WBS_BASIC_START_DATE            = GS_DISPLAY-PSTRT    " WBS 요소: 기본 시작일
+*      WBS_BASIC_FINISH_DATE           = GS_DISPLAY-PENDE    " WBS 요소: 기본종료일
       WBS_LEFT                        = LV_WBS_ELEMENT      " 작업 분석 구조 요소(WBS 요소)
     ).
     APPEND LT_WBS_ELEMENT.
@@ -1443,15 +1458,15 @@ FORM BAPI_BUS2054_CREATE TABLES PT_WBS TYPE STANDARD TABLE
       ZZCD1               = GS_DISPLAY-ZZCD1   " 설비분류코드(대분류)
       ZZCD2               = GS_DISPLAY-ZZCD2   " 설비분류코드(중분류)
       ZZCD3               = GS_DISPLAY-ZZCD3   " 설비분류코드(소분류)
-      ZZTRD               = GS_DISPLAY-ZZTRD   " 거래처
+*      ZZTRD               = GS_DISPLAY-ZZTRD   " 거래처
       ZZTCV               = GS_DISPLAY-ZZTCV   " 계약금액
       ZZWAE               = GS_DISPLAY-ZZWAE   " 통화
-      ZZRT1               = GS_DISPLAY-ZZRT1   " 계약금 비율(%)
-      ZZRT2               = GS_DISPLAY-ZZRT2   " 중도금 비율(%)
-      ZZRT3               = GS_DISPLAY-ZZRT3   " 잔금   비율(%)
-      ZZDT1               = GS_DISPLAY-ZZDT1   " 계약금 지급예정일
-      ZZDT2               = GS_DISPLAY-ZZDT2   " 중도금 지급예정일
-      ZZDT3               = GS_DISPLAY-ZZDT3   " 잔금   지급예정일
+*      ZZRT1               = GS_DISPLAY-ZZRT1   " 계약금 비율(%)
+*      ZZRT2               = GS_DISPLAY-ZZRT2   " 중도금 비율(%)
+*      ZZRT3               = GS_DISPLAY-ZZRT3   " 잔금   비율(%)
+*      ZZDT1               = GS_DISPLAY-ZZDT1   " 계약금 지급예정일
+*      ZZDT2               = GS_DISPLAY-ZZDT2   " 중도금 지급예정일
+*      ZZDT3               = GS_DISPLAY-ZZDT3   " 잔금   지급예정일
       ZZUNT               = GS_DISPLAY-ZZUNT   " 호기
       ZZCMD               = GS_DISPLAY-ZZCMD   " 공사착공일
       ZZCPD               = GS_DISPLAY-ZZCPD   " 공사준공일
@@ -1536,10 +1551,26 @@ FORM HANDLE_HOTSPOT_CLICK
       CASE PS_COLUMN_ID-FIELDNAME.
         WHEN 'POSID'.
 
-          SET PARAMETER ID 'PSP' FIELD SPACE.
-          SET PARAMETER ID 'PRO' FIELD <FS_VALUE>.
+          SELECT COUNT(*)
+            FROM PRPS
+           WHERE POSID = <FS_VALUE>.
 
-          CALL TRANSACTION 'CJ03' AND SKIP FIRST SCREEN.
+          IF SY-SUBRC EQ 0.
+
+            SET PARAMETER ID 'PSP'      FIELD SPACE.
+            SET PARAMETER ID 'PRO'      FIELD <FS_VALUE>.
+            SET PARAMETER ID 'ANR'      FIELD SPACE.
+
+            ZCL_CO_COMMON=>CALL_TRANSACTION(
+              EXPORTING
+                I_TCODE       = 'CJ20N'  " Transaction Code
+                I_SKIP_SCREEN = GC_X     " Skip First Screen
+                I_NEW_SESSION = SPACE    " Call from New Session
+                IT_SPAGPA     = VALUE #( ( PARID = 'PSP' PARVAL = SPACE )
+                                         ( PARID = 'PRO' PARVAL = <FS_VALUE> )
+                                         ( PARID = 'ANR' PARVAL = SPACE ) ) " Transaction Parameters
+            ).
+          ENDIF.
 
         WHEN 'MESSAGE'.
 
@@ -1896,8 +1927,8 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form MAKE_TDLINE_TAB
 *&---------------------------------------------------------------------*
-FORM MAKE_TDLINE_TAB USING PV_TDLINE LIKE GS_DISPLAY-TDLINE
-                           PT_TDLINE LIKE GS_DISPLAY-TDLINE_TAB.
+FORM MAKE_TDLINE_TAB USING PV_TDLINE LIKE BAPITLINE-TDLINE
+                           PT_TDLINE TYPE LDPS_TXT_TAB.
 
   " 엑셀의 비고 데이터를 라인 단위로 잘라 Internal table 에 보관
   SPLIT PV_TDLINE AT GC_NEW_LINE INTO TABLE PT_TDLINE.
@@ -1928,30 +1959,30 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 FORM SAVE_TEXT_EXECUTE  USING PV_PSPNR.
 
-  DATA LS_HEADER  TYPE THEAD.
-  DATA LT_LINES   TYPE TABLE OF TLINE WITH HEADER LINE.
-
-
-  CHECK GS_DISPLAY-TDLINE_TAB[] IS NOT INITIAL.
-
-  LOOP AT GS_DISPLAY-TDLINE_TAB INTO DATA(LV_TDLINE).
-    LT_LINES-TDLINE = CONV #( LV_TDLINE ).
-    APPEND LT_LINES.
-  ENDLOOP.
-
-  "-- Long Text
-  LS_HEADER = VALUE #(
-    TDOBJECT  = 'PMS'
-    TDNAME    = GC_E && PV_PSPNR
-    TDID      = 'LTXT'
-    TDSPRAS   = SY-LANGU
-    TDFORM    = 'SYSTEM'
-    TDSTYLE   = 'S_OFFICE'
-  ).
-
-  "__ SAVE TEXT
-  PERFORM SAVE_TEXT(ZCAR9000) TABLES LT_LINES
-                               USING LS_HEADER.
+*  DATA LS_HEADER  TYPE THEAD.
+*  DATA LT_LINES   TYPE TABLE OF TLINE WITH HEADER LINE.
+*
+*
+*  CHECK GS_DISPLAY-TDLINE_TAB[] IS NOT INITIAL.
+*
+*  LOOP AT GS_DISPLAY-TDLINE_TAB INTO DATA(LV_TDLINE).
+*    LT_LINES-TDLINE = CONV #( LV_TDLINE ).
+*    APPEND LT_LINES.
+*  ENDLOOP.
+*
+*  "-- Long Text
+*  LS_HEADER = VALUE #(
+*    TDOBJECT  = 'PMS'
+*    TDNAME    = GC_E && PV_PSPNR
+*    TDID      = 'LTXT'
+*    TDSPRAS   = SY-LANGU
+*    TDFORM    = 'SYSTEM'
+*    TDSTYLE   = 'S_OFFICE'
+*  ).
+*
+*  "__ SAVE TEXT
+*  PERFORM SAVE_TEXT(ZCAR9000) TABLES LT_LINES
+*                               USING LS_HEADER.
 
 ENDFORM.
 *&---------------------------------------------------------------------*

@@ -41,9 +41,12 @@ FORM SCRFIELDS_FUNCTXT .
   SSCRFIELDS-FUNCTXT_01 = GS_FUNTXT.
 
   CLEAR GS_FUNTXT.
-  GS_FUNTXT-TEXT      = 'BU 매핑정보 관리'.
-
+  GS_FUNTXT-TEXT      = 'BU 매핑조회(WBS)'.
   SSCRFIELDS-FUNCTXT_02 = GS_FUNTXT.
+
+  CLEAR GS_FUNTXT.
+  GS_FUNTXT-TEXT      = 'BU 매핑조회(속성)'.
+  SSCRFIELDS-FUNCTXT_03 = GS_FUNTXT.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
@@ -80,8 +83,12 @@ FORM SCR_USER_COMMAND .
                                               SY-LANGU ''.
 
     WHEN 'FC02'.
-      CALL TRANSACTION 'ZCOR0540'.
-*      ZCL_CO_COMMON=>FILE_DOWNLOAD( ).
+*      CALL TRANSACTION 'ZCOR0540'.
+      PERFORM SHOW_WBS_MAPPING.
+
+    WHEN 'FC03'.
+      PERFORM SHOW_WBS_ATTR_MAPPING.
+
 
     WHEN OTHERS.
   ENDCASE.
@@ -1602,5 +1609,242 @@ FORM SELECT_JEST  USING PT_DATA LIKE GT_DATA.
 
   SORT GT_JEST BY OBJNR
                   STAT.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form SHOW_WBS_MAPPING
+*&---------------------------------------------------------------------*
+FORM SHOW_WBS_MAPPING .
+
+*  CALL TRANSACTION 'ZCOV1320' .
+
+  PERFORM SELECT_1320.
+
+  PERFORM FREE_DIALOGBOX   USING GR_CON_DIALOG
+                                 GR_ALV_DIALOG.
+  PERFORM CREATE_DIALOGBOX USING 1000 200 'BU 매핑조회(WBS)'.
+  PERFORM CREATE_DIALOGALV USING 'GS_1320'.
+  PERFORM SHOW_DIALOGALV   TABLES GT_1320.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form SELECT_1320
+*&---------------------------------------------------------------------*
+FORM SELECT_1320 .
+
+  REFRESH GT_1320.
+
+  SELECT A~PSPNR,
+         B~POST1,
+         A~WW120,
+         C~BEZEK,
+         A~AEDAT,
+         A~AEZET,
+         A~AENAM
+    FROM ZCOT1320   AS A
+    LEFT JOIN PRPS  AS B ON B~PSPNR EQ A~PSPNR
+    LEFT JOIN T25A1 AS C ON C~SPRAS EQ @SY-LANGU
+                        AND C~WW120 EQ A~WW120
+    INTO TABLE @GT_1320.
+
+  SORT GT_1320 BY PSPNR.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form FREE_DIALOGBOX_1
+*&---------------------------------------------------------------------*
+FORM FREE_DIALOGBOX USING PR_DIA TYPE REF TO CL_GUI_DIALOGBOX_CONTAINER
+                          PR_ALV TYPE REF TO ZCL_CO_ALV.
+
+  IF PR_ALV IS NOT INITIAL.
+    IF PR_ALV->MR_ALV_GRID IS BOUND.
+      PR_ALV->MR_ALV_GRID->FREE(
+        EXCEPTIONS
+          CNTL_ERROR        = 1
+          CNTL_SYSTEM_ERROR = 2
+          OTHERS            = 3 ).
+    ENDIF.
+
+    IF PR_ALV->MR_CONTAINER IS BOUND.
+      PR_ALV->MR_CONTAINER->FREE(
+        EXCEPTIONS
+          CNTL_ERROR        = 1
+          CNTL_SYSTEM_ERROR = 2
+          OTHERS            = 3 ).
+    ENDIF.
+
+    FREE PR_ALV.
+  ENDIF.
+
+  IF PR_DIA IS NOT INITIAL.
+    IF PR_DIA IS BOUND.
+      PR_DIA->FREE(
+        EXCEPTIONS
+          CNTL_ERROR        = 1
+          CNTL_SYSTEM_ERROR = 2
+          OTHERS            = 3
+      ).
+    ENDIF.
+
+    FREE PR_DIA.
+  ENDIF.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form CREATE_DIALOGBOX
+*&---------------------------------------------------------------------*
+FORM CREATE_DIALOGBOX USING PV_WIDTH
+                            PV_HEIGHT
+                            PV_CAPTION.
+
+  CREATE OBJECT GR_CON_DIALOG
+    EXPORTING
+      WIDTH   = PV_WIDTH            " Width of This Container
+      HEIGHT  = PV_HEIGHT           " Height of This Container
+      TOP     = 50                  " Top Position of Dialog Box
+      LEFT    = 50                  " Left Position of Dialog Box
+      CAPTION = PV_CAPTION          " Dialog Box Caption
+    EXCEPTIONS
+      CNTL_ERROR                  = 1 " CNTL_ERROR
+      CNTL_SYSTEM_ERROR           = 2 " CNTL_SYSTEM_ERROR
+      CREATE_ERROR                = 3 " CREATE_ERROR
+      LIFETIME_ERROR              = 4 " LIFETIME_ERROR
+      LIFETIME_DYNPRO_DYNPRO_LINK = 5 " LIFETIME_DYNPRO_DYNPRO_LINK
+      EVENT_ALREADY_REGISTERED    = 6 " Event Already Registered
+      ERROR_REGIST_EVENT          = 7 " Error While Registering Event
+      OTHERS                      = 8.
+
+  CHECK SY-SUBRC EQ 0.
+
+  IF GR_EVENT_RECEIVER IS INITIAL.
+    CREATE OBJECT GR_EVENT_RECEIVER.
+  ENDIF.
+
+  SET HANDLER GR_EVENT_RECEIVER->ON_CLOSE FOR GR_CON_DIALOG.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form CREATE_DIALOGALV
+*&---------------------------------------------------------------------*
+FORM CREATE_DIALOGALV USING PV_TABNAME.
+
+  CREATE OBJECT GR_ALV_DIALOG
+    EXPORTING
+      I_CONTAINER = GR_CON_DIALOG.
+
+  GR_ALV_DIALOG->SET_FIELD_CATALOG(
+    EXPORTING
+      " ABAP Dictionary 의 Table/View/Structure
+      I_TABNAME               = PV_TABNAME
+    EXCEPTIONS
+      INVALID_INPUT_PARAMETER = 1
+      EMPTY_FIELD_CATALOG     = 2
+      OTHERS                  = 3
+  ).
+
+  LOOP AT GR_ALV_DIALOG->MT_FIELDCAT INTO DATA(LS_FIELDCAT).
+
+    CASE LS_FIELDCAT-FIELDNAME.
+      WHEN 'WW120' OR 'BEZEK'.
+        LS_FIELDCAT-EMPHASIZE = 'C300'.
+    ENDCASE.
+
+    MODIFY GR_ALV_DIALOG->MT_FIELDCAT FROM LS_FIELDCAT.
+  ENDLOOP.
+
+  GR_ALV_DIALOG->SET_LAYOUT( I_TYPE = GC_A ).
+
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form SHOW_DIALOGALV
+*&---------------------------------------------------------------------*
+FORM SHOW_DIALOGALV TABLES PT_OUTTAB.
+
+  GR_ALV_DIALOG->DISPLAY(
+    CHANGING
+      T_OUTTAB = PT_OUTTAB[]
+  ).
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form HANDLE_CLOSE
+*&---------------------------------------------------------------------*
+FORM HANDLE_CLOSE
+  USING PR_SENDER TYPE REF TO CL_GUI_DIALOGBOX_CONTAINER.
+
+  PR_SENDER->FREE(
+    EXCEPTIONS
+      CNTL_ERROR        = 1                " CNTL_ERROR
+      CNTL_SYSTEM_ERROR = 2                " CNTL_SYSTEM_ERROR
+      OTHERS            = 3
+  ).
+
+  FREE PR_SENDER.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form SHOW_WBS_ATTR_MAPPING
+*&---------------------------------------------------------------------*
+FORM SHOW_WBS_ATTR_MAPPING .
+
+  PERFORM SELECT_1310.
+
+  PERFORM FREE_DIALOGBOX   USING GR_CON_DIALOG
+                                 GR_ALV_DIALOG.
+
+  PERFORM CREATE_DIALOGBOX USING 1600 400 'BU 매핑조회(속성)'.
+  PERFORM CREATE_DIALOGALV USING 'GS_1310'.
+
+  GR_ALV_DIALOG->SET_SORT( IT_FIELD =
+    VALUE #( ( 'BUKRS' )
+             ( 'BUTXT' )
+             ( 'ZZBGU' )
+             ( 'ZZBGUTX' )
+             ( 'ZZBGD' )
+             ( 'ZZBGDTX' )
+             ( 'ZZPRG' )
+             ( 'ZZPRGTX' ) ) ).
+
+  PERFORM SHOW_DIALOGALV   TABLES GT_1310.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form SELECT_1310
+*&---------------------------------------------------------------------*
+FORM SELECT_1310 .
+
+  SELECT A~BUKRS,
+         B~BUTXT,
+         A~ZZBGU,
+         C~ZZBGUTX,
+         A~ZZBGD,
+         D~ZZBGDTX,
+         A~ZZPRG,
+         E~ZZPRGTX,
+         A~WW120,
+         F~BEZEK,
+         A~AEDAT,
+         A~AEZET,
+         A~AENAM
+    FROM ZCOT1310 AS A LEFT JOIN T001       AS B ON B~BUKRS EQ A~BUKRS
+                       LEFT JOIN ZCOT1040T  AS C ON C~SPRAS EQ @SY-LANGU
+                                                AND C~ZZBGU EQ A~ZZBGU
+                       LEFT JOIN ZCOT1050T  AS D ON D~SPRAS EQ @SY-LANGU
+                                                AND D~ZZBGU EQ A~ZZBGU
+                                                AND D~ZZBGD EQ A~ZZBGD
+                       LEFT JOIN ZCOT1100T  AS E ON E~SPRAS EQ @SY-LANGU
+                                                AND E~ZZPRG EQ A~ZZPRG
+                       LEFT JOIN T25A1      AS F ON F~SPRAS EQ @SY-LANGU
+                                                AND F~WW120 EQ A~WW120
+
+    INTO CORRESPONDING FIELDS OF TABLE @GT_1310.
+
+
+  SORT GT_1310 BY BUKRS
+                  ZZBGU
+                  ZZBGD
+                  ZZPRG
+                  WW120.
 
 ENDFORM.

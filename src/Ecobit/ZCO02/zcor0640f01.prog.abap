@@ -55,6 +55,8 @@ FORM SCRFIELDS_FUNCTXT .
                                    ICON_TEXT = TEXT-S04 )
     FUNCTXT_03 = VALUE SMP_DYNTXT( ICON_ID   = ICON_DETAIL
                                    ICON_TEXT = TEXT-S05 )
+    FUNCTXT_04 = VALUE SMP_DYNTXT( ICON_ID   = ICON_DISPLAY
+                                   ICON_TEXT = TEXT-S06 )
   ).
 
 ENDFORM.
@@ -74,6 +76,19 @@ FORM SCR_USER_COMMAND .
 
     WHEN 'FC03'.
       PERFORM SHOW_VALUE_FIELD.
+
+    WHEN 'FC04'.
+
+      SET PARAMETER ID 'CAC' FIELD P_KOKRS.
+
+      DATA LR_VRGAR TYPE RANGE OF CE11000-VRGAR.
+      LR_VRGAR = VALUE #( ( SIGN = 'I' OPTION = 'EQ' LOW = 'H' )
+                          ( SIGN = 'I' OPTION = 'EQ' LOW = '1' ) ).
+
+      SUBMIT RKEB0601 WITH PPLIKZ   EQ '0'
+                      WITH PALEDGER EQ '01'
+                      WITH VRGAR    IN LR_VRGAR
+                      VIA SELECTION-SCREEN AND RETURN.
 
     WHEN OTHERS.
 

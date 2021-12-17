@@ -32,7 +32,10 @@ CLASS LCL_EVENT_RECEIVER DEFINITION.
                         IMPORTING E_ROW_ID
                                   E_COLUMN_ID
                                   ES_ROW_NO
-                                  SENDER.
+                                  SENDER,
+
+      ON_CLOSE          FOR EVENT CLOSE OF CL_GUI_DIALOGBOX_CONTAINER
+                        IMPORTING SENDER.
 
 ENDCLASS.
 *&---------------------------------------------------------------------*
@@ -67,5 +70,9 @@ CLASS LCL_EVENT_RECEIVER IMPLEMENTATION.
                                        ES_ROW_NO
                                        SENDER.
 
+  ENDMETHOD.
+
+  METHOD ON_CLOSE.
+    PERFORM HANDLE_CLOSE USING SENDER.
   ENDMETHOD.
 ENDCLASS.
