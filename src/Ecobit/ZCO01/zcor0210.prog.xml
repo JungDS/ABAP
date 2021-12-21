@@ -453,6 +453,12 @@
     </item>
     <item>
      <ID>I</ID>
+     <KEY>T12</KEY>
+     <ENTRY>선택옵션</ENTRY>
+     <LENGTH>14</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
      <KEY>Z01</KEY>
      <ENTRY>본부별/회사코드 맵핑</ENTRY>
      <LENGTH>21</LENGTH>
@@ -461,6 +467,12 @@
      <ID>R</ID>
      <ENTRY>[CO] WBS 본부별(손익센터)/회사별_실적Vs계획</ENTRY>
      <LENGTH>29</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>PA_EQWBS</KEY>
+     <ENTRY>설비WBS 포함</ENTRY>
+     <LENGTH>16</LENGTH>
     </item>
     <item>
      <ID>S</ID>

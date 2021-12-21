@@ -57,3 +57,13 @@ PARAMETERS PA_PDGR TYPE POSIDGR.
 
 
 SELECTION-SCREEN: END OF BLOCK BL1.
+
+
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #4, 2021.12.06 08:55:57, MDP_06
+*--------------------------------------------------------------------*
+SELECTION-SCREEN: BEGIN OF BLOCK BL2 WITH FRAME TITLE TEXT-T12.
+
+PARAMETERS PA_EQWBS AS CHECKBOX.
+
+SELECTION-SCREEN: END OF BLOCK BL2.

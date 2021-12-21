@@ -362,9 +362,21 @@
      <LENGTH>15</LENGTH>
     </item>
     <item>
+     <ID>I</ID>
+     <KEY>T08</KEY>
+     <ENTRY>선택옵션</ENTRY>
+     <LENGTH>14</LENGTH>
+    </item>
+    <item>
      <ID>R</ID>
      <ENTRY>[CO] WBS별/ 월별 / 속성별 실적 레포트</ENTRY>
      <LENGTH>26</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>PA_EQWBS</KEY>
+     <ENTRY>설비WBS 포함</ENTRY>
+     <LENGTH>16</LENGTH>
     </item>
     <item>
      <ID>S</ID>
@@ -449,7 +461,7 @@
      <ID>S</ID>
      <KEY>SO_ZZHWB</KEY>
      <ENTRY>.</ENTRY>
-     <LENGTH>20</LENGTH>
+     <LENGTH>16</LENGTH>
      <SPLIT>D</SPLIT>
     </item>
     <item>

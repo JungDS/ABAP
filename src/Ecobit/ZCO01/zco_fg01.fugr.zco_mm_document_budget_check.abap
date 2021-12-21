@@ -91,11 +91,19 @@ FUNCTION zco_mm_document_budget_check.
       lv_ctype = '1'.   "부서예산
 
 *-- 예산통제 제외
+*      SELECT SINGLE kostl INTO @DATA(lv_kostl)
+*        FROM zcot0030
+*       WHERE kokrs = @lv_kokrs
+*         AND kostl = @t_data_new-kostl
+*         AND bexcl = @abap_true.
+
       SELECT SINGLE kostl INTO @DATA(lv_kostl)
         FROM zcot0030
-       WHERE kokrs = @lv_kokrs
+       WHERE gjahr = @t_data_new-lfdat(4)   "V001
+         AND kokrs = @lv_kokrs
          AND kostl = @t_data_new-kostl
          AND bexcl = @abap_true.
+
 
       IF sy-subrc = 0.
         CONTINUE.
@@ -123,9 +131,16 @@ FUNCTION zco_mm_document_budget_check.
       lv_objnr = ls_prps-objnr.
 
 *-- 예산통제 제외
+*      SELECT SINGLE posid INTO @DATA(lv_posid)
+*        FROM zcot0030
+*       WHERE kokrs = @lv_kokrs
+*         AND posid = @ls_prps-posid
+*         AND bexcl = @abap_true.
+
       SELECT SINGLE posid INTO @DATA(lv_posid)
         FROM zcot0030
-       WHERE kokrs = @lv_kokrs
+       WHERE gjahr = @t_data_new-lfdat(4)   "V001
+         AND kokrs = @lv_kokrs
          AND posid = @ls_prps-posid
          AND bexcl = @abap_true.
 

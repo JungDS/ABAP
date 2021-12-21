@@ -2166,7 +2166,7 @@
     <item>
      <ID>I</ID>
      <KEY>C31</KEY>
-     <ENTRY>Huvis.W 하위본부</ENTRY>
+     <ENTRY>ENG 하위본부</ENTRY>
      <LENGTH>22</LENGTH>
     </item>
     <item>
@@ -2252,6 +2252,78 @@
      <KEY>C45</KEY>
      <ENTRY>BU구분명(시뮬레이션)</ENTRY>
      <LENGTH>22</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>C46</KEY>
+     <ENTRY>매출유형 내역</ENTRY>
+     <LENGTH>17</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>C47</KEY>
+     <ENTRY>프로젝트단계 내역</ENTRY>
+     <LENGTH>19</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>C48</KEY>
+     <ENTRY>WBS유형 내역</ENTRY>
+     <LENGTH>18</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>C49</KEY>
+     <ENTRY>사업구분 내역</ENTRY>
+     <LENGTH>17</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>C50</KEY>
+     <ENTRY>사업구분상세 내역</ENTRY>
+     <LENGTH>19</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>C51</KEY>
+     <ENTRY>발주처유형 내역</ENTRY>
+     <LENGTH>18</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>C52</KEY>
+     <ENTRY>행정구역 내역</ENTRY>
+     <LENGTH>17</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>C53</KEY>
+     <ENTRY>ENG 하위본부 내역</ENTRY>
+     <LENGTH>21</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>C54</KEY>
+     <ENTRY>사업소유무 내역</ENTRY>
+     <LENGTH>18</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>C55</KEY>
+     <ENTRY>투자유무 내역</ENTRY>
+     <LENGTH>17</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>C56</KEY>
+     <ENTRY>통제유형 내역</ENTRY>
+     <LENGTH>17</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>C57</KEY>
+     <ENTRY>수주유형 내역</ENTRY>
+     <LENGTH>17</LENGTH>
     </item>
     <item>
      <ID>I</ID>

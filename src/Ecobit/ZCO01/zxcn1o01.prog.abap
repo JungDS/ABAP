@@ -27,6 +27,7 @@ MODULE PBO OUTPUT.
             CASE SCREEN-NAME.
               WHEN 'ZCOS0021-ZZIZW'     " 투자사유
                 OR 'ZCOS0021-ZZCD1'     " 설비분류 (대)
+                OR 'ZCOS0021-ZZCPD'     " 공사준공일
                 OR 'ZCOS0020-ZZWBT'     " WBS 유형
                 OR 'ZCOS0020-ZZCYP'.    " 통제유형
 

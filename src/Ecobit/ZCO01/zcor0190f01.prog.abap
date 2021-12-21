@@ -7,7 +7,7 @@
 FORM SET_SCREEN .
 
   LOOP AT SCREEN.
-    IF SCREEN-NAME = 'PA_KOKRS' OR SCREEN-NAME = 'PA_VERSN'.
+    IF SCREEN-NAME = 'PA_KOKRS' ."OR SCREEN-NAME = 'PA_VERSN'.
       SCREEN-INPUT = 0.
       MODIFY SCREEN.
     ENDIF.
@@ -19,8 +19,42 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 FORM SELECTED_DATA_RTN .
 
-  PERFORM AUTHORITY_CHECK.
-  PERFORM SELECTED_MAIN_DATA.
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #4, 2021.12.06 08:55:57
+*--------------------------------------------------------------------*
+* 기존 설계된 전자세금계산서 - 전표집계 관련 함수로 인해
+* 버전 조회 시 '000' 이 아닌 '0' 으로 개발된 내용이 있음.
+* 이로 인해 ALPHA_INPUT 이 아닌 ALPHA_OUTPUT 으로 강제적용함.
+*--------------------------------------------------------------------*
+
+  CALL FUNCTION 'CONVERSION_EXIT_ALPHA_OUTPUT'
+    EXPORTING
+      INPUT  = PA_VERSN
+    IMPORTING
+      OUTPUT = PA_VERSN.
+
+  GV_CHANGE = ABAP_OFF.
+
+  IF PA_BUKRS EQ '*' OR PA_BUKRS IS INITIAL.
+    PERFORM AUTHORITY_CHECK_2.
+    PERFORM SELECTED_MAIN_DATA_2.
+
+*  ELSEIF PA_BUKRS(1) EQ '9'.
+*    " 입력하신 회사코드는 대상이 아닙니다.
+*    MESSAGE S000 WITH TEXT-E02 DISPLAY LIKE 'E'.
+*    STOP.
+
+  ELSE.
+
+    GV_CHANGE = ABAP_ON.
+
+    PERFORM AUTHORITY_CHECK.
+    PERFORM SELECTED_MAIN_DATA.
+
+  ENDIF.
+
+  " 변경자명 TEXT 붙임
+  PERFORM MAKE_DISPLAY_DATA.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
@@ -87,7 +121,8 @@ FORM SELECTED_MAIN_DATA .
 
   SELECT A~KOKRS, A~BUKRS, B~BUTXT, A~GJAHR, A~VERSN, A~MON01,
          A~MON02, A~MON03, A~MON04, A~MON05, A~MON06, A~MON07,
-         A~MON08, A~MON09, A~MON10, A~MON11, A~MON12
+         A~MON08, A~MON09, A~MON10, A~MON11, A~MON12,
+         A~AEDAT, A~AEZET, A~AENAM
     INTO TABLE @GT_DISPLAY
     FROM ZCOT0190 AS A JOIN T001 AS B
                          ON A~BUKRS = B~BUKRS
@@ -117,6 +152,8 @@ ENDFORM.
 *& Form CHECK_CHANGE
 *&---------------------------------------------------------------------*
 FORM CHECK_CHANGE  CHANGING P_GV_VALID.
+
+  CHECK GV_CHANGE EQ ABAP_ON.
 
   IF GT_DISPLAY_LOG[] = GT_DISPLAY[].
     CLEAR P_GV_VALID.
@@ -380,6 +417,21 @@ FORM MODIFY_FIELDCATLOG_DATA .
         GS_FIELDCAT-OUTPUTLEN = '8'.
         GS_FIELDCAT-EMPHASIZE = 'C112'.
 
+      WHEN 'AEDAT'.
+*        LV_TEXT = TEXT-C01.
+
+      WHEN 'AEZET'.
+*        LV_TEXT = TEXT-C01.
+
+      WHEN 'AENAM'.
+        GS_FIELDCAT-COL_OPT = ABAP_ON.
+*        LV_TEXT = TEXT-C01.
+
+      WHEN 'AENAMTEXT'.
+        LV_TEXT = TEXT-C04.
+        GS_FIELDCAT-COL_OPT = ABAP_ON.
+
+
       WHEN OTHERS.
         GS_FIELDCAT-NO_OUT = 'X'.
     ENDCASE.
@@ -545,9 +597,15 @@ FORM REGIST_ALV_EVENT_0100 USING PR_GRID TYPE REF TO CL_GUI_ALV_GRID.
     EXPORTING
       I_EVENT_ID = CL_GUI_ALV_GRID=>MC_EVT_MODIFIED.
 *
-  CALL METHOD PR_GRID->SET_READY_FOR_INPUT
-    EXPORTING
-      I_READY_FOR_INPUT = 1.
+  IF GV_CHANGE EQ ABAP_ON.
+    CALL METHOD PR_GRID->SET_READY_FOR_INPUT
+      EXPORTING
+        I_READY_FOR_INPUT = 1.
+  ELSE.
+    CALL METHOD PR_GRID->SET_READY_FOR_INPUT
+      EXPORTING
+        I_READY_FOR_INPUT = 0.
+  ENDIF.
 
 *-- GR_EVENT_RECEIVER
   IF GR_EVENT_RECEIVER IS INITIAL.
@@ -672,7 +730,18 @@ FORM SAVE_DATA_RTN .
 
   ENDIF.
 
-  GT_DISPLAY_LOG[] = GT_DISPLAY[].
+*  GT_DISPLAY_LOG[] = GT_DISPLAY[].
+
+  IF SY-SUBRC EQ 0.
+    COMMIT WORK AND WAIT.
+    " 성공적으로 저장하였습니다.
+    MESSAGE S007.
+    PERFORM SELECTED_DATA_RTN.
+  ELSE.
+    ROLLBACK WORK.
+    " 저장에 실패하였습니다.
+    MESSAGE S008 DISPLAY LIKE 'E'.
+  ENDIF.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
@@ -693,6 +762,17 @@ FORM SET_INIT_HELP .
   "__ 20191223 BSGSM_FCM ADD default cac
   SET PARAMETER ID 'CAC' FIELD PA_KOKRS.
 
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #7, 2021.12.09 10:02:56, MDP_06
+*--------------------------------------------------------------------*
+* 계정별 잠금 조회버튼 추가
+*--------------------------------------------------------------------*
+  LS_FUNTXT = VALUE #( TEXT = '계정별 잠금조회' ).
+  SSCRFIELDS-FUNCTXT_02 = LS_FUNTXT.
+
+  LS_FUNTXT = VALUE #( TEXT = 'CO기간 잠금조회' ).
+  SSCRFIELDS-FUNCTXT_03 = LS_FUNTXT.
+
 ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form SCR_USER_COMMAND_HELP
@@ -704,7 +784,146 @@ FORM SCR_USER_COMMAND_HELP .
   CASE SSCRFIELDS-UCOMM.
     WHEN 'FC01'.
       PERFORM CALL_POPUP_HELP(ZCAR9000) USING SY-REPID SY-DYNNR SY-LANGU ''.
+
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #7, 2021.12.09 10:02:56, MDP_06
+*--------------------------------------------------------------------*
+    WHEN 'FC02'.
+      " 파라메터 변경 없이 그대로 실행( 테스트모드로 수행되어 변경안됨 )
+      CALL TRANSACTION 'OB52B' WITHOUT AUTHORITY-CHECK
+                               AND SKIP FIRST SCREEN.
+    WHEN 'FC03'.
+      " 파라메터 변경 없이 그대로 실행( 테스트모드로 수행되어 변경안됨 )
+      CALL TRANSACTION 'OKP2'  WITH AUTHORITY-CHECK
+                               AND SKIP FIRST SCREEN.
+
     WHEN OTHERS.
   ENDCASE.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form AUTHORITY_CHECK_2
+*&---------------------------------------------------------------------*
+FORM AUTHORITY_CHECK_2 .
+
+
+  DATA: LV_TYPE    TYPE BAPI_MTYPE,
+        LV_MESSAGE TYPE BAPI_MSG.
+
+  DATA: LT_0070  LIKE TABLE OF ZCAS0070,
+        LS_0070  LIKE ZCAS0070,
+        LV_CLASS TYPE ZCAT0031-CD_CLASS,
+        LV_CODE  TYPE ZCAT0031-CD_CODE.
+
+
+  LV_CLASS = 'CASUSR'.
+  LV_CODE  = SY-UNAME.
+
+  "__ SUPER USER ID 체크
+  PERFORM CALL_F4_VALUES(ZCAR9000) TABLES LT_0070
+                                    USING LV_CLASS LV_CODE LS_0070.
+  IF LT_0070[] IS NOT INITIAL.
+    EXIT.
+  ELSE.
+    LV_CLASS = 'CASUCO'.
+    LV_CODE  = SY-UNAME.
+
+    "__ SUPER USER ID 체크
+    PERFORM CALL_F4_VALUES(ZCAR9000) TABLES LT_0070
+                                      USING LV_CLASS LV_CODE LS_0070.
+    IF LT_0070[] IS NOT INITIAL.
+      EXIT.
+    ENDIF.
+  ENDIF.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form SELECTED_MAIN_DATA_2
+*&---------------------------------------------------------------------*
+FORM SELECTED_MAIN_DATA_2 .
+  CLEAR: GS_DISPLAY, GT_DISPLAY, GT_DISPLAY[],
+         GT_DISPLAY_LOG, GT_DISPLAY_LOG[].
+
+  SELECT A~KOKRS,
+         A~BUKRS,
+         B~BUTXT,
+         @PA_GJAHR AS GJAHR,
+         @PA_VERSN AS VERSN,
+         C~MON01, C~MON02, C~MON03, C~MON04, C~MON05, C~MON06,
+         C~MON07, C~MON08, C~MON09, C~MON10, C~MON11, C~MON12,
+         C~AEDAT, C~AEZET, C~AENAM
+    FROM TKA02 AS A INNER JOIN T001     AS B ON B~BUKRS EQ A~BUKRS
+                    LEFT  JOIN ZCOT0190 AS C ON C~KOKRS EQ A~KOKRS
+                                            AND C~BUKRS EQ A~BUKRS
+                                            AND C~GJAHR EQ @PA_GJAHR
+                                            AND C~VERSN EQ @PA_VERSN
+   WHERE A~KOKRS EQ @PA_KOKRS
+     AND A~BUKRS NOT LIKE '9%'
+    INTO CORRESPONDING FIELDS OF TABLE @GT_DISPLAY.
+
+  SORT GT_DISPLAY BY KOKRS BUKRS.
+
+  GT_DISPLAY_LOG[] = GT_DISPLAY[].
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form MAKE_DISPLAY_DATA
+*&---------------------------------------------------------------------*
+FORM MAKE_DISPLAY_DATA .
+
+  CHECK GT_DISPLAY[] IS NOT INITIAL.
+
+
+  RANGES LR_AENAM FOR GS_DISPLAY-AENAM.
+
+  LOOP AT GT_DISPLAY INTO GS_DISPLAY WHERE AENAM IS NOT INITIAL.
+
+    LR_AENAM = VALUE #( SIGN    = 'I'
+                        OPTION  = 'EQ'
+                        LOW     = GS_DISPLAY-AENAM ).
+
+    APPEND LR_AENAM.
+
+  ENDLOOP.
+
+  CHECK LR_AENAM[] IS NOT INITIAL.
+  SORT LR_AENAM BY LOW.
+  DELETE ADJACENT DUPLICATES FROM LR_AENAM COMPARING LOW.
+
+  SELECT A~BNAME,
+         B~DATE_FROM,
+         B~NAME_TEXT
+    FROM USR21 AS A
+    JOIN ADRP  AS B ON A~PERSNUMBER EQ B~PERSNUMBER
+   WHERE A~BNAME IN @LR_AENAM
+    INTO TABLE @DATA(LT_ADRP).
+
+
+  SORT LT_ADRP BY BNAME DATE_FROM DESCENDING.
+
+  LOOP AT GT_DISPLAY INTO GS_DISPLAY WHERE AENAM IS NOT INITIAL.
+
+    READ TABLE LT_ADRP TRANSPORTING NO FIELDS
+                       WITH KEY BNAME = GS_DISPLAY-AENAM
+                                BINARY SEARCH.
+    CHECK SY-SUBRC EQ 0.
+
+    LOOP AT LT_ADRP INTO DATA(LS_ADRP) FROM SY-TABIX.
+      IF LS_ADRP-BNAME NE GS_DISPLAY-AENAM.
+        EXIT.
+      ENDIF.
+
+      GS_DISPLAY-AENAMTEXT = LS_ADRP-NAME_TEXT.
+
+      IF LS_ADRP-DATE_FROM LE SY-DATUM.
+        EXIT.
+      ENDIF.
+    ENDLOOP.
+
+    MODIFY GT_DISPLAY FROM GS_DISPLAY TRANSPORTING AENAMTEXT.
+
+  ENDLOOP.
+
+  GT_DISPLAY_LOG[] = GT_DISPLAY[].
 
 ENDFORM.

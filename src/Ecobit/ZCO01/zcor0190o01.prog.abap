@@ -6,7 +6,12 @@
 *&---------------------------------------------------------------------*
 MODULE STATUS_0100 OUTPUT.
 
-  SET PF-STATUS 'PF_0100'.
+  IF GV_CHANGE EQ ABAP_OFF.
+    SET PF-STATUS 'PF_0100' EXCLUDING '&SAV'.
+  ELSE.
+    SET PF-STATUS 'PF_0100'.
+  ENDIF.
+
   SET TITLEBAR  'TT_0100'.
 
 ENDMODULE.                 " STATUS_0100  OUTPUT

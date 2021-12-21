@@ -87,6 +87,11 @@ FORM SELECTED_DATA_RTN .
 *--------------------------------------------------------------------*
   PERFORM ADDITIONAL_DATA_2.
 
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #9, 2021.12.20 10:41:58, MDP_06
+*--------------------------------------------------------------------*
+  PERFORM ADDITIONAL_DATA_3.
+
 ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form MAKE_RANGE_VARIABLE
@@ -637,45 +642,104 @@ FORM SET_COLUMN_TEXT  USING    PV_COLUMNNAME
     WHEN 'ABGSL'.
       PV_COLUMN_TEXT = TEXT-C23.
 
+
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #9, 2021.12.20 10:41:58, MDP_06
+*--------------------------------------------------------------------*
+* TEXT-C46 ~ TEXT-C57 까지 내역 필드 추가
+*--------------------------------------------------------------------*
+
     WHEN 'ZZSCT'.
       PV_COLUMN_TEXT = TEXT-C24.
+
+    WHEN 'ZZSCTTX'.
+      PV_COLUMN_TEXT = TEXT-C46.
+      GR_COLUMN->SET_VISIBLE( ABAP_OFF ).
 
     WHEN 'ZZPHA'.
       PV_COLUMN_TEXT = TEXT-C25.
 
+    WHEN 'ZZPHATX'.
+      PV_COLUMN_TEXT = TEXT-C47.
+      GR_COLUMN->SET_VISIBLE( ABAP_OFF ).
+
     WHEN 'ZZWBT'.
       PV_COLUMN_TEXT = TEXT-C26.
+
+    WHEN 'ZZWBTTX'.
+      PV_COLUMN_TEXT = TEXT-C48.
+      GR_COLUMN->SET_VISIBLE( ABAP_OFF ).
 
     WHEN 'ZZBGU'.
       PV_COLUMN_TEXT = TEXT-C27.
 
+    WHEN 'ZZBGUTX'.
+      PV_COLUMN_TEXT = TEXT-C49.
+      GR_COLUMN->SET_VISIBLE( ABAP_OFF ).
+
     WHEN 'ZZBGD'.
       PV_COLUMN_TEXT = TEXT-C28.
+
+    WHEN 'ZZBGDTX'.
+      PV_COLUMN_TEXT = TEXT-C50.
+      GR_COLUMN->SET_VISIBLE( ABAP_OFF ).
 
     WHEN 'ZZPRG'.
       PV_COLUMN_TEXT = TEXT-C29.
 
+    WHEN 'ZZPRGTX'.
+      PV_COLUMN_TEXT = TEXT-C51.
+      GR_COLUMN->SET_VISIBLE( ABAP_OFF ).
+
     WHEN 'ZZADT'.
       PV_COLUMN_TEXT = TEXT-C30.
+
+    WHEN 'ZZADTTX'.
+      PV_COLUMN_TEXT = TEXT-C52.
+      GR_COLUMN->SET_VISIBLE( ABAP_OFF ).
 
     WHEN 'ZZHWB'.
       PV_COLUMN_TEXT = TEXT-C31.
 
+    WHEN 'ZZHWBTX'.
+      PV_COLUMN_TEXT = TEXT-C53.
+      GR_COLUMN->SET_VISIBLE( ABAP_OFF ).
+
     WHEN 'ZZBAG'.
       PV_COLUMN_TEXT = TEXT-C32.
+
+    WHEN 'ZZBAGTX'.
+      PV_COLUMN_TEXT = TEXT-C54.
+      GR_COLUMN->SET_VISIBLE( ABAP_OFF ).
 
     WHEN 'ZZIVC'.
       PV_COLUMN_TEXT = TEXT-C33.
 
+    WHEN 'ZZIVCTX'.
+      PV_COLUMN_TEXT = TEXT-C55.
+      GR_COLUMN->SET_VISIBLE( ABAP_OFF ).
+
     WHEN 'ZZCYP'.
       PV_COLUMN_TEXT = TEXT-C37.
+
+    WHEN 'ZZCYPTX'.
+      PV_COLUMN_TEXT = TEXT-C56.
+      GR_COLUMN->SET_VISIBLE( ABAP_OFF ).
 
     WHEN 'ZZCOP'.
       PV_COLUMN_TEXT = TEXT-C38.
 
+    WHEN 'ZZCOPTX'.
+      PV_COLUMN_TEXT = TEXT-C57.
+      GR_COLUMN->SET_VISIBLE( ABAP_OFF ).
+
+
 *--------------------------------------------------------------------*
 * [CO] ESG Pjt. 기존PGM 고도화 - 2021.11.10 14:25:25, MDP_06
 *--------------------------------------------------------------------*
+* BU 값 / 내역 필드 추가
+*--------------------------------------------------------------------*
+
     WHEN 'WW120'.
       PV_COLUMN_TEXT = TEXT-C42.
 
@@ -898,5 +962,217 @@ FORM SET_TOOLTIP_TEXT USING    PV_COLUMNNAME
 
   ENDCASE.
 
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form ADDITIONAL_DATA_3
+*&---------------------------------------------------------------------*
+* WBS 특성값 텍스트 필드 추가
+*&---------------------------------------------------------------------*
+FORM ADDITIONAL_DATA_3 .
+
+*--[CO] PA 특성: 매출유형 내역
+  SELECT FROM   ZCOT1010T
+         FIELDS ZZSCT, ZZSCTTX
+         WHERE  SPRAS EQ @SY-LANGU
+         INTO   TABLE @DATA(LT_ZZSCT). SORT LT_ZZSCT BY ZZSCT.
+
+*--[CO] PA 특성: 프로젝트 단계 내역
+  SELECT FROM   ZCOT1020T
+         FIELDS ZZPHA, ZZPHATX
+         WHERE  SPRAS EQ @SY-LANGU
+         INTO   TABLE @DATA(LT_ZZPHA). SORT LT_ZZPHA BY ZZPHA.
+
+*--[CO] PA 특성: WBS 유형 내역
+  SELECT FROM   ZCOT1030T
+         FIELDS ZZWBT, ZZWBTTX
+         WHERE  SPRAS EQ @SY-LANGU
+         INTO   TABLE @DATA(LT_ZZWBT). SORT LT_ZZWBT BY ZZWBT.
+
+*--[CO] PA 특성: 사업구분 내역
+  SELECT FROM   ZCOT1040T
+         FIELDS ZZBGU, ZZBGUTX
+         WHERE  SPRAS EQ @SY-LANGU
+         INTO   TABLE @DATA(LT_ZZBGU). SORT LT_ZZBGU BY ZZBGU.
+
+*--[CO] PA 특성: 사업구분 상세 내역
+  SELECT FROM   ZCOT1050T
+         FIELDS ZZBGU, ZZBGD, ZZBGDTX
+         WHERE  SPRAS EQ @SY-LANGU
+         INTO   TABLE @DATA(LT_ZZBGD). SORT LT_ZZBGD BY ZZBGU ZZBGD.
+
+*--[CO] PA 특성: 사업소유무 내역
+  SELECT FROM   ZCOT1070T
+         FIELDS ZZBAG, ZZBAGTX
+         WHERE  SPRAS EQ @SY-LANGU
+         INTO   TABLE @DATA(LT_ZZBAG). SORT LT_ZZBAG BY ZZBAG.
+
+*--[CO] PA 특성: 행정구역 내역
+  SELECT FROM   ZCOT1090T
+         FIELDS ZZADT, ZZADTTX
+         WHERE  SPRAS EQ @SY-LANGU
+         INTO   TABLE @DATA(LT_ZZADT). SORT LT_ZZADT BY ZZADT.
+
+*--[CO] PA 특성: 발주처 유형 내역
+  SELECT FROM   ZCOT1100T
+         FIELDS ZZPRG, ZZPRGTX
+         WHERE  SPRAS EQ @SY-LANGU
+         INTO   TABLE @DATA(LT_ZZPRG). SORT LT_ZZPRG BY ZZPRG.
+
+*--[CO] PA 특성: ENG 하위본부 내역
+  SELECT FROM   ZCOT1110T
+         FIELDS ZZHWB, ZZHWBTX
+         WHERE  SPRAS EQ @SY-LANGU
+         INTO   TABLE @DATA(LT_ZZHWB). SORT LT_ZZHWB BY ZZHWB.
+
+*--[CO] PA 특성: 수주유형 텍스트 테이블
+  SELECT FROM   ZCOT1120T
+         FIELDS COTYP AS ZZCOP,
+                COTXT AS ZZCOPTX
+         WHERE  SPRAS EQ @SY-LANGU
+         INTO   TABLE @DATA(LT_ZZCOP). SORT LT_ZZCOP BY ZZCOP.
+
+*--[CO] 예산통제유형 내역
+  SELECT FROM   ZCOT1130T
+         FIELDS CTYPE AS ZZCYP,
+                CTEXT AS ZZCYPTX
+         WHERE  SPRAS EQ @SY-LANGU
+         INTO   TABLE @DATA(LT_ZZCYP). SORT LT_ZZCYP BY ZZCYP.
+
+*--[CO] PA 특성: 투자여부 내역
+  SELECT FROM   ZCOT0020T
+         FIELDS ZZIVC, ZZIVCTX
+         WHERE  SPRAS EQ @SY-LANGU
+         INTO   TABLE @DATA(LT_ZZIVC). SORT LT_ZZIVC BY ZZIVC.
+
+
+
+
+  LOOP AT GT_OUTTAB INTO GS_OUTTAB.
+
+
+*ZZSCT   매출유형
+*ZZSCTTX 매출유형 내역
+    READ TABLE LT_ZZSCT INTO DATA(LS_ZZSCT)
+                        WITH KEY ZZSCT = GS_OUTTAB-ZZSCT
+                                 BINARY SEARCH.
+    IF SY-SUBRC EQ 0.
+      GS_OUTTAB-ZZSCTTX = LS_ZZSCT-ZZSCTTX.
+    ENDIF.
+
+
+*ZZPHA   프로젝트 단계
+*ZZPHATX 프로젝트 단계 내역
+    READ TABLE LT_ZZPHA INTO DATA(LS_ZZPHA)
+                        WITH KEY ZZPHA = GS_OUTTAB-ZZPHA
+                                 BINARY SEARCH.
+    IF SY-SUBRC EQ 0.
+      GS_OUTTAB-ZZPHATX = LS_ZZPHA-ZZPHATX.
+    ENDIF.
+
+
+*ZZWBT   WBS 유형
+*ZZWBTTX WBS 유형 내역
+    READ TABLE LT_ZZWBT INTO DATA(LS_ZZWBT)
+                        WITH KEY ZZWBT = GS_OUTTAB-ZZWBT
+                                 BINARY SEARCH.
+    IF SY-SUBRC EQ 0.
+      GS_OUTTAB-ZZWBTTX = LS_ZZWBT-ZZWBTTX.
+    ENDIF.
+
+
+*ZZBGU   사업구분
+*ZZBGUTX 사업구분 내역
+    READ TABLE LT_ZZBGU INTO DATA(LS_ZZBGU)
+                        WITH KEY ZZBGU = GS_OUTTAB-ZZBGU
+                                 BINARY SEARCH.
+    IF SY-SUBRC EQ 0.
+      GS_OUTTAB-ZZBGUTX = LS_ZZBGU-ZZBGUTX.
+    ENDIF.
+
+
+*ZZBGD   사업구분상세
+*ZZBGDTX 사업구분상세 내역
+    READ TABLE LT_ZZBGD INTO DATA(LS_ZZBGD)
+                        WITH KEY ZZBGU = GS_OUTTAB-ZZBGU
+                                 ZZBGD = GS_OUTTAB-ZZBGD
+                                 BINARY SEARCH.
+    IF SY-SUBRC EQ 0.
+      GS_OUTTAB-ZZBGDTX = LS_ZZBGD-ZZBGDTX.
+    ENDIF.
+
+
+*ZZPRG   발주처 유형
+*ZZPRGTX 발주처 유형 내역
+    READ TABLE LT_ZZPRG INTO DATA(LS_ZZPRG)
+                        WITH KEY ZZPRG = GS_OUTTAB-ZZPRG
+                                 BINARY SEARCH.
+    IF SY-SUBRC EQ 0.
+      GS_OUTTAB-ZZPRGTX = LS_ZZPRG-ZZPRGTX.
+    ENDIF.
+
+
+*ZZADT   행정구역
+*ZZADTTX 행정구역 내역
+    READ TABLE LT_ZZADT INTO DATA(LS_ZZADT)
+                        WITH KEY ZZADT = GS_OUTTAB-ZZADT
+                                 BINARY SEARCH.
+    IF SY-SUBRC EQ 0.
+      GS_OUTTAB-ZZADTTX = LS_ZZADT-ZZADTTX.
+    ENDIF.
+
+
+*ZZHWB   ENG 하위본부
+*ZZHWBTX ENG 하위본부 내역
+    READ TABLE LT_ZZHWB INTO DATA(LS_ZZHWB)
+                        WITH KEY ZZHWB = GS_OUTTAB-ZZHWB
+                                 BINARY SEARCH.
+    IF SY-SUBRC EQ 0.
+      GS_OUTTAB-ZZHWBTX = LS_ZZHWB-ZZHWBTX.
+    ENDIF.
+
+
+*ZZBAG   사업소유무
+*ZZBAGTX 사업소유무내역
+    READ TABLE LT_ZZBAG INTO DATA(LS_ZZBAG)
+                        WITH KEY ZZBAG = GS_OUTTAB-ZZBAG
+                                 BINARY SEARCH.
+    IF SY-SUBRC EQ 0.
+      GS_OUTTAB-ZZBAGTX = LS_ZZBAG-ZZBAGTX.
+    ENDIF.
+
+
+*ZZIVC   투자여부
+*ZZIVCTX 투자여부 내역
+    READ TABLE LT_ZZIVC INTO DATA(LS_ZZIVC)
+                        WITH KEY ZZIVC = GS_OUTTAB-ZZIVC
+                                 BINARY SEARCH.
+    IF SY-SUBRC EQ 0.
+      GS_OUTTAB-ZZIVCTX = LS_ZZIVC-ZZIVCTX.
+    ENDIF.
+
+
+*ZZCOP   수주유형
+*ZZCOPTX 수주유형 내역
+    READ TABLE LT_ZZCOP INTO DATA(LS_ZZCOP)
+                        WITH KEY ZZCOP = GS_OUTTAB-ZZCOP
+                                 BINARY SEARCH.
+    IF SY-SUBRC EQ 0.
+      GS_OUTTAB-ZZCOPTX = LS_ZZCOP-ZZCOPTX.
+    ENDIF.
+
+
+*ZZCYP   통제유형
+*ZZCYPTX 통제유형 내역
+    READ TABLE LT_ZZCYP INTO DATA(LS_ZZCYP)
+                        WITH KEY ZZCYP = GS_OUTTAB-ZZCYP
+                                 BINARY SEARCH.
+    IF SY-SUBRC EQ 0.
+      GS_OUTTAB-ZZCYPTX = LS_ZZCYP-ZZCYPTX.
+    ENDIF.
+
+
+    MODIFY GT_OUTTAB FROM GS_OUTTAB.
+  ENDLOOP.
 
 ENDFORM.

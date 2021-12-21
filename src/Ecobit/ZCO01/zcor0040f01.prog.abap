@@ -492,7 +492,28 @@ FORM event_data_changed
 
     WHEN gr_grid1.
 
-      LOOP AT pr_data_changed->mt_inserted_rows INTO ls_ins_cells.
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #10, 2021.12.21 13:22:39, MDP_06
+*--------------------------------------------------------------------*
+      DATA(LT_NEW) = pr_data_changed->mt_inserted_rows.
+      DATA(LT_MOD) = pr_data_changed->mt_mod_cells.
+
+      DATA:BEGIN OF LS_CHECK,
+             ROW_ID TYPE LVC_INDEX,
+             CHECK1 TYPE I,
+             CHECK2 TYPE I,
+             CHECK3 TYPE I,
+             CHECK4 TYPE I,
+             CHECK5 TYPE I,
+           END OF LS_CHECK.
+
+      DATA LT_CHECK  LIKE TABLE OF LS_CHECK.
+      DATA LV_CPERD  LIKE GS_DISPLAY-CPERD.
+      DATA LV_FIELD  TYPE FIELDNAME.
+      DATA LV_ROW_ID TYPE I.
+
+
+      LOOP AT LT_NEW INTO ls_ins_cells.
 
         _modify_cell:   'GJAHR' ls_ins_cells-row_id pa_gjahr.
         _modify_cell:   'CTYPE' ls_ins_cells-row_id pa_ctype.
@@ -520,7 +541,7 @@ FORM event_data_changed
 
       ENDLOOP.
 
-      LOOP AT pr_data_changed->mt_mod_cells INTO ls_mod_cells.
+      LOOP AT LT_MOD INTO ls_mod_cells.
 
         CASE ls_mod_cells-fieldname.
 
@@ -662,69 +683,131 @@ FORM event_data_changed
 *            _MODIFY_CELL 'KAGRUTXT' LS_MOD_CELLS-ROW_ID
 *                                    LV_DESCRIPT.
 
-          WHEN 'CHECK1'.
-            IF ls_mod_cells-value IS INITIAL.
-              _modify_cell 'CPERD'  ls_mod_cells-row_id ''.
-            ELSE.
-              _modify_cell 'CPERD'  ls_mod_cells-row_id '1'.
-              _modify_cell 'CHECK2' ls_mod_cells-row_id ''.
-              _modify_cell 'CHECK3' ls_mod_cells-row_id ''.
-              _modify_cell 'CHECK4' ls_mod_cells-row_id ''.
-              _modify_cell 'CHECK5' ls_mod_cells-row_id ''.
-            ENDIF.
-            EXIT.
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #10, 2021.12.21 13:22:39, MDP_06
+*--------------------------------------------------------------------*
+* 복사&붙여넣기로 특정 라인 기준 CHECK1~CHECK5 가 동시 수정되는 경우
+* 각각 필드값을 독립적으로 보는 경우 이슈가 발생하여
+* 동시에 CHECK1~CHECK5 의 현황을 보도록 수집하여 한번에 MODIFY 한다.
+*--------------------------------------------------------------------*
+          WHEN 'CHECK1'
+            OR 'CHECK2'
+            OR 'CHECK3'
+            OR 'CHECK4'
+            OR 'CHECK5'.
 
-          WHEN 'CHECK2'.
-            IF ls_mod_cells-value IS INITIAL.
-              _modify_cell 'CPERD'  ls_mod_cells-row_id ''.
-            ELSE.
-              _modify_cell 'CPERD'  ls_mod_cells-row_id '2'.
-              _modify_cell 'CHECK1' ls_mod_cells-row_id ''.
-              _modify_cell 'CHECK3' ls_mod_cells-row_id ''.
-              _modify_cell 'CHECK4' ls_mod_cells-row_id ''.
-              _modify_cell 'CHECK5' ls_mod_cells-row_id ''.
-            ENDIF.
-            EXIT.
+            IF LS_MOD_CELLS-VALUE IS NOT INITIAL.
+              ASSIGN COMPONENT LS_MOD_CELLS-FIELDNAME
+                  OF STRUCTURE LS_CHECK TO FIELD-SYMBOL(<FS>).
 
-          WHEN 'CHECK3'.
-            IF ls_mod_cells-value IS INITIAL.
-              _modify_cell 'CPERD'  ls_mod_cells-row_id ''.
-            ELSE.
-              _modify_cell 'CPERD'  ls_mod_cells-row_id '3'.
-              _modify_cell 'CHECK1' ls_mod_cells-row_id ''.
-              _modify_cell 'CHECK2' ls_mod_cells-row_id ''.
-              _modify_cell 'CHECK4' ls_mod_cells-row_id ''.
-              _modify_cell 'CHECK5' ls_mod_cells-row_id ''.
+              IF SY-SUBRC EQ 0.
+                LS_CHECK = VALUE #( ROW_ID = LS_MOD_CELLS-ROW_ID ).
+                <FS> = 1.
+                COLLECT LS_CHECK INTO LT_CHECK.
+                CLEAR   LS_CHECK.
+                UNASSIGN <FS>.
+              ENDIF.
             ENDIF.
-            EXIT.
 
-          WHEN 'CHECK4'.
-            IF ls_mod_cells-value IS INITIAL.
-              _modify_cell 'CPERD'  ls_mod_cells-row_id ''.
-            ELSE.
-              _modify_cell 'CPERD'  ls_mod_cells-row_id '4'.
-              _modify_cell 'CHECK1' ls_mod_cells-row_id ''.
-              _modify_cell 'CHECK2' ls_mod_cells-row_id ''.
-              _modify_cell 'CHECK3' ls_mod_cells-row_id ''.
-              _modify_cell 'CHECK5' ls_mod_cells-row_id ''.
-            ENDIF.
-            EXIT.
+*          WHEN 'CHECK1'.
+*
+*            IF ls_mod_cells-value IS INITIAL.
+*              _modify_cell 'CPERD'  ls_mod_cells-row_id ''.
+*            ELSE.
+*              _modify_cell 'CPERD'  ls_mod_cells-row_id '1'.
+*              _modify_cell 'CHECK2' ls_mod_cells-row_id ''.
+*              _modify_cell 'CHECK3' ls_mod_cells-row_id ''.
+*              _modify_cell 'CHECK4' ls_mod_cells-row_id ''.
+*              _modify_cell 'CHECK5' ls_mod_cells-row_id ''.
+*            ENDIF.
+*            EXIT.
+*
+*          WHEN 'CHECK2'.
+*            IF ls_mod_cells-value IS INITIAL.
+*              _modify_cell 'CPERD'  ls_mod_cells-row_id ''.
+*            ELSE.
+*              _modify_cell 'CPERD'  ls_mod_cells-row_id '2'.
+*              _modify_cell 'CHECK1' ls_mod_cells-row_id ''.
+*              _modify_cell 'CHECK3' ls_mod_cells-row_id ''.
+*              _modify_cell 'CHECK4' ls_mod_cells-row_id ''.
+*              _modify_cell 'CHECK5' ls_mod_cells-row_id ''.
+*            ENDIF.
+*            EXIT.
+*
+*          WHEN 'CHECK3'.
+*            IF ls_mod_cells-value IS INITIAL.
+*              _modify_cell 'CPERD'  ls_mod_cells-row_id ''.
+*            ELSE.
+*              _modify_cell 'CPERD'  ls_mod_cells-row_id '3'.
+*              _modify_cell 'CHECK1' ls_mod_cells-row_id ''.
+*              _modify_cell 'CHECK2' ls_mod_cells-row_id ''.
+*              _modify_cell 'CHECK4' ls_mod_cells-row_id ''.
+*              _modify_cell 'CHECK5' ls_mod_cells-row_id ''.
+*            ENDIF.
+*            EXIT.
+*
+*          WHEN 'CHECK4'.
+*            IF ls_mod_cells-value IS INITIAL.
+*              _modify_cell 'CPERD'  ls_mod_cells-row_id ''.
+*            ELSE.
+*              _modify_cell 'CPERD'  ls_mod_cells-row_id '4'.
+*              _modify_cell 'CHECK1' ls_mod_cells-row_id ''.
+*              _modify_cell 'CHECK2' ls_mod_cells-row_id ''.
+*              _modify_cell 'CHECK3' ls_mod_cells-row_id ''.
+*              _modify_cell 'CHECK5' ls_mod_cells-row_id ''.
+*            ENDIF.
+*            EXIT.
+*
+*          WHEN 'CHECK5'.
+*            IF ls_mod_cells-value IS INITIAL.
+*              _modify_cell 'CPERD'  ls_mod_cells-row_id ''.
+*            ELSE.
+*              _modify_cell 'CPERD'  ls_mod_cells-row_id '5'.
+*              _modify_cell 'CHECK1' ls_mod_cells-row_id ''.
+*              _modify_cell 'CHECK2' ls_mod_cells-row_id ''.
+*              _modify_cell 'CHECK3' ls_mod_cells-row_id ''.
+*              _modify_cell 'CHECK4' ls_mod_cells-row_id ''.
+*            ENDIF.
+*            EXIT.
 
-          WHEN 'CHECK5'.
-            IF ls_mod_cells-value IS INITIAL.
-              _modify_cell 'CPERD'  ls_mod_cells-row_id ''.
-            ELSE.
-              _modify_cell 'CPERD'  ls_mod_cells-row_id '5'.
-              _modify_cell 'CHECK1' ls_mod_cells-row_id ''.
-              _modify_cell 'CHECK2' ls_mod_cells-row_id ''.
-              _modify_cell 'CHECK3' ls_mod_cells-row_id ''.
-              _modify_cell 'CHECK4' ls_mod_cells-row_id ''.
-            ENDIF.
-            EXIT.
           WHEN OTHERS.
 
         ENDCASE.
 
+      ENDLOOP.
+
+
+
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #10, 2021.12.21 13:22:39, MDP_06
+*--------------------------------------------------------------------*
+* 수집된 체크상태 기준으로 순차적으로 CHECK 필드를 검사하고,
+* 단 하나의 체크만 허용하도록 한다.
+*--------------------------------------------------------------------*
+      LOOP AT LT_CHECK INTO LS_CHECK.
+
+        CLEAR LV_CPERD.
+        CASE 1.
+          WHEN LS_CHECK-CHECK1. LV_CPERD = '1'.
+          WHEN LS_CHECK-CHECK2. LV_CPERD = '2'.
+          WHEN LS_CHECK-CHECK3. LV_CPERD = '3'.
+          WHEN LS_CHECK-CHECK4. LV_CPERD = '4'.
+          WHEN LS_CHECK-CHECK5. LV_CPERD = '5'.
+          WHEN OTHERS.
+        ENDCASE.
+
+        LV_ROW_ID = LS_CHECK-ROW_ID.
+
+        _MODIFY_CELL 'CPERD' LV_ROW_ID LV_CPERD.
+
+        DO 5 TIMES.
+          " 선택된 통제기간을 제외한 나머지 CHECK 는 전부 해제처리
+          CHECK LV_CPERD NE SY-INDEX.
+          LV_FIELD = 'CHECK' && SY-INDEX.
+          ASSIGN COMPONENT LV_FIELD OF STRUCTURE GS_DISPLAY TO <FS>.
+          CHECK SY-SUBRC EQ 0. UNASSIGN <FS>.
+          _MODIFY_CELL LV_FIELD LV_ROW_ID SPACE.
+        ENDDO.
       ENDLOOP.
 
   ENDCASE.
@@ -751,7 +834,6 @@ FORM event_data_changed_finished
 *   2. PS_  : Structure
 *   3. PV_  : Variables
 *   4. PR_ : Reference Variables
-
 
 ENDFORM.                    " EVENT_DATA_CHANGED_FINISHED
 *&---------------------------------------------------------------------*
@@ -2180,6 +2262,22 @@ FORM save_select_data_new .
   CLEAR : lt_0010log, lt_0010log[].
 
   CLEAR gv_exit.
+
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #10, 2021.12.21 13:22:39, MDP_06
+*--------------------------------------------------------------------*
+  LOOP AT GT_DISPLAY INTO GS_DISPLAY.
+    CASE ABAP_ON.
+      WHEN GS_DISPLAY-CHECK1. GS_DISPLAY-CPERD = '1'.
+      WHEN GS_DISPLAY-CHECK2. GS_DISPLAY-CPERD = '2'.
+      WHEN GS_DISPLAY-CHECK3. GS_DISPLAY-CPERD = '3'.
+      WHEN GS_DISPLAY-CHECK4. GS_DISPLAY-CPERD = '4'.
+      WHEN GS_DISPLAY-CHECK5. GS_DISPLAY-CPERD = '5'.
+    ENDCASE.
+
+    MODIFY GT_DISPLAY FROM GS_DISPLAY.
+  ENDLOOP.
+
 
   LOOP AT gt_rows INTO gs_rows.
 

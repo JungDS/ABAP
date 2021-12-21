@@ -463,6 +463,18 @@ FORM SET_RANGES_OBJNR .
 
   ENDIF.
 
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #4, 2021.12.06 08:55:57, MDP_06
+*--------------------------------------------------------------------*
+  IF PA_EQWBS IS INITIAL.
+    " 설비WBS 제외
+    R_PROFL[] = VALUE #( ( CONV #( 'EEQZ000003' ) ) ).
+  ELSE.
+    " 설비WBS 포함
+    CLEAR: R_PROFL, R_PROFL[].
+  ENDIF.
+
+
   SELECT A~*
     FROM PRPS AS A
    INNER JOIN PROJ AS B
@@ -478,7 +490,8 @@ FORM SET_RANGES_OBJNR .
      AND A~PKOKR = @PA_KOKRS
      AND A~PBUKR IN @R_BUKRS
      AND A~PRCTR IN @R_PRCTR1
-     AND B~PSPID IN @R_PSPID.
+     AND B~PSPID IN @R_PSPID
+     AND B~PROFL IN @R_PROFL.   " 설비WBS 제외 점검추가 2021.12.06.
 
   IF SY-SUBRC <> 0 .
     MESSAGE S004 DISPLAY LIKE 'E'.

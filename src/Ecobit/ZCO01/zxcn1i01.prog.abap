@@ -146,17 +146,17 @@ ENDMODULE.
 *&---------------------------------------------------------------------*
 MODULE CHECK_RATE INPUT.
 
-  CHECK GV_PROFL EQ 'Z000003'. " 설비 투자및관리비용
-
-  DATA(LV_RATE) = ZCOS0021-ZZRT1 +
-                  ZCOS0021-ZZRT2 +
-                  ZCOS0021-ZZRT3.
-
-  CHECK LV_RATE NE 0
-    AND LV_RATE NE 100.
-
-  " 비율(%)의 합산 결과는 100% 여야 합니다.
-  MESSAGE E059(ZCO01).
+*  CHECK GV_PROFL EQ 'Z000003'. " 설비 투자및관리비용
+*
+*  DATA(LV_RATE) = ZCOS0021-ZZRT1 +
+*                  ZCOS0021-ZZRT2 +
+*                  ZCOS0021-ZZRT3.
+*
+*  CHECK LV_RATE NE 0
+*    AND LV_RATE NE 100.
+*
+*  " 비율(%)의 합산 결과는 100% 여야 합니다.
+*  MESSAGE E059(ZCO01).
 
 ENDMODULE.
 *&---------------------------------------------------------------------*

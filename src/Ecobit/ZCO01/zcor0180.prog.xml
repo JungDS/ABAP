@@ -452,9 +452,21 @@
      <LENGTH>15</LENGTH>
     </item>
     <item>
+     <ID>I</ID>
+     <KEY>T11</KEY>
+     <ENTRY>선택옵션</ENTRY>
+     <LENGTH>14</LENGTH>
+    </item>
+    <item>
      <ID>R</ID>
      <ENTRY>[CO] WBS 회사별 실적 Vs 계획 레포트</ENTRY>
      <LENGTH>25</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>PA_EQWBS</KEY>
+     <ENTRY>설비WBS 포함</ENTRY>
+     <LENGTH>16</LENGTH>
     </item>
     <item>
      <ID>S</ID>
