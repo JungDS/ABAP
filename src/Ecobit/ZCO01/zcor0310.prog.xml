@@ -2033,6 +2033,18 @@
     </item>
     <item>
      <ID>I</ID>
+     <KEY>E07</KEY>
+     <ENTRY>Excel 파일명 공백입니다.</ENTRY>
+     <LENGTH>26</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>E08</KEY>
+     <ENTRY>파일이 존재하지 않습니다.</ENTRY>
+     <LENGTH>24</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
      <KEY>M01</KEY>
      <ENTRY>월</ENTRY>
      <LENGTH>11</LENGTH>

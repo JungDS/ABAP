@@ -185,79 +185,42 @@ FORM EXCEL_UPLOAD_EXEC .
       NOT_SUPPORTED_BY_GUI = 4
       OTHERS               = 5.
 
-  IF LV_RESULT IS INITIAL.
-    MESSAGE S000 DISPLAY LIKE 'E' WITH TEXT-E08.
+  IF  LV_RESULT IS INITIAL.
+    MESSAGE S000 DISPLAY LIKE 'E' WITH TEXT-M02.
     STOP.
   ENDIF.
 
-*  CALL FUNCTION 'ALSM_EXCEL_TO_INTERNAL_TABLE'
-*    EXPORTING
-*      FILENAME                = PA_FILE
-*      I_BEGIN_COL             = 1         "Excel file start col
-*      I_BEGIN_ROW             = 2         "Excel file start row
-*      I_END_COL               = 19
-*      I_END_ROW               = 50000
-*    TABLES
-*      INTERN                  = GT_INTERN
-*    EXCEPTIONS
-*      INCONSISTENT_PARAMETERS = 1
-*      UPLOAD_OLE              = 2
-*      OTHERS                  = 3.
-*  IF SY-SUBRC <> 0.
-*    MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
-*            WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
-*  ENDIF.
-
-  DATA LT_INTERN TYPE ZCL_CO_COMMON=>TT_EXCEL_TABLINE.
-  DATA LS_INTERN TYPE ZCL_CO_COMMON=>TS_EXCEL_TABLINE.
-
-  CLEAR SY-SUBRC.
-  ZCL_CO_COMMON=>GET_EXCEL_CONTENTS(
+  CALL FUNCTION 'ALSM_EXCEL_TO_INTERNAL_TABLE'
     EXPORTING
-      I_FILENAME              = PA_FILE          " Excel 파일명(경로포함)
-      I_BEGIN_ROW             = 2                " 조회시작행
-      I_BEGIN_COL             = 1                " 조회시작열
-*      I_END_ROW               =                  " 조회종료행
-      I_END_COL               = 19               " 조회종료열
-    IMPORTING
-      ET_INTERN               = LT_INTERN[]      " Excel 데이타가 있는 테이블 행
+      FILENAME                = PA_FILE
+      I_BEGIN_COL             = 1         "Excel file start col
+      I_BEGIN_ROW             = 2         "Excel file start row
+      I_END_COL               = 19
+      I_END_ROW               = 50000
+    TABLES
+      INTERN                  = GT_INTERN
     EXCEPTIONS
-      NO_INPUT_EXCEL_FILE     = 1                " Excel 파일명 공백
-      INCONSISTENT_PARAMETERS = 2
-      OTHERS                  = 3
-  ).
-  CASE SY-SUBRC.
-    WHEN 0.
-    WHEN 1.
-      " Excel 파일명 공백입니다.
-      MESSAGE S000 DISPLAY LIKE 'E' WITH TEXT-E07.
-    WHEN OTHERS.
-      " 에러 데이터가 존재 합니다 확인하십시오.
-      MESSAGE S000 DISPLAY LIKE 'E' WITH TEXT-E05.
-  ENDCASE.
+      INCONSISTENT_PARAMETERS = 1
+      UPLOAD_OLE              = 2
+      OTHERS                  = 3.
 
+  IF SY-SUBRC <> 0.
+    MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
+            WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+  ENDIF.
 
-*  DESCRIBE TABLE GT_INTERN LINES SY-TFILL.
-  DESCRIBE TABLE LT_INTERN LINES SY-TFILL.
+  DESCRIBE TABLE GT_INTERN LINES SY-TFILL.
 
   IF SY-TFILL EQ 0.
-    " 해당 데이터가 없습니다.
-    MESSAGE S006 DISPLAY LIKE 'W'.
+    MESSAGE S001 WITH TEXT-E16.
     STOP.
   ENDIF.
 
-*  LOOP AT GT_INTERN.
-  LOOP AT LT_INTERN INTO LS_INTERN.
+  LOOP AT GT_INTERN.
 
-*    ASSIGN COMPONENT GT_INTERN-COL OF STRUCTURE
-*                                   GT_EXCEL TO <FS_COL>.
-*    <FS_COL> = GT_INTERN-VALUE.
-
-    ASSIGN COMPONENT LS_INTERN-COL OF STRUCTURE GT_EXCEL TO <FS_COL>.
-    IF <FS_COL> IS ASSIGNED.
-      <FS_COL> = CONV #( LS_INTERN-VALUE ).
-      UNASSIGN <FS_COL>.
-    ENDIF.
+    ASSIGN COMPONENT GT_INTERN-COL OF STRUCTURE
+                                   GT_EXCEL TO <FS_COL>.
+    <FS_COL> = GT_INTERN-VALUE.
 
     AT END OF ROW.
       APPEND GT_EXCEL.

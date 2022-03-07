@@ -3,7 +3,7 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <DEVC>
-    <CTEXT>[CO] ESG 고도화 신규PKG</CTEXT>
+    <CTEXT>[CO] CO 모듈 개발 CLASS</CTEXT>
    </DEVC>
   </asx:values>
  </asx:abap>

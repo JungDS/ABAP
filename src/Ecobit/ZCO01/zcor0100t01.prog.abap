@@ -5,6 +5,7 @@
 TABLES: SSCRFIELDS,
         CEPC,
         PROJ,
+        PRPS,
         COBRB.
 *----------------------------------------------------------------------*
 * CONSTANTS

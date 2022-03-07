@@ -8,6 +8,12 @@
     <WWWPARAMS>
      <RELID>MI</RELID>
      <OBJID>ZCOR101</OBJID>
+     <NAME>fileextension</NAME>
+     <VALUE>.xls</VALUE>
+    </WWWPARAMS>
+    <WWWPARAMS>
+     <RELID>MI</RELID>
+     <OBJID>ZCOR101</OBJID>
      <NAME>filename</NAME>
      <VALUE>ZCOR101.xls</VALUE>
     </WWWPARAMS>
@@ -16,12 +22,6 @@
      <OBJID>ZCOR101</OBJID>
      <NAME>mimetype</NAME>
      <VALUE>xls</VALUE>
-    </WWWPARAMS>
-    <WWWPARAMS>
-     <RELID>MI</RELID>
-     <OBJID>ZCOR101</OBJID>
-     <NAME>fileextension</NAME>
-     <VALUE>.xls</VALUE>
     </WWWPARAMS>
    </PARAMS>
   </asx:values>

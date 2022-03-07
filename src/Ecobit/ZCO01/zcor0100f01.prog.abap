@@ -14,8 +14,8 @@ FORM INITAIL .
    WHERE KOKRS = @PA_KOKRS.
 
 *  CONCATENATE SY-DATUM(4) '0101' INTO PA_PSTRT.
-  PA_PSTRT = '19000101'.
-  PA_PENDE = '99991231'.
+*  PA_PSTRT = '19000101'.
+*  PA_PENDE = '99991231'.
 
   CASE SY-TCODE.
 
@@ -136,6 +136,16 @@ FORM SELECTED_MAIN_DATA .
 *     AND C~PSTRT >= PA_PSTRT
 *     AND C~PENDE <= PA_PENDE.
 
+*--------------------------------------------------------------------*
+* [CO] ESG Pjt. 기존PGM 고도화 - 2021.11.10 14:25:25, MDP_06
+*--------------------------------------------------------------------*
+* 조회조건 추가 ( 프로젝트 프로파일 : 설비WBS를 위한 Profile 제외 )
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #11, 2022.02.22 13:07:55, MDP_06
+*--------------------------------------------------------------------*
+* 조회필드 추가 ( WBS 생성일 )
+* 조회조건 추가 ( WBS 생성일 / WBS ID )
+*--------------------------------------------------------------------*
   SELECT A~PSPID A~POST1 AS PRPOST1
          A~OBJNR A~PROFL A~KZBWS A~PLINT A~VBUKR A~VGSBR
          A~PRCTR B~POSID B~POST1 B~OBJNR AS OBJNR2 B~PLINT AS PLINT2
@@ -143,6 +153,8 @@ FORM SELECTED_MAIN_DATA .
          B~STUFE C~PSTRT C~PENDE B~PLAKZ B~BELKZ B~FAKKZ   B~CLASF
          B~ABGSL B~ZZSCT B~ZZPHA B~ZZWBT B~ZZBGU B~ZZBGD   B~ZZPRG
          B~ZZADT B~ZZHWB B~ZZBAG B~ZZIVC B~ZZCYP B~ZZCOP
+         B~ERDAT
+
     INTO CORRESPONDING FIELDS OF TABLE GT_ITAB
     FROM PROJ AS A JOIN PRPS AS B
                      ON A~PSPNR = B~PSPHI
@@ -157,17 +169,17 @@ FORM SELECTED_MAIN_DATA .
                      ON E~SPRAS = SY-LANGU
                     AND B~PGSBR = E~GSBER
 
-*--------------------------------------------------------------------*
-* [CO] ESG Pjt. 기존PGM 고도화 - 2021.11.10 14:25:25, MDP_06
-*--------------------------------------------------------------------*
    WHERE A~PROFL NE 'Z000003'   " 설비WBS를 위한 Profile 제외
      AND B~PBUKR IN R_PBUKR
      AND B~PRCTR IN R_PRCTR
-     AND C~PSTRT >= PA_PSTRT
-     AND C~PENDE <= PA_PENDE.
+*     AND C~PSTRT >= PA_PSTRT
+*     AND C~PENDE <= PA_PENDE
+     AND B~ERDAT IN SO_ERDAT
+     AND B~POSID IN SO_POSID.
 
 *-- 기존 조건절
-*   WHERE B~PBUKR IN R_PBUKR
+*   WHERE A~PROFL NE 'Z000003'   " 설비WBS를 위한 Profile 제외
+*     AND B~PBUKR IN R_PBUKR
 *     AND B~PRCTR IN R_PRCTR
 *     AND C~PSTRT >= PA_PSTRT
 *     AND C~PENDE <= PA_PENDE.
@@ -755,6 +767,15 @@ FORM SET_COLUMN_TEXT  USING    PV_COLUMNNAME
 
     WHEN 'MESSAGE'.
       PV_COLUMN_TEXT = TEXT-C36.
+
+*--------------------------------------------------------------------*
+* [ESG_CO] DEV_ESG 기존PGM 고도화 #11, 2022.02.22 13:07:55, MDP_06
+*--------------------------------------------------------------------*
+* WBS 생성일 필드 추가
+*--------------------------------------------------------------------*
+    WHEN 'ERDAT'.
+      PV_COLUMN_TEXT = TEXT-C58.  " WBS 생성일
+
 
   ENDCASE.
 

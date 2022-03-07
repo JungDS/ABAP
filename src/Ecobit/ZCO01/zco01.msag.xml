@@ -385,6 +385,12 @@
      <MSGNR>062</MSGNR>
      <TEXT>프로파일과 WBS 번호는 일치해야 합니다.</TEXT>
     </T100>
+    <T100>
+     <SPRSL>3</SPRSL>
+     <ARBGB>ZCO01</ARBGB>
+     <MSGNR>063</MSGNR>
+     <TEXT>실적이 발생하여 WBS의 ID 는 변경할 수 없습니다.</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>
