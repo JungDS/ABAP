@@ -26,7 +26,6 @@ CONSTANTS : GC_A     TYPE CHAR01   VALUE 'A',
 * - Prefix 정의
 *   1. TY_  : Global, Local Types
 
-
 *---------------------------------------------------------------------*
 * VARIABLE
 *---------------------------------------------------------------------*
@@ -47,6 +46,7 @@ DATA: GV_EXIT     TYPE C,
 DATA: GV_MODE        TYPE C.
 DATA: GV_REFRESH     TYPE C.
 DATA: GV_DRDN_HANDLE TYPE I.
+DATA: BUTXT          TYPE T001-BUTXT.
 
 *---------------------------------------------------------------------*
 * STRUCTURE
@@ -72,11 +72,11 @@ DATA: BEGIN OF GS_DISPLAY,
         MARK(1),
         BUKRS        LIKE ZCOT1310-BUKRS,
         BUTXT        LIKE T001-BUTXT,
-        ZZBGU_DRDN   LIKE T001-BUTXT,
+        ZZBGU_DRDN   LIKE CSKT-LTEXT,
         ZZBGD_HANDLE LIKE LVC_S_DROP-HANDLE,
-        ZZBGD_DRDN   LIKE T001-BUTXT,
-        ZZPRG_DRDN   LIKE T001-BUTXT,
-        WW120_DRDN   LIKE T001-BUTXT,
+        ZZBGD_DRDN   LIKE CSKT-LTEXT,
+        ZZPRG_DRDN   LIKE CSKT-LTEXT,
+        WW120_DRDN   LIKE CSKT-LTEXT,
         ERDAT        LIKE ZCOT1310-ERDAT,
         ERZET        LIKE ZCOT1310-ERZET,
         ERNAM        LIKE ZCOT1310-ERNAM,
@@ -85,7 +85,40 @@ DATA: BEGIN OF GS_DISPLAY,
         AENAM        LIKE ZCOT1310-AENAM,
         STYLE        TYPE LVC_T_STYL,
         COLOR        TYPE LVC_T_SCOL,
+
+        O_BUKRS      LIKE ZCOT1310-BUKRS,
+        O_ZZBGU      LIKE ZCOT1310-ZZBGU,
+        O_ZZBGD      LIKE ZCOT1310-ZZBGD,
+        O_ZZPRG      LIKE ZCOT1310-ZZPRG,
+        O_WW120      LIKE ZCOT1310-WW120,
       END OF GS_DISPLAY.
+
+DATA: BEGIN OF GS_LOG,
+
+*.. 미출력
+        LOGID        LIKE ZCOT1340-LOGID,
+        METHOD       LIKE ZCOT1340-METHOD,
+        BUKRS        LIKE ZCOT1340-BUKRS,
+
+*.. 출력
+        TABIX        LIKE ZCOT1340-TABIX,
+        O_ZZBGU      LIKE CSKT-LTEXT,
+        O_ZZBGD      LIKE CSKT-LTEXT,
+        O_ZZPRG      LIKE CSKT-LTEXT,
+        O_WW120      LIKE CSKT-LTEXT,
+        STATUS       LIKE ICON-ID,
+        N_ZZBGU      LIKE CSKT-LTEXT,
+        N_ZZBGD      LIKE CSKT-LTEXT,
+        N_ZZPRG      LIKE CSKT-LTEXT,
+        N_WW120      LIKE CSKT-LTEXT,
+        AEDAT        LIKE ZCOT1340-AEDAT,
+        AEZET        LIKE ZCOT1340-AEZET,
+        AENAM        LIKE ZCOT1340-AENAM,
+
+*.. 미출력
+        STYLE        TYPE LVC_T_STYL,
+        COLOR        TYPE LVC_T_SCOL,
+      END OF GS_LOG.
 
 DATA: BEGIN OF GS_1040,
         ZZBGU   LIKE ZCOT1040-ZZBGU,
@@ -128,11 +161,15 @@ DATA GT_DATA          LIKE TABLE OF GS_DATA.
 DATA GT_DISPLAY       LIKE TABLE OF GS_DISPLAY.
 DATA GT_DISPLAY_2     LIKE TABLE OF GS_DISPLAY.
 DATA GT_1310          TYPE TABLE OF ZCOT1310.
+DATA GT_1340          TYPE TABLE OF ZCOT1340.
 DATA GT_1040          LIKE TABLE OF GS_1040.
 DATA GT_1050          LIKE TABLE OF GS_1050.
 DATA GT_1100          LIKE TABLE OF GS_1100.
 DATA GT_T2501         LIKE TABLE OF GS_T2501.
 DATA GT_T001          LIKE TABLE OF GS_T001.
+
+DATA GT_LOG_ALL       LIKE TABLE OF GS_LOG.
+DATA GT_LOG_DISP      LIKE TABLE OF GS_LOG.
 
 *---------------------------------------------------------------------*
 * ALV
@@ -150,6 +187,9 @@ DATA GR_EVENT_RECEIVER  TYPE REF TO LCL_EVENT_RECEIVER.
 
 * EX) RANGES: R_FKART  FOR VBRK-FKART,
 *             GS_FKDAT LIKE LINE OF R_FKART.
+
+RANGES: R_BUKRS FOR T001-BUKRS.
+
 *---------------------------------------------------------------------*
 * FIELD-SYMBOLS
 *---------------------------------------------------------------------*

@@ -54,7 +54,7 @@ FORM INITIALIZATION .
   GV_MONTH_MIN = '999'.
   GV_MONTH_MAX = '000'.
 
-  P_NOZERO = GC_X.
+*  P_NOZERO = GC_X.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
@@ -563,6 +563,8 @@ FORM CREATE_MAIN_GRID_0100 .
                                         ( 'KOSTL' )
                                         ( 'KTEXT' ) ) ).
 
+  GR_ALV->MS_VARIANT-REPORT = SY-REPID.
+  GR_ALV->MV_SAVE = 'A'.
   GR_ALV->DISPLAY( CHANGING T_OUTTAB = GT_DISPLAY ).
 
 ENDFORM.

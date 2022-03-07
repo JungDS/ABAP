@@ -81,6 +81,8 @@ DATA: BEGIN OF GS_WBS,
         ZZCD2           LIKE PRPS-ZZCD2,          " 중분류
         ZZCD3           LIKE PRPS-ZZCD3,          " 소분류
         ZZUNT           LIKE PRPS-ZZUNT,          " 호기
+        ZZTCV           LIKE PRPS-ZZTCV,          " 계약금
+        ZZWAE           LIKE PRPS-ZZWAE,          " 통화
         ZZCMD           LIKE PRPS-ZZCMD,          " 공사착공일
         ZZCPD           LIKE PRPS-ZZCPD,          " 공사준공일
         PSTRT           LIKE PRTE-PSTRT,          " 시작일
@@ -128,6 +130,8 @@ DATA: BEGIN OF GS_DISPLAY,
         ZZCD3           LIKE PRPS-ZZCD3,          " 소분류
         ZZCD3TX         LIKE ZCOT1300T-ZZCD3TX,   " 소분류명
         ZZUNT           LIKE PRPS-ZZUNT,          " 호기
+        ZZTCV           LIKE ZCOS0021-ZZTCV,      " 계약금
+        ZZWAE           LIKE PRPS-ZZWAE,          " 통화
         ZZCMD           LIKE PRPS-ZZCMD,          " 공사착공일
         ZZCPD           LIKE PRPS-ZZCPD,          " 공사준공일
 

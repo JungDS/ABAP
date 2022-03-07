@@ -61,8 +61,6 @@ DATA GV_TEMP2       TYPE TEXT255.
 *---------------------------------------------------------------------*
 * STRUCTURE
 *---------------------------------------------------------------------*
-DATA GS_FUNTXT        TYPE SMP_DYNTXT. "Excel 양식 Download(펑션키)
-
 DATA: BEGIN OF GS_T811C,
         CYCLE         LIKE T811C-CYCLE,         " 사이클
         SDATE         LIKE T811C-SDATE,         " 시작일

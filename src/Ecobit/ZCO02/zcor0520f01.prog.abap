@@ -22,22 +22,29 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 FORM CALL_TRANSACTION .
 
-  CASE ABAP_ON.
-    WHEN PA_R01.
-      IF GV_MODE EQ GC_E.
-        CALL TRANSACTION 'ZCOV1270'.
-      ELSE.
-        CALL TRANSACTION 'ZCOV1271'.
-      ENDIF.
+  TRY.
 
-    WHEN PA_R02.
-      IF GV_MODE EQ GC_E.
-        CALL TRANSACTION 'ZCOV1280'.
-      ELSE.
-        CALL TRANSACTION 'ZCOV1281'.
-      ENDIF.
+    CASE ABAP_ON.
+      WHEN PA_R01.
+        IF GV_MODE EQ GC_E.
+          CALL TRANSACTION 'ZCOV1270' WITHOUT AUTHORITY-CHECK.
+        ELSE.
+          CALL TRANSACTION 'ZCOV1271' WITHOUT AUTHORITY-CHECK.
+        ENDIF.
 
-  ENDCASE.
+      WHEN PA_R02.
+        IF GV_MODE EQ GC_E.
+          CALL TRANSACTION 'ZCOV1280' WITHOUT AUTHORITY-CHECK.
+        ELSE.
+          CALL TRANSACTION 'ZCOV1281' WITHOUT AUTHORITY-CHECK.
+        ENDIF.
+    ENDCASE.
+
+  CATCH CX_SY_AUTHORIZATION_ERROR INTO DATA(LX_ERROR).
+
+    MESSAGE LX_ERROR->GET_TEXT( ) TYPE 'I' DISPLAY LIKE 'E'.
+
+  ENDTRY.
 
 ENDFORM.
 *&---------------------------------------------------------------------*

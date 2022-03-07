@@ -27,6 +27,14 @@ public section.
   constants C_FILETYPE_TEXT type C value 'T' ##NO_TEXT.
   constants C_LINE_END type C value %_NEWLINE ##NO_TEXT.
 
+  class-methods GET_TEXT_SELOPT
+    importing
+      !IT_SELOPT type STANDARD TABLE
+      value(I_MAX) type I default 5
+    returning
+      value(R_TEXT) type STRING
+    exceptions
+      INVAILD_TYPE .
   class-methods GET_REPORT_PROGNAME
     importing
       !I_RGJNR type T803VP-RGJNR
@@ -41,7 +49,11 @@ public section.
       !I_TCODE type SY-TCODE
       !I_SKIP_SCREEN type SY-FTYPE optional
       !I_NEW_SESSION type SY-FTYPE optional
-      !IT_SPAGPA type RFC_T_SPAGPA optional .
+      !IT_SPAGPA type RFC_T_SPAGPA optional
+    exceptions
+      CALL_TRANSACTION_DENIED
+      TCODE_INVALID
+      UNKNOWN_EXCEPTION .
   class-methods F4_BUKRS
     importing
       !I_KOKRS type TKA02-KOKRS default '1000'
@@ -241,31 +253,53 @@ ENDCLASS.
 CLASS ZCL_CO_COMMON IMPLEMENTATION.
 
 
-  method CALL_TRANSACTION.
+  METHOD CALL_TRANSACTION.
 
     IF I_NEW_SESSION IS INITIAL.
 
       CALL FUNCTION 'ABAP4_CALL_TRANSACTION'
         EXPORTING
-          TCODE       = I_TCODE
-          SKIP_SCREEN = I_SKIP_SCREEN
+          TCODE                   = I_TCODE         " Transaction Code
+          SKIP_SCREEN             = I_SKIP_SCREEN
+*          MODE_VAL                = 'A'
+*          UPDATE_VAL              = 'A'
         TABLES
-          SPAGPA_TAB  = IT_SPAGPA.
-
+          SPAGPA_TAB              = IT_SPAGPA
+*          USING_TAB               =
+*          MESS_TAB                =
+        EXCEPTIONS
+          CALL_TRANSACTION_DENIED = 1               " No Authorization
+          TCODE_INVALID           = 2
+          OTHERS                  = 3.
 
     ELSE.
 
       CALL FUNCTION 'ABAP4_CALL_TRANSACTION' STARTING NEW TASK ''
         EXPORTING
-          TCODE       = I_TCODE
-          SKIP_SCREEN = I_SKIP_SCREEN
+          TCODE                   = I_TCODE         " Transaction Code
+          SKIP_SCREEN             = I_SKIP_SCREEN
+*          MODE_VAL                = 'A'
+*          UPDATE_VAL              = 'A'
         TABLES
-          SPAGPA_TAB  = IT_SPAGPA.
-
+          SPAGPA_TAB              = IT_SPAGPA
+*          USING_TAB               =
+*          MESS_TAB                =
+        EXCEPTIONS
+          CALL_TRANSACTION_DENIED = 1               " No Authorization
+          TCODE_INVALID           = 2
+          OTHERS                  = 3.
 
     ENDIF.
 
-  endmethod.
+
+    CASE SY-SUBRC.
+      WHEN 0.
+      WHEN 1.       RAISE CALL_TRANSACTION_DENIED.
+      WHEN 2.       RAISE TCODE_INVALID.
+      WHEN OTHERS.  RAISE UNKNOWN_EXCEPTION.
+    ENDCASE.
+
+  ENDMETHOD.
 
 
 method EXCEL_FILE_CLOSE.
@@ -1545,6 +1579,130 @@ ENDMETHOD.
       INTO @R_BEZEI.
 
   endmethod.
+
+
+  METHOD GET_TEXT_SELOPT.
+
+DEFINE __ASSIGN_COMP.
+  ASSIGN COMPONENT &2 OF STRUCTURE &1 TO &3.
+  IF SY-SUBRC NE 0.
+    RAISE INVAILD_TYPE.
+  ENDIF.
+END-OF-DEFINITION.
+
+DEFINE __CREATE_ICON.
+
+  CALL FUNCTION 'ICON_CREATE'
+    EXPORTING
+      NAME                  = &1               " Icon name  (Name from INCLUDE <ICON> )
+      TEXT                  = &2               " Icon text (shown behind)
+    IMPORTING
+      RESULT                = &2               " Icon (enter the screen field here)
+    EXCEPTIONS
+      ICON_NOT_FOUND        = 1                " Icon name unknown to system
+      OUTPUTFIELD_TOO_SHORT = 2                " Length of field 'RESULT' is too small
+      OTHERS                = 3.
+
+END-OF-DEFINITION.
+
+
+
+    DATA: LV_LOW   TYPE TEXT255,
+          LV_HIGH  TYPE TEXT255,
+          LV_ICON  TYPE ICON-NAME.
+
+    FIELD-SYMBOLS: <FS_WA>      TYPE ANY,
+                   <FS_SIGN>    TYPE CHAR1,
+                   <FS_OPTION>  TYPE CHAR2,
+                   <FS_LOW>     TYPE ANY,
+                   <FS_HIGH>    TYPE ANY.
+
+    " Check Select Options
+    CHECK IT_SELOPT[] IS NOT INITIAL.
+
+    IF I_MAX EQ 0.
+      I_MAX = 5.
+    ENDIF.
+
+    READ TABLE IT_SELOPT ASSIGNING <FS_WA> INDEX 1.
+
+    __ASSIGN_COMP <FS_WA>: 'SIGN'   <FS_SIGN>,
+                           'OPTION' <FS_OPTION>,
+                           'LOW'    <FS_LOW>,
+                           'HIGH'   <FS_HIGH>.
+
+    LOOP AT IT_SELOPT ASSIGNING <FS_WA>.
+
+      " 특정 개수의 조건까지만 보여준다.
+      IF SY-TABIX > I_MAX.
+        R_TEXT = R_TEXT && '...'.
+        EXIT.
+      ENDIF.
+
+      IF R_TEXT IS NOT INITIAL.
+        R_TEXT = R_TEXT && ','.
+      ENDIF.
+
+      WRITE <FS_LOW>  TO LV_LOW.
+      WRITE <FS_HIGH> TO LV_HIGH.
+
+      CASE <FS_OPTION>.
+        WHEN 'EQ'.    LV_ICON = 'ICON_EQUAL'.
+        WHEN 'NE'.    LV_ICON = 'ICON_NOT_EQUAL'.
+        WHEN 'GT'.    LV_ICON = 'ICON_GREATER'.
+        WHEN 'LT'.    LV_ICON = 'ICON_LESS'.
+        WHEN 'GE'.    LV_ICON = 'ICON_GREATER_EQUAL'.
+        WHEN 'LE'.    LV_ICON = 'ICON_LESS_EQUAL'.
+        WHEN 'CP'.    LV_ICON = 'ICON_PATTERN_INCLUDE'.
+        WHEN 'NP'.    LV_ICON = 'ICON_PATTERN_EXCLUDE'.
+        WHEN 'BT'.    LV_ICON = 'ICON_INTERVAL_INCLUDE'.
+
+          " From ~ To 는 '∽' 과 함께 하나의 변수에 기록함.
+          CONCATENATE LV_LOW '∽' LV_HIGH
+                 INTO LV_LOW
+            SEPARATED BY SPACE.
+
+        WHEN 'NB'.    LV_ICON = 'ICON_INTERVAL_EXCLUDE'.
+
+          " From ~ To 는 '∽' 과 함께 하나의 변수에 기록함.
+          CONCATENATE LV_LOW '∽' LV_HIGH
+                 INTO LV_LOW
+            SEPARATED BY SPACE.
+
+        WHEN OTHERS.  CLEAR LV_ICON.
+      ENDCASE.
+
+
+      IF LV_ICON IS NOT INITIAL.
+        CASE <FS_SIGN>.
+          WHEN 'I'.
+            IF <FS_OPTION> EQ 'EQ'.
+              " 선택: 같음 은 굳이 출력하지 않는다.
+              CLEAR LV_ICON.
+            ELSE.
+              LV_ICON = LV_ICON && '_GREEN'.
+            ENDIF.
+          WHEN 'E'.
+            LV_ICON = LV_ICON && '_RED'.
+          WHEN OTHERS.
+            CLEAR LV_ICON.
+        ENDCASE.
+
+        IF LV_ICON IS NOT INITIAL.
+          __CREATE_ICON LV_ICON LV_LOW.
+        ENDIF.
+      ENDIF.
+
+      CONCATENATE R_TEXT LV_LOW
+             INTO R_TEXT
+        SEPARATED BY SPACE.
+
+    ENDLOOP.
+
+
+    CONDENSE R_TEXT.
+
+  ENDMETHOD.
 
 
   METHOD POPUP_CONFIRM.

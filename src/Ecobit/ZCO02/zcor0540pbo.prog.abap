@@ -42,3 +42,18 @@ MODULE INIT_ALV_0100 OUTPUT.
   ENDIF.
 
 ENDMODULE.
+*&---------------------------------------------------------------------*
+*& Module STATUS_0200 OUTPUT
+*&---------------------------------------------------------------------*
+MODULE STATUS_0200 OUTPUT.
+  SET PF-STATUS 'PF_0200'.
+  SET TITLEBAR  'TT_0200'.
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*& Module INIT_0200 OUTPUT
+*&---------------------------------------------------------------------*
+MODULE INIT_0200 OUTPUT.
+
+  PERFORM SET_BUTXT USING R_BUKRS-LOW.
+
+ENDMODULE.

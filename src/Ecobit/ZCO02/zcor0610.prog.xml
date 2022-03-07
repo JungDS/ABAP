@@ -243,7 +243,7 @@
     <item>
      <ID>I</ID>
      <KEY>F10</KEY>
-     <ENTRY>대분류</ENTRY>
+     <ENTRY>대</ENTRY>
      <LENGTH>11</LENGTH>
     </item>
     <item>
@@ -267,7 +267,7 @@
     <item>
      <ID>I</ID>
      <KEY>F14</KEY>
-     <ENTRY>중분류</ENTRY>
+     <ENTRY>중</ENTRY>
      <LENGTH>11</LENGTH>
     </item>
     <item>
@@ -291,7 +291,7 @@
     <item>
      <ID>I</ID>
      <KEY>F18</KEY>
-     <ENTRY>소분류</ENTRY>
+     <ENTRY>소</ENTRY>
      <LENGTH>11</LENGTH>
     </item>
     <item>
@@ -347,6 +347,30 @@
      <KEY>F27</KEY>
      <ENTRY>비고</ENTRY>
      <LENGTH>12</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>F28</KEY>
+     <ENTRY>호기</ENTRY>
+     <LENGTH>12</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>F29</KEY>
+     <ENTRY>계약금액</ENTRY>
+     <LENGTH>14</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>F30</KEY>
+     <ENTRY>통화</ENTRY>
+     <LENGTH>12</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>F31</KEY>
+     <ENTRY>사유</ENTRY>
+     <LENGTH>14</LENGTH>
     </item>
     <item>
      <ID>I</ID>
@@ -460,6 +484,12 @@
      <KEY>P_KOKRS</KEY>
      <ENTRY>관리회계영역</ENTRY>
      <LENGTH>15</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_NOPOST</KEY>
+     <ENTRY>미집행내역 포함</ENTRY>
+     <LENGTH>16</LENGTH>
     </item>
     <item>
      <ID>S</ID>

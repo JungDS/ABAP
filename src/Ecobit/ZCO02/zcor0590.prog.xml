@@ -212,6 +212,24 @@
     </item>
     <item>
      <ID>I</ID>
+     <KEY>S03</KEY>
+     <ENTRY>Program Help</ENTRY>
+     <LENGTH>22</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S04</KEY>
+     <ENTRY>코스트센터그룹(ZBU)</ENTRY>
+     <LENGTH>22</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S05</KEY>
+     <ENTRY>합산배부기준</ENTRY>
+     <LENGTH>16</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
      <KEY>T01</KEY>
      <ENTRY>[CO] 판관비 배부사이클 조회</ENTRY>
      <LENGTH>27</LENGTH>

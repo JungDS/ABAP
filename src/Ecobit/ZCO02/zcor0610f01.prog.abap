@@ -24,7 +24,6 @@ FORM INITIALIZATION .
     APPEND S_BUKRS.
   ENDIF.
 
-
   S_GJAHR[] = VALUE #( ( LOW  = SY-DATUM(4)
                          HIGH = SY-DATUM(4) + 1 ) ).
 
@@ -35,6 +34,10 @@ FORM INITIALIZATION .
   TEXT_S01 = '실행조건'(S01).
   TEXT_S02 = '선택조건'(S02).
   SY-TITLE = '[CO] 설비 WBS 계획 대비 실적 비교'(T01).
+
+
+  PERFORM GET_ZCOR0600_DATA.
+
 
 ENDFORM.
 *&---------------------------------------------------------------------*
@@ -325,25 +328,13 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 FORM MAKE_DISPLAY_DATA .
 
-  DATA LT_DISPLAY LIKE TABLE OF GS_DISPLAY.
-
-
   SORT GT_WBS BY PSPID POSID.
 
   LOOP AT GT_WBS INTO GS_WBS.
-
     GS_DISPLAY = CORRESPONDING #( GS_WBS ).
     PERFORM SET_TEXT.
-
     PERFORM APPEND_DISPLAY.
   ENDLOOP.
-
-
-  IF P_DTL_CE IS INITIAL.
-    DELETE GT_DISPLAY WHERE KSTAR IS NOT INITIAL.
-  ELSE.
-    DELETE GT_DISPLAY WHERE KSTAR IS INITIAL.
-  ENDIF.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
@@ -491,7 +482,7 @@ FORM CREATE_MAIN_GRID_0100 .
   PERFORM REGISTER_EVENT_0100.
 
   GR_ALV->SET_LAYOUT(
-    I_TYPE       = 'A'
+    I_TYPE       = 'B'
     I_STYLEFNAME = 'STYLE'
     I_CTAB_FNAME = 'COLOR'
   ).
@@ -501,10 +492,13 @@ FORM CREATE_MAIN_GRID_0100 .
                                         ( 'PSPID' )
                                         ( 'POST0' )
                                         ( 'POSID' )
-                                        ( 'GJAHR' )
-                                        ( 'KSTAR' )
+                                        ( 'POST1' )
+*                                        ( 'GJAHR' )
+*                                        ( 'KSTAR' )
                                         ) ).
 
+  GR_ALV->MS_VARIANT-REPORT = SY-REPID.
+  GR_ALV->MV_SAVE = 'A'.
   GR_ALV->DISPLAY( CHANGING T_OUTTAB = GT_DISPLAY ).
 
 ENDFORM.
@@ -554,77 +548,88 @@ FORM MAKE_FIELDCATALOG_0100 .
 
       WHEN 'PBUKR'.
         LS_FIELDCAT-JUST      = GC_C.
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 5.
+        LS_FIELDCAT-COL_OPT   = SPACE.
+        LS_FIELDCAT-OUTPUTLEN = 5.
 
       WHEN 'ZZIZW'.
         LS_FIELDCAT-JUST      = GC_C.
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 8.
+        LS_FIELDCAT-COL_OPT   = SPACE.
+        LS_FIELDCAT-OUTPUTLEN = 5.
 
       WHEN 'ZZIZWTX'.
         LS_FIELDCAT-NO_OUT = GC_X.
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 15.
+        LS_FIELDCAT-COL_OPT   = SPACE.
+        LS_FIELDCAT-OUTPUTLEN = 15.
 
       WHEN 'PSPID'.
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 11.
+        LS_FIELDCAT-COL_OPT   = SPACE.
+        LS_FIELDCAT-OUTPUTLEN = 11.
 
       WHEN 'POST0'.
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 10.
+        LS_FIELDCAT-COL_OPT   = SPACE.
+        LS_FIELDCAT-OUTPUTLEN = 30.
 
       WHEN 'STUFE'.
         LS_FIELDCAT-NO_OUT    = GC_X.
         LS_FIELDCAT-JUST      = GC_C.
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 3.
+        LS_FIELDCAT-COL_OPT   = SPACE.
+        LS_FIELDCAT-OUTPUTLEN = 4.
 
       WHEN 'POSID'.
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 16.
+        LS_FIELDCAT-COL_OPT   = SPACE.
+        LS_FIELDCAT-OUTPUTLEN = 17.
         LS_FIELDCAT-HOTSPOT   = GC_X.
 
       WHEN 'POST1'.
         CLEAR LV_KEY_FIX.
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 40.
+        LS_FIELDCAT-COL_OPT   = SPACE.
+        LS_FIELDCAT-OUTPUTLEN = 40.
 
 
       WHEN 'ZZCD1'
         OR 'ZZCD2'
         OR 'ZZCD3'.
         LS_FIELDCAT-JUST      = GC_C.
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 2.
+        LS_FIELDCAT-COL_OPT   = SPACE.
+        LS_FIELDCAT-OUTPUTLEN = 4.
 
       WHEN 'ZZCD1TX'
         OR 'ZZCD2TX'
         OR 'ZZCD3TX'.
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 10.
+        LS_FIELDCAT-COL_OPT   = SPACE.
+        LS_FIELDCAT-OUTPUTLEN = 10.
 
       WHEN 'ZZUNT'.
         LS_FIELDCAT-JUST      = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 4.
 
       WHEN 'ZZCMD'
         OR 'ZZCPD'.
         LS_FIELDCAT-JUST      = GC_C.
 *        LS_FIELDCAT-NO_OUT    = GC_X.
+        LS_FIELDCAT-OUTPUTLEN = 11.
+
+      WHEN 'ZZWAE'.
+        LS_FIELDCAT-JUST      = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 5.
+
+      WHEN 'GJAHR'.
+        LS_FIELDCAT-JUST      = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 5.
+        LS_FIELDCAT-EMPHASIZE = 'C700'.
 
       WHEN 'KSTAR'.
         LS_FIELDCAT-JUST      = GC_C.
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 10.
+        LS_FIELDCAT-COL_OPT   = SPACE.
+        LS_FIELDCAT-OUTPUTLEN = 10.
         LS_FIELDCAT-EMPHASIZE = 'C700'.
         IF P_DTL_CE IS INITIAL.
           LS_FIELDCAT-TECH = GC_X.
         ENDIF.
 
       WHEN 'KTEXT'.
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 15.
+        LS_FIELDCAT-COL_OPT   = SPACE.
+        LS_FIELDCAT-OUTPUTLEN = 15.
         LS_FIELDCAT-EMPHASIZE = 'C700'.
         IF P_DTL_CE IS INITIAL.
           LS_FIELDCAT-TECH = GC_X.
@@ -632,17 +637,17 @@ FORM MAKE_FIELDCATALOG_0100 .
 
       WHEN 'PSTRT'
         OR 'PENDE'.
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 10.
+        LS_FIELDCAT-COL_OPT   = SPACE.
+        LS_FIELDCAT-OUTPUTLEN = 10.
 
       WHEN 'OBJNR'.
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 10.
+        LS_FIELDCAT-COL_OPT   = SPACE.
+        LS_FIELDCAT-OUTPUTLEN = 10.
         LS_FIELDCAT-NO_OUT = GC_X.
 
       WHEN 'TDLINE'.
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 10.
+        LS_FIELDCAT-COL_OPT   = SPACE.
+        LS_FIELDCAT-OUTPUTLEN = 10.
         LS_FIELDCAT-NO_OUT = GC_X.
 
       WHEN 'STYLE'
@@ -652,8 +657,8 @@ FORM MAKE_FIELDCATALOG_0100 .
       WHEN OTHERS.
 
         IF LS_FIELDCAT-FIELDNAME(3) EQ 'WKG'.
-*          LS_FIELDCAT-COL_OPT   = SPACE.
-*          LS_FIELDCAT-OUTPUTLEN = 13.
+          LS_FIELDCAT-COL_OPT   = SPACE.
+          LS_FIELDCAT-OUTPUTLEN = 13.
           LS_FIELDCAT-CURRENCY = TKA01-WAERS.
           IF LS_FIELDCAT-FIELDNAME+3(3) EQ 'SUM'.
             LS_FIELDCAT-EMPHASIZE = 'C300'.
@@ -669,7 +674,8 @@ FORM MAKE_FIELDCATALOG_0100 .
 *-- Field 텍스트
     CASE LS_FIELDCAT-FIELDNAME.
       WHEN 'PBUKR'.     LV_TEXT     = TEXT-F01. " 회사
-      WHEN 'ZZIZW'.     LV_TEXT     = TEXT-F02. " 투자사유
+      WHEN 'ZZIZW'.     LV_TEXT     = TEXT-F31. " 사유
+                        LV_TOOLTIP  = TEXT-F02. " 투자사유
       WHEN 'ZZIZWTX'.   LV_TEXT     = TEXT-F03. " 투자사유명
       WHEN 'PSPID'.     LV_TEXT     = TEXT-F04. " 프로젝트
       WHEN 'POST0'.     LV_TEXT     = TEXT-F05. " 프로젝트명
@@ -678,18 +684,23 @@ FORM MAKE_FIELDCATALOG_0100 .
       WHEN 'POSID'.     LV_TEXT     = TEXT-F08. " WBS
       WHEN 'POST1'.     LV_TEXT     = TEXT-F09. " WBS명
 
-      WHEN 'ZZCD1'.     LV_TEXT     = TEXT-F10. " 대분류
+      WHEN 'ZZCD1'.     LV_TEXT     = TEXT-F10. " 대
                         LV_TOOLTIP  = TEXT-F11. " 설비대분류
       WHEN 'ZZCD1TX'.   LV_TEXT     = TEXT-F12. " 대분류명
                         LV_TOOLTIP  = TEXT-F13. " 설비대분류명
-      WHEN 'ZZCD2'.     LV_TEXT     = TEXT-F14. " 중분류
+      WHEN 'ZZCD2'.     LV_TEXT     = TEXT-F14. " 중
                         LV_TOOLTIP  = TEXT-F15. " 설비중분류
       WHEN 'ZZCD2TX'.   LV_TEXT     = TEXT-F16. " 중분류명
                         LV_TOOLTIP  = TEXT-F17. " 설비중분류명
-      WHEN 'ZZCD3'.     LV_TEXT     = TEXT-F18. " 소분류
+      WHEN 'ZZCD3'.     LV_TEXT     = TEXT-F18. " 소
                         LV_TOOLTIP  = TEXT-F19. " 설비소분류
       WHEN 'ZZCD3TX'.   LV_TEXT     = TEXT-F20. " 소분류명
                         LV_TOOLTIP  = TEXT-F21. " 설비소분류명
+      WHEN 'ZZUNT'.     LV_TEXT     = TEXT-F28. " 호기
+      WHEN 'ZZTCV'.     LV_TEXT     = TEXT-F29. " 계약금액
+      WHEN 'ZZWAE'.     LV_TEXT     = TEXT-F30. " 통화
+*      WHEN 'ZZCMD'.
+*      WHEN 'ZZCPD'.
 
       WHEN 'KSTAR'.     LV_TEXT     = TEXT-F22. " 원가요소
       WHEN 'KTEXT'.     LV_TEXT     = TEXT-F23. " 원가요소명
@@ -925,13 +936,25 @@ FORM SET_TEXT .
 
 
   IF GS_DISPLAY-KSTAR IS NOT INITIAL.
-    READ TABLE GT_CSKU INTO GS_CSKU
-                       WITH KEY KSTAR = GS_DISPLAY-KSTAR
-                                BINARY SEARCH.
-    IF SY-SUBRC EQ 0.
-      GS_DISPLAY-KTEXT = GS_CSKU-KTEXT.
-    ENDIF.
+    PERFORM SET_TEXT_KSTAR USING    GS_DISPLAY-KSTAR
+                           CHANGING GS_DISPLAY-KTEXT.
   ENDIF.
+
+ENDFORM.
+
+*&---------------------------------------------------------------------*
+*& Form SET_TEXT_KSTAR
+*&---------------------------------------------------------------------*
+FORM SET_TEXT_KSTAR  USING    VALUE(PV_KSTAR)
+                     CHANGING PV_KTEXT.
+
+  CLEAR PV_KTEXT.
+
+  READ TABLE GT_CSKU INTO GS_CSKU
+                     WITH KEY KSTAR = PV_KSTAR
+                              BINARY SEARCH.
+  CHECK SY-SUBRC EQ 0.
+  PV_KTEXT = GS_CSKU-KTEXT.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
@@ -939,133 +962,101 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 FORM APPEND_DISPLAY.
 
+**********************************************************************
+*.. 매크로 ASSIGN CHECK
+**********************************************************************
+  DEFINE __ASSIGN_CHECK.
+    ASSIGN COMPONENT &2 OF STRUCTURE &1 TO <FS>.
+    IF SY-SUBRC NE 0.
+      MESSAGE E000 WITH &2 TEXT-E02.
+    ENDIF.
+  END-OF-DEFINITION.
+**********************************************************************
+
   DATA LS_DISPLAY     LIKE GS_DISPLAY.
 
   DATA LV_FIELD       TYPE FIELDNAME.
   DATA LV_POPER       TYPE POPER.
   DATA LV_TYPE        TYPE C.
 
-  FIELD-SYMBOLS: <FS_WKGXXX>     TYPE COSP-WKG001," 월별금액
-                 <FS_WKGSUM>     TYPE COSP-WKG001," 연간금액
-                 <FS_WKGXXX_CO>  TYPE COSP-WKG001." 계획/실적 금액
+  FIELD-SYMBOLS: <FS_DISPLAY> LIKE GS_DISPLAY,
+                 <FS_WKG>     LIKE GS_DISPLAY-WKG001A,  " 월별금액
+                 <FS_SUM>     LIKE GS_DISPLAY-WKGSUMA,  " 연간금액
+                 <FS_COSP>    TYPE COSP-WKG001,         " 기표금액
+                 <FS>.
 
-  FIELD-SYMBOLS: <FS_TOTAL>      LIKE GS_DISPLAY, " 합계라인
-                 <FS_WKGXXX_TOT> TYPE COSP-WKG001," 합계라인의 월별금액
-                 <FS_WKGSUM_TOT> TYPE COSP-WKG001." 합계라인의 연간금액
 
-*-- 해당 오브젝트에 대한 계획/실적 정보 점검
+  " ASSIGN 필드 점검
+  __ASSIGN_CHECK GS_DISPLAY: 'WKGSUMA', 'WKGSUMP'.
+  DO 12 TIMES.
+    LV_POPER = SY-INDEX.
+    LV_FIELD = 'WKG' && LV_POPER.        __ASSIGN_CHECK GS_COSP    LV_FIELD.
+    LV_FIELD = 'WKG' && LV_POPER && 'A'. __ASSIGN_CHECK GS_DISPLAY LV_FIELD.
+    LV_FIELD = 'WKG' && LV_POPER && 'P'. __ASSIGN_CHECK GS_DISPLAY LV_FIELD.
+  ENDDO.
+
+
+*-- 해당 오브젝트에 대한 계획/실적 조회
   READ TABLE GT_COSP TRANSPORTING NO FIELDS
-                      WITH KEY OBJNR = GS_DISPLAY-OBJNR
-                               BINARY SEARCH.
-  CHECK SY-SUBRC EQ 0.
-
-
-  LOOP AT GT_COSP INTO GS_COSP FROM SY-TABIX.
-
-    " Binary Search 이후 순차조회로 Exit 지점 체크
-    IF GS_COSP-OBJNR NE GS_DISPLAY-OBJNR.
-      EXIT.
-    ENDIF.
-
-    IF P_DTL_CE EQ GC_X.
-      AT NEW GJAHR.
-        APPEND GS_DISPLAY TO GT_DISPLAY ASSIGNING <FS_TOTAL>.
-        <FS_TOTAL>-KTEXT = '합계'.
-        <FS_TOTAL>-GJAHR = GS_COSP-GJAHR.
-        IF P_DTL_CE EQ GC_X.
-          <FS_TOTAL>-COLOR = VALUE #( ( COLOR-COL = 3 COLOR-INT = 1 ) ).
-        ENDIF.
-      ENDAT.
-    ENDIF.
-
-    AT NEW KSTAR.
-      LS_DISPLAY = GS_DISPLAY.
-      LS_DISPLAY-GJAHR = GS_COSP-GJAHR.
-      LS_DISPLAY-KSTAR = GS_COSP-KSTAR.
-
-      READ TABLE GT_CSKU INTO GS_CSKU
-                         WITH KEY KSTAR = GS_COSP-KSTAR
-                                  BINARY SEARCH.
-      IF SY-SUBRC EQ 0.
-        LS_DISPLAY-KTEXT = GS_CSKU-KTEXT.
+                     WITH KEY OBJNR = GS_DISPLAY-OBJNR
+                              BINARY SEARCH.
+  IF SY-SUBRC EQ 0.
+    LOOP AT GT_COSP INTO GS_COSP FROM SY-TABIX.
+      " Binary Search 이후 순차조회로 Exit 지점 체크
+      IF GS_COSP-OBJNR NE GS_DISPLAY-OBJNR.
+        EXIT.
       ENDIF.
-    ENDAT.
 
-
-    CASE GS_COSP-WRTTP.
-      WHEN '01'. LV_TYPE = 'P'. " 계획
-      WHEN '04'. LV_TYPE = 'A'. " 실적
-      WHEN OTHERS.
-        " & 필드값이 유효하지 않습니다. = 값유형
-        MESSAGE E027 WITH TEXT-E01.
-    ENDCASE.
-
-
-    " 연간총금액
-    LV_FIELD = 'WKGSUM' && LV_TYPE.
-    ASSIGN COMPONENT LV_FIELD
-        OF STRUCTURE LS_DISPLAY TO <FS_WKGSUM>.
-
-    IF SY-SUBRC NE 0.
-      " 필드 참조에 실패했습니다.
-      MESSAGE E000 WITH TEXT-E02.
-    ENDIF.
-
-    IF <FS_TOTAL> IS ASSIGNED.
-      ASSIGN COMPONENT LV_FIELD
-          OF STRUCTURE <FS_TOTAL> TO <FS_WKGSUM_TOT>.
-    ENDIF.
-
-
-    DO 12 TIMES.
-
-      " 월별 계획/실적 금액
-      LV_POPER  = SY-INDEX.
-      LV_FIELD = 'WKG' && LV_POPER.
-
-      ASSIGN COMPONENT LV_FIELD
-          OF STRUCTURE GS_COSP TO <FS_WKGXXX_CO>. " 계획/실적금액
-
-      IF SY-SUBRC NE 0.
-        " 필드 참조에 실패했습니다.
-        MESSAGE E000 WITH TEXT-E02.
+      IF GS_COSP-WRTTP EQ '01'.
+        LV_TYPE = 'P'. " 계획
+      ELSE.
+        " '04' '21' '22' '60'
+        LV_TYPE = 'A'. " 실적
       ENDIF.
 
 
-      " 출력화면의 계획/실적 금액
-      LV_FIELD = LV_FIELD && LV_TYPE.
+      " 계획/실적 연간금액 필드
+      LV_FIELD = 'WKGSUM' && LV_TYPE.
 
-      ASSIGN COMPONENT LV_FIELD
-          OF STRUCTURE LS_DISPLAY TO <FS_WKGXXX>. " 월별금액
 
-      IF SY-SUBRC NE 0.
-        " 필드 참조에 실패했습니다.
-        MESSAGE E000 WITH TEXT-E02.
+      IF P_DTL_CE EQ ABAP_ON. " 원가요소별 상세조회
+        AT NEW KSTAR.
+          APPEND GS_DISPLAY TO GT_DISPLAY ASSIGNING <FS_DISPLAY>.
+          ASSIGN COMPONENT LV_FIELD OF STRUCTURE <FS_DISPLAY> TO <FS_SUM>.
+          <FS_DISPLAY>-GJAHR = GS_COSP-GJAHR.
+          <FS_DISPLAY>-KSTAR = GS_COSP-KSTAR.
+          PERFORM SET_TEXT_KSTAR  USING     GS_COSP-KSTAR
+                                  CHANGING  <FS_DISPLAY>-KTEXT.
+        ENDAT.
+      ELSE.
+        AT NEW GJAHR.
+          APPEND GS_DISPLAY TO GT_DISPLAY ASSIGNING <FS_DISPLAY>.
+          ASSIGN COMPONENT LV_FIELD OF STRUCTURE <FS_DISPLAY> TO <FS_SUM>.
+          <FS_DISPLAY>-GJAHR = GS_COSP-GJAHR.
+        ENDAT.
       ENDIF.
 
-      " 원가요소별 라인
-      <FS_WKGXXX> = <FS_WKGXXX_CO>.            " 월별금액
-      <FS_WKGSUM> = <FS_WKGSUM> + <FS_WKGXXX>. " 연간합계
 
-      " 합계라인
-      IF <FS_TOTAL> IS ASSIGNED.
-        ASSIGN COMPONENT LV_FIELD
-            OF STRUCTURE <FS_TOTAL> TO <FS_WKGXXX_TOT>.
-        IF SY-SUBRC NE 0.
-          " 필드 참조에 실패했습니다.
-          MESSAGE E000 WITH TEXT-E02.
-        ENDIF.
-        <FS_WKGXXX_TOT> = <FS_WKGXXX_TOT> + <FS_WKGXXX>. " 월별총금액
-        <FS_WKGSUM_TOT> = <FS_WKGSUM_TOT> + <FS_WKGXXX>. " 연간총합계
-      ENDIF.
+      " 월별 계획/실적 금액 반영
+      DO 12 TIMES.
+        LV_POPER = SY-INDEX.
+        LV_FIELD = 'WKG' && LV_POPER.
+        ASSIGN COMPONENT LV_FIELD OF STRUCTURE GS_COSP TO <FS_COSP>.
 
-    ENDDO.
+        " 계획 or 실적에 맞춰 금액 반영
+        LV_FIELD = LV_FIELD && LV_TYPE.
+        ASSIGN COMPONENT LV_FIELD OF STRUCTURE <FS_DISPLAY> TO <FS_WKG>.
+        <FS_WKG> = <FS_WKG> + <FS_COSP>. " 월별금액
+        <FS_SUM> = <FS_SUM> + <FS_COSP>. " 연간합계
+      ENDDO.
+    ENDLOOP.
+  ELSE.
 
-    AT END OF KSTAR.
-      APPEND LS_DISPLAY TO GT_DISPLAY.
-    ENDAT.
+    IF P_NOPOST EQ ABAP_ON. " 미집행내역 포함
+      APPEND GS_DISPLAY TO GT_DISPLAY.
+    ENDIF.
 
-  ENDLOOP.
+  ENDIF.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
@@ -1241,5 +1232,48 @@ FORM F4_VERSN  USING PV_VERSN.
   PV_VERSN = ZCL_CO_COMMON=>POPUP_VALUE_REQUEST(
                I_RETFIELD = 'VERSN'
                IT_VALUE   = LT_TKA09 ).
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form GET_ZCOR0600_DATA
+*&---------------------------------------------------------------------*
+FORM GET_ZCOR0600_DATA .
+
+  DATA: LV_POSID LIKE PRPS-POSID,
+        LV_ZZCMD LIKE PRPS-ZZCMD.
+
+  " ZCOR0600 으로부터 호출 시 해당 데이터가 존재한다.
+  IMPORT POSID TO LV_POSID
+         ZZCMD TO LV_ZZCMD
+    FROM MEMORY ID 'ZCOR0600'.
+
+  CHECK LV_POSID IS NOT INITIAL.
+
+  " WBS 지정
+  S_POSID[] = VALUE #( ( SIGN   = 'I'
+                         OPTION = 'EQ'
+                         LOW    = LV_POSID ) ).
+
+
+  " 계획/실적 기준년도 From 재설정
+
+  READ TABLE S_GJAHR INDEX 1.
+
+  IF LV_ZZCMD IS INITIAL.
+    S_GJAHR-LOW = '20' && LV_POSID+3(2).
+  ELSE.
+    S_GJAHR-LOW = LV_ZZCMD(4).
+  ENDIF.
+
+  MODIFY S_GJAHR INDEX 1 TRANSPORTING LOW .
+
+
+  " ZCOR0600 으로부터의 데이터를 초기화한다.
+  CLEAR: LV_POSID,
+         LV_ZZCMD.
+
+  EXPORT POSID FROM LV_POSID
+         ZZCMD FROM LV_ZZCMD
+      TO MEMORY ID 'ZCOR0600'.
 
 ENDFORM.

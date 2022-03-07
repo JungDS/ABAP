@@ -2,6 +2,8 @@
 *& Include          ZCOR0540SCR
 *&---------------------------------------------------------------------*
 
+SELECTION-SCREEN FUNCTION KEY 1.
+
 SELECTION-SCREEN BEGIN OF BLOCK B01 WITH FRAME TITLE TEXT_S01.
 
 SELECTION-SCREEN BEGIN OF LINE.

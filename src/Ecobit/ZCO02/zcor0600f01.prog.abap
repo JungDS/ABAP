@@ -24,10 +24,6 @@ FORM INITIALIZATION .
     APPEND S_BUKRS.
   ENDIF.
 
-  IF SY-SYSID EQ 'TCD' AND SY-UNAME EQ 'MDP_06'.
-    REFRESH S_BUKRS.
-  ENDIF.
-
 
   " Selection Screen 텍스트
   TEXT_S01 = '실행조건'(S01).
@@ -442,6 +438,8 @@ FORM CREATE_MAIN_GRID_0100 .
                                         ( 'POSID' )
                                         ) ).
 
+  GR_ALV->MS_VARIANT-REPORT = SY-REPID.
+  GR_ALV->MV_SAVE = 'A'.
   GR_ALV->DISPLAY( CHANGING T_OUTTAB = GT_DISPLAY ).
 
 ENDFORM.
@@ -479,7 +477,7 @@ FORM MAKE_FIELDCATALOG_0100 .
     CLEAR LS_FIELDCAT-KEY.
 
 *-- 열최적화
-    LS_FIELDCAT-COL_OPT = GC_X.
+*    LS_FIELDCAT-COL_OPT = GC_X.
 
 *-- 열고정
     LS_FIELDCAT-KEY = LS_FIELDCAT-FIX_COLUMN = LV_KEY_FIX.
@@ -489,28 +487,36 @@ FORM MAKE_FIELDCATALOG_0100 .
     CASE LS_FIELDCAT-FIELDNAME.
       WHEN 'PBUKR'.
 *        LS_FIELDCAT-JUST   = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 5.
 
       WHEN 'PGSBR'.
 *        LS_FIELDCAT-JUST   = GC_C.
+        LS_FIELDCAT-NO_OUT = GC_X.
+        LS_FIELDCAT-OUTPUTLEN = 10.
+
+      WHEN 'GTEXT'.    " 사업영역명
+        LS_FIELDCAT-NO_OUT = GC_X.
+        LS_FIELDCAT-OUTPUTLEN = 25.
 
       WHEN 'PSPID'.
         LS_FIELDCAT-HOTSPOT = GC_X.
+        LS_FIELDCAT-OUTPUTLEN = 11.
 
       WHEN 'POST0'.
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 15.
+        LS_FIELDCAT-OUTPUTLEN = 30.
 
       WHEN 'STUFE'.
 *        LS_FIELDCAT-JUST   = GC_C.
         LS_FIELDCAT-NO_OUT = GC_X.
+        LS_FIELDCAT-OUTPUTLEN = 4.
 
       WHEN 'POSID'.
         LS_FIELDCAT-HOTSPOT = GC_X.
+        LS_FIELDCAT-OUTPUTLEN = 17.
 
       WHEN 'POST1'.
         CLEAR LV_KEY_FIX. " 처음 ~ 종료일 까지 틀고정
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 35.
+        LS_FIELDCAT-OUTPUTLEN = 40.
 
       WHEN 'PSTRT'.
         LS_FIELDCAT-NO_OUT = GC_X.
@@ -522,85 +528,133 @@ FORM MAKE_FIELDCATALOG_0100 .
 
       WHEN 'ZZIZW'.
 *        LS_FIELDCAT-JUST   = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 4.
 
       WHEN 'ZZIZWTX'.
         LS_FIELDCAT-NO_OUT = GC_X.
+        LS_FIELDCAT-OUTPUTLEN = 15.
 
       WHEN 'ZZCD1'.
 *        LS_FIELDCAT-JUST   = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 4.
+
+      WHEN 'ZZCD1TX'.
+        LS_FIELDCAT-OUTPUTLEN = 9.
 
       WHEN 'ZZCD2'.
 *        LS_FIELDCAT-JUST   = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 4.
+
+      WHEN 'ZZCD2TX'.
+        LS_FIELDCAT-OUTPUTLEN = 9.
 
       WHEN 'ZZCD3'.
 *        LS_FIELDCAT-JUST   = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 4.
+
+      WHEN 'ZZCD3TX'.
+        LS_FIELDCAT-OUTPUTLEN = 9.
+
+      WHEN 'ZZTCV'.
+        LS_FIELDCAT-OUTPUTLEN = 12.
+        LS_FIELDCAT-NO_SIGN = GC_X.
 
       WHEN 'ZZWAE'.
 *        LS_FIELDCAT-JUST   = GC_C.
-
-      WHEN 'ZZRT1'.
-        LS_FIELDCAT-JUST   = 'R'.
-
-      WHEN 'ZZRT2'.
-        LS_FIELDCAT-JUST   = 'R'.
-
-      WHEN 'ZZRT3'.
-        LS_FIELDCAT-JUST   = 'R'.
-
-      WHEN 'ZZDT1'.
-*        LS_FIELDCAT-JUST   = GC_C.
-
-      WHEN 'ZZDT2'.
-*        LS_FIELDCAT-JUST   = GC_C.
-
-      WHEN 'ZZDT3'.
-*        LS_FIELDCAT-JUST   = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 4.
 
       WHEN 'ZZUNT'.
 *        LS_FIELDCAT-JUST   = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 4.
 
       WHEN 'ZZCMD'.
 *        LS_FIELDCAT-JUST   = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 10.
 
       WHEN 'ZZCPD'.
 *        LS_FIELDCAT-JUST   = GC_C.
-
-      WHEN 'USR08'.
-*        LS_FIELDCAT-JUST   = GC_C.
-
-      WHEN 'USR09'.
-*        LS_FIELDCAT-JUST   = GC_C.
-
-      WHEN 'USR10'.
-*        LS_FIELDCAT-JUST   = GC_C.
-*        LS_FIELDCAT-CHECKBOX = GC_X.
+        LS_FIELDCAT-OUTPUTLEN = 10.
 
       WHEN 'ZZWBT'.
 *        LS_FIELDCAT-JUST   = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 4.
 
       WHEN 'ZZCYP'.
 *        LS_FIELDCAT-JUST   = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 4.
 
       WHEN 'KONTY'.
 *        LS_FIELDCAT-JUST   = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 8.
 
       WHEN 'EXTNR'.
 *        LS_FIELDCAT-JUST   = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 4.
 
         IF P_DETAIL IS INITIAL.
           LS_FIELDCAT-TECH = GC_X.
        	ENDIF.
 
+      WHEN 'PROZS'.
+        LS_FIELDCAT-NO_ZERO = GC_X.
+        LS_FIELDCAT-NO_SIGN = GC_X.
+        LS_FIELDCAT-OUTPUTLEN = 6.
+
+        IF P_DETAIL IS INITIAL.
+          LS_FIELDCAT-TECH = GC_X.
+       	ENDIF.
+
+      WHEN 'S_ANLN1'.
+        LS_FIELDCAT-OUTPUTLEN = 8.
+
+        IF P_DETAIL IS INITIAL.
+          LS_FIELDCAT-TECH = GC_X.
+       	ENDIF.
+
+      WHEN 'S_TXT50'.
+        LS_FIELDCAT-OUTPUTLEN = 20.
+
+        IF P_DETAIL IS INITIAL.
+          LS_FIELDCAT-TECH = GC_X.
+       	ENDIF.
+
+      WHEN 'S_POSID'.
+        LS_FIELDCAT-OUTPUTLEN = 9.
+
+        IF P_DETAIL IS INITIAL.
+          LS_FIELDCAT-TECH = GC_X.
+       	ENDIF.
+
+      WHEN 'S_POST1'.
+        LS_FIELDCAT-OUTPUTLEN = 20.
+
+        IF P_DETAIL IS INITIAL.
+          LS_FIELDCAT-TECH = GC_X.
+       	ENDIF.
+
+      WHEN 'STTXT'.
+        LS_FIELDCAT-OUTPUTLEN = 8.
+
+
       WHEN 'FLG_PLN'.
 *        LS_FIELDCAT-JUST   = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 4.
 *        LS_FIELDCAT-CHECKBOX = GC_X.
 
       WHEN 'FLG_ACT'.
 *        LS_FIELDCAT-JUST   = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 4.
 *        LS_FIELDCAT-CHECKBOX = GC_X.
 
       WHEN 'ERDAT'.
 *        LS_FIELDCAT-JUST   = GC_C.
+        LS_FIELDCAT-NO_OUT = GC_X.
+
+      WHEN 'ERNAM'.
+        LS_FIELDCAT-NO_OUT = GC_X.
+
+      WHEN 'ERNAMTX'. " 생성자명
+        LS_FIELDCAT-NO_OUT = GC_X.
 
       WHEN 'AEDAT'.
         LS_FIELDCAT-NO_OUT = GC_X.
@@ -610,31 +664,19 @@ FORM MAKE_FIELDCATALOG_0100 .
         LS_FIELDCAT-NO_OUT = GC_X.
 *        LS_FIELDCAT-JUST   = GC_C.
 
+      WHEN 'AENAM'.
+        LS_FIELDCAT-NO_OUT = GC_X.
+
+      WHEN 'AENAMTX'. " 수정자명
+        LS_FIELDCAT-NO_OUT = GC_X.
+
       WHEN 'OBJNR'.
         LS_FIELDCAT-NO_OUT = GC_X.
 *        LS_FIELDCAT-JUST   = GC_C.
 
       WHEN 'TDLINE'.
         LS_FIELDCAT-NO_OUT = GC_X.
-*        LS_FIELDCAT-COL_OPT   = SPACE.
-*        LS_FIELDCAT-OUTPUTLEN = 50.
-
-      WHEN 'PROZS'
-        OR 'S_ANLN1'
-        OR 'S_TXT50'
-        OR 'S_POSID'
-        OR 'S_POST1'.
-
-        IF P_DETAIL IS INITIAL.
-          LS_FIELDCAT-TECH = GC_X.
-       	ENDIF.
-
-      WHEN 'GTEXT'    " 사업영역명
-        OR 'ERNAMTX'  " 생성자명
-        OR 'AENAMTX'  " 수정자명
-        .
-        LS_FIELDCAT-NO_OUT = GC_X.
-
+        LS_FIELDCAT-OUTPUTLEN = 20.
 
       WHEN 'STYLE'
         OR 'COLOR'.
@@ -645,7 +687,7 @@ FORM MAKE_FIELDCATALOG_0100 .
 
 *-- Field 텍스트
     CASE LS_FIELDCAT-FIELDNAME.
-      WHEN 'PBUKR'.     LV_TEXT     = '회사코드'.
+      WHEN 'PBUKR'.     LV_TEXT     = '회사'.
       WHEN 'PGSBR'.     LV_TEXT     = '사업영역'.
       WHEN 'GTEXT'.     LV_TEXT     = '사업영역명'.
       WHEN 'PSPID'.     LV_TEXT     = '프로젝트'.
@@ -657,49 +699,38 @@ FORM MAKE_FIELDCATALOG_0100 .
       WHEN 'PSTRT'.     LV_TEXT     = '시작일'.
       WHEN 'PENDE'.     LV_TEXT     = '종료일'.
 
-      WHEN 'ZZIZW'.     LV_TEXT     = '투자사유'.
+      WHEN 'ZZIZW'.     LV_TEXT     = '사유'.
+                        LV_TOOLTIP  = '투자사유'.
       WHEN 'ZZIZWTX'.   LV_TEXT     = '투자사유명'.
-      WHEN 'ZZCD1'.     LV_TEXT     = '대분류'.
+      WHEN 'ZZCD1'.     LV_TEXT     = '대'.
                         LV_TOOLTIP  = '설비대분류'.
       WHEN 'ZZCD1TX'.   LV_TEXT     = '대분류명'.
                         LV_TOOLTIP  = '설비대분류명'.
-      WHEN 'ZZCD2'.     LV_TEXT     = '중분류'.
+      WHEN 'ZZCD2'.     LV_TEXT     = '중'.
                         LV_TOOLTIP  = '설비중분류'.
       WHEN 'ZZCD2TX'.   LV_TEXT     = '중분류명'.
                         LV_TOOLTIP  = '설비중분류명'.
-      WHEN 'ZZCD3'.     LV_TEXT     = '소분류'.
+      WHEN 'ZZCD3'.     LV_TEXT     = '소'.
                         LV_TOOLTIP  = '설비소분류'.
       WHEN 'ZZCD3TX'.   LV_TEXT     = '소분류명'.
                         LV_TOOLTIP  = '설비소분류명'.
       WHEN 'ZZTRD'.     LV_TEXT     = '거래처명'.
       WHEN 'ZZTCV'.     LV_TEXT     = '계약금액'.
       WHEN 'ZZWAE'.     LV_TEXT     = '통화'.
-      WHEN 'ZZRT1'.     LV_TEXT     = '계약금%'.
-      WHEN 'ZZRT2'.     LV_TEXT     = '중도금%'.
-      WHEN 'ZZRT3'.     LV_TEXT     = '잔금%'.
-      WHEN 'ZZDT1'.     LV_TEXT     = '계약금예정일'.
-      WHEN 'ZZDT2'.     LV_TEXT     = '중도금예정일'.
-      WHEN 'ZZDT3'.     LV_TEXT     = '잔금예정일'.
       WHEN 'ZZUNT'.     LV_TEXT     = '호기'.
       WHEN 'ZZCMD'.     LV_TEXT     = '공사착공일'.
       WHEN 'ZZCPD'.     LV_TEXT     = '공사준공일'.
 
-
-      WHEN 'USR00'.     LV_TEXT     = '발주자'.
-      WHEN 'USR01'.     LV_TEXT     = '발주부서'.
-      WHEN 'USR02'.     LV_TEXT     = '점검유형'.
-      WHEN 'USR03'.     LV_TEXT     = '고장유형'.
-      WHEN 'USR08'.     LV_TEXT     = '계약발주일'.
-      WHEN 'USR09'.     LV_TEXT     = '점검일'.
-      WHEN 'USR10'.     LV_TEXT     = '사전계획'.
-
-      WHEN 'ZZWBT'.     LV_TEXT     = 'WBS유형'.
-      WHEN 'ZZCYP'.     LV_TEXT     = '통제유형'.
+      WHEN 'ZZWBT'.     LV_TEXT     = '유형'.
+                        LV_TOOLTIP  = 'WBS유형'.
+      WHEN 'ZZCYP'.     LV_TEXT     = '통제'.
+                        LV_TOOLTIP  = '통제유형'.
       WHEN 'KONTY'.     LV_TEXT     = '정산규칙'.
                         LV_TOOLTIP  = '정산규칙( FXA:자산화 / WBS:비용화 )'.
       WHEN 'EXTNR'.     LV_TEXT     = 'No.'.
                         LV_TOOLTIP  = '정산규칙번호'.
-      WHEN 'PROZS'.     LV_TEXT     = '배부비율'.
+      WHEN 'PROZS'.     LV_TEXT     = '비율'.
+                        LV_TOOLTIP  = '배부비율'.
       WHEN 'S_ANLN1'.   LV_TEXT     = 'S.FXA'.
                         LV_TOOLTIP  = 'Sender 고정자산'.
       WHEN 'S_TXT50'.   LV_TEXT     = '정산FXA명'.
@@ -732,6 +763,7 @@ FORM MAKE_FIELDCATALOG_0100 .
         LS_FIELDCAT-TOOLTIP = LV_TOOLTIP.
       ENDIF.
     ENDIF.
+
 
     MODIFY GR_ALV->MT_FIELDCAT FROM LS_FIELDCAT.
   ENDLOOP.
@@ -769,6 +801,9 @@ FORM HANDLE_HOTSPOT_CLICK
         PS_ROW_NO     TYPE LVC_S_ROID
         PR_SENDER     TYPE REF TO CL_GUI_ALV_GRID.
 
+
+  DATA LT_SPAGPA TYPE RFC_T_SPAGPA.
+
   CASE PR_SENDER.
     WHEN GR_ALV->MR_ALV_GRID.
 
@@ -783,47 +818,42 @@ FORM HANDLE_HOTSPOT_CLICK
 
       CASE PS_COLUMN_ID-FIELDNAME.
         WHEN 'PSPID'.
+          LT_SPAGPA = VALUE #( ( PARID = 'PSP' PARVAL = <FS_VALUE> )
+                               ( PARID = 'PRO' PARVAL = SPACE )
+                               ( PARID = 'ANR' PARVAL = SPACE ) ).
 
-          SET PARAMETER ID 'PSP'      FIELD <FS_VALUE>.
-          SET PARAMETER ID 'PRO'      FIELD SPACE.
-          SET PARAMETER ID 'ANR'      FIELD SPACE.
-
-          ZCL_CO_COMMON=>CALL_TRANSACTION(
-            EXPORTING
-              I_TCODE       = 'CJ20N'  " Transaction Code
-              I_SKIP_SCREEN = GC_X     " Skip First Screen
-              I_NEW_SESSION = GC_X     " Call from New Session
-              IT_SPAGPA     = VALUE #( ( PARID = 'PSP' PARVAL = <FS_VALUE> )
-                                       ( PARID = 'PRO' PARVAL = SPACE )
-                                       ( PARID = 'ANR' PARVAL = SPACE ) ) " Transaction Parameters
-          ).
 
         WHEN 'POSID'.
+          LT_SPAGPA = VALUE #( ( PARID = 'PSP' PARVAL = SPACE )
+                               ( PARID = 'PRO' PARVAL = <FS_VALUE> )
+                               ( PARID = 'ANR' PARVAL = SPACE ) ).
 
-          SET PARAMETER ID 'PSP'      FIELD SPACE.
-          SET PARAMETER ID 'PRO'      FIELD <FS_VALUE>.
-          SET PARAMETER ID 'ANR'      FIELD SPACE.
-
-          ZCL_CO_COMMON=>CALL_TRANSACTION(
-            EXPORTING
-              I_TCODE       = 'CJ20N'  " Transaction Code
-              I_SKIP_SCREEN = GC_X     " Skip First Screen
-              I_NEW_SESSION = GC_X     " Call from New Session
-              IT_SPAGPA     = VALUE #( ( PARID = 'PSP' PARVAL = SPACE )
-                                       ( PARID = 'PRO' PARVAL = <FS_VALUE> )
-                                       ( PARID = 'ANR' PARVAL = SPACE ) ) " Transaction Parameters
-          ).
-
-*
-*          IF GV_MODE EQ GC_E.
-*            CALL TRANSACTION 'CJ02' AND SKIP FIRST SCREEN.
-*          ELSE.
-*            CALL TRANSACTION 'CJ03' AND SKIP FIRST SCREEN.
-*          ENDIF.
-
-
+        WHEN OTHERS. EXIT.
       ENDCASE.
 
+
+      ZCL_CO_COMMON=>CALL_TRANSACTION(
+        EXPORTING
+          I_TCODE                 = 'CJ20N'   " Transaction Code
+          I_SKIP_SCREEN           = GC_X      " Skip First Screen
+          I_NEW_SESSION           = GC_X      " Call from New Session
+          IT_SPAGPA               = LT_SPAGPA " Transaction Parameters
+        EXCEPTIONS
+          CALL_TRANSACTION_DENIED = 1         " No Authorization
+          TCODE_INVALID           = 2
+          UNKNOWN_EXCEPTION       = 3
+          OTHERS                  = 4
+      ).
+
+      IF SY-SUBRC EQ 1.
+        MESSAGE I077(S#) WITH 'CJ20N'.
+      ENDIF.
+
+*     IF GV_MODE EQ GC_E.
+*       CALL TRANSACTION 'CJ02' AND SKIP FIRST SCREEN.
+*     ELSE.
+*       CALL TRANSACTION 'CJ03' AND SKIP FIRST SCREEN.
+*     ENDIF.
   ENDCASE.
 
 ENDFORM.
@@ -1042,6 +1072,7 @@ FORM SELECT_COBRB.
          A~KONTY,
          A~EXTNR,
          A~PROZS,
+         A~ANLN1,
          A~REC_OBJNR1
 
     FROM COBRB        AS A
@@ -1155,6 +1186,8 @@ FORM SET_SETTLEMENT_RULE .
       IF SY-SUBRC EQ 0.
         GS_DISPLAY-S_POSID = GS_PRPS-POSID.
         GS_DISPLAY-S_POST1 = GS_PRPS-POST1.
+      ELSE.
+        GS_DISPLAY-S_POSID = GS_COBRB-REC_OBJNR1.
       ENDIF.
 
     WHEN 'AN'.
@@ -1165,6 +1198,8 @@ FORM SET_SETTLEMENT_RULE .
       IF SY-SUBRC EQ 0.
         GS_DISPLAY-S_ANLN1 = GS_ANLA-ANLN1.
         GS_DISPLAY-S_TXT50 = GS_ANLA-TXT50.
+      ELSE.
+        GS_DISPLAY-S_ANLN1 = GS_COBRB-ANLN1.
       ENDIF.
 
   ENDCASE.
@@ -1311,18 +1346,36 @@ FORM HANDLE_USER_COMMAND  USING PV_UCOMM
                   PERFORM BDC_EXECUTE.
 
                 WHEN 'COSTACT'.
-                  SET PARAMETER ID 'BUK' FIELD GS_DISPLAY-PBUKR.
-                  SET PARAMETER ID 'PRO' FIELD GS_DISPLAY-POSID.
-                  SET PARAMETER ID 'GJR' FIELD SY-DATUM(4).
-                  CALL TRANSACTION 'ZCOR0610' WITH AUTHORITY-CHECK.
+                  TRY.
+
+                    EXPORT POSID FROM GS_DISPLAY-POSID
+                           ZZCMD FROM GS_DISPLAY-ZZCMD
+                        TO MEMORY ID 'ZCOR0600'.
+
+                    SET PARAMETER ID 'BUK' FIELD GS_DISPLAY-PBUKR.
+*                    SET PARAMETER ID 'PRO' FIELD GS_DISPLAY-POSID.
+*                    SET PARAMETER ID 'GJR' FIELD SY-DATUM(4).
+
+                    CALL TRANSACTION 'ZCOR0610' WITHOUT AUTHORITY-CHECK.
+
+                  CATCH CX_SY_AUTHORIZATION_ERROR INTO DATA(LX_AUTH).
+                    DATA(LV_MESSGAE) = LX_AUTH->GET_TEXT( ).
+                    MESSAGE S000 DISPLAY LIKE GC_E WITH LV_MESSGAE.
+                  ENDTRY.
 
                 WHEN 'HISTORY'.
-                  SET PARAMETER ID 'PDB' FIELD '000000000001'.
-                  SET PARAMETER ID 'PSP' FIELD SPACE.
-                  SET PARAMETER ID 'PRO' FIELD GS_DISPLAY-POSID.
-                  SET PARAMETER ID 'ANR' FIELD SPACE.
-                  SET PARAMETER ID 'VGN' FIELD SPACE.
-                  CALL TRANSACTION 'CN60' WITH AUTHORITY-CHECK.
+                  TRY.
+                    SET PARAMETER ID 'PDB' FIELD '000000000001'.
+                    SET PARAMETER ID 'PSP' FIELD SPACE.
+                    SET PARAMETER ID 'PRO' FIELD GS_DISPLAY-POSID.
+                    SET PARAMETER ID 'ANR' FIELD SPACE.
+                    SET PARAMETER ID 'VGN' FIELD SPACE.
+                    CALL TRANSACTION 'CN60' WITHOUT AUTHORITY-CHECK.
+
+                  CATCH CX_SY_AUTHORIZATION_ERROR INTO LX_AUTH.
+                    LV_MESSGAE = LX_AUTH->GET_TEXT( ).
+                    MESSAGE S000 DISPLAY LIKE GC_E WITH LV_MESSGAE.
+                  ENDTRY.
 
               ENDCASE.
 
@@ -1382,13 +1435,23 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 FORM BDC_EXECUTE.
 
-  IF GV_MODE EQ GC_E.
-    CALL TRANSACTION 'CJR2' USING GT_BDC_DATA
-                            OPTIONS FROM GS_BDC_OPT.
-  ELSE.
-    CALL TRANSACTION 'CJR3' USING GT_BDC_DATA
-                            OPTIONS FROM GS_BDC_OPT.
-  ENDIF.
+  TRY.
+
+    IF GV_MODE EQ GC_E.
+      CALL TRANSACTION 'CJR2' WITH AUTHORITY-CHECK
+                              USING GT_BDC_DATA
+                              OPTIONS FROM GS_BDC_OPT.
+    ELSE.
+      CALL TRANSACTION 'CJR3' WITHOUT AUTHORITY-CHECK
+                              USING GT_BDC_DATA
+                              OPTIONS FROM GS_BDC_OPT.
+    ENDIF.
+
+  CATCH CX_SY_AUTHORIZATION_ERROR INTO DATA(LX_AUTH).
+    DATA(LV_MESSGAE) = LX_AUTH->GET_TEXT( ).
+    MESSAGE S000 DISPLAY LIKE GC_E WITH LV_MESSGAE.
+  ENDTRY.
+
 
 ENDFORM.
 *&---------------------------------------------------------------------*

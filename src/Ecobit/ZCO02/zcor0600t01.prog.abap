@@ -201,6 +201,7 @@ DATA: BEGIN OF GS_COBRB,
         KONTY           LIKE COBRB-KONTY,
         EXTNR           LIKE COBRB-EXTNR,
         PROZS           LIKE COBRB-PROZS,
+        ANLN1           LIKE COBRB-ANLN1,
         REC_OBJNR1      LIKE COBRB-REC_OBJNR1,
       END OF GS_COBRB.
 

@@ -26,16 +26,13 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 FORM SCRFIELDS_FUNCTXT .
 
-  CLEAR GS_FUNTXT.
-  GS_FUNTXT-ICON_ID   = ICON_INFORMATION.
-  GS_FUNTXT-QUICKINFO = 'Program Help'.
+  SSCRFIELDS = VALUE #(
+    FUNCTXT_01 = VALUE SMP_DYNTXT( ICON_ID   = ICON_INFORMATION
+                                   QUICKINFO = 'Program Help'(S03) )
+    FUNCTXT_02 = VALUE SMP_DYNTXT( TEXT      = '코스트센터그룹(ZBU)'(S04) )
+    FUNCTXT_03 = VALUE SMP_DYNTXT( TEXT      = '합산배부기준'(S05) )
+  ).
 
-  SSCRFIELDS-FUNCTXT_01 = GS_FUNTXT.
-
-  CLEAR GS_FUNTXT.
-  GS_FUNTXT-TEXT = '코스트센터그룹(ZBU)'.
-
-  SSCRFIELDS-FUNCTXT_02 = GS_FUNTXT.
 
 ENDFORM.
 *&---------------------------------------------------------------------*
@@ -64,10 +61,26 @@ FORM SCR_USER_COMMAND .
                                               SY-DYNNR
                                               SY-LANGU ''.
     WHEN 'FC02'.
-      ZCL_CO_COMMON=>SET_KOKRS( P_KOKRS ).
-      SET PARAMETER ID 'CAC' FIELD P_KOKRS.
-      SET PARAMETER ID 'HNA' FIELD 'ZBU'.
-      CALL TRANSACTION 'KSH2'.
+      TRY.
+        ZCL_CO_COMMON=>SET_KOKRS( P_KOKRS ).
+        SET PARAMETER ID 'CAC'  FIELD P_KOKRS.
+        SET PARAMETER ID 'HNA'  FIELD 'ZBU'.
+        CALL TRANSACTION 'KSH2' WITH AUTHORITY-CHECK.
+      CATCH CX_SY_AUTHORIZATION_ERROR INTO DATA(LX_ERROR).
+        MESSAGE LX_ERROR->GET_TEXT( ) TYPE 'I' DISPLAY LIKE 'E'.
+      ENDTRY.
+    WHEN 'FC03'.
+      TRY.
+        ZCL_CO_COMMON=>SET_KOKRS( P_KOKRS ).
+        SELECT SINGLE ERKRS
+          FROM TKA01
+         WHERE KOKRS EQ @P_KOKRS
+          INTO @DATA(LV_ERKRS).
+        SET PARAMETER ID 'ERB' FIELD LV_ERKRS.
+        CALL TRANSACTION 'KEUH' WITH AUTHORITY-CHECK.
+      CATCH CX_SY_AUTHORIZATION_ERROR INTO LX_ERROR.
+        MESSAGE LX_ERROR->GET_TEXT( ) TYPE 'I' DISPLAY LIKE 'E'.
+      ENDTRY.
     WHEN OTHERS.
   ENDCASE.
 
@@ -520,6 +533,8 @@ FORM CREATE_MAIN_GRID_0100 .
                                         ( 'EDATE' )
                                         ) ).
 
+  GR_ALV->MS_VARIANT-REPORT = SY-REPID.
+  GR_ALV->MV_SAVE = 'A'.
   GR_ALV->DISPLAY( CHANGING T_OUTTAB = GT_DISPLAY ).
 
 ENDFORM.
@@ -733,79 +748,91 @@ FORM HANDLE_HOTSPOT_CLICK  USING PS_ROW_ID     TYPE LVC_S_ROW
                                  PS_ROW_NO     TYPE LVC_S_ROID
                                  PR_SENDER     TYPE REF TO CL_GUI_ALV_GRID.
 
-  CASE PR_SENDER.
-    WHEN GR_ALV->MR_ALV_GRID.
 
-      READ TABLE GT_DISPLAY INTO GS_DISPLAY INDEX PS_ROW_ID-INDEX.
-      CHECK SY-SUBRC EQ 0.
+  TRY.
 
-      ASSIGN COMPONENT PS_COLUMN_ID-FIELDNAME
-          OF STRUCTURE GS_DISPLAY
-          TO FIELD-SYMBOL(<FS_VALUE>).
+    CASE PR_SENDER.
+      WHEN GR_ALV->MR_ALV_GRID.
 
-      CHECK SY-SUBRC EQ 0 AND <FS_VALUE> IS NOT INITIAL.
+        READ TABLE GT_DISPLAY INTO GS_DISPLAY INDEX PS_ROW_ID-INDEX.
+        CHECK SY-SUBRC EQ 0.
 
-      CASE PS_COLUMN_ID-FIELDNAME(5).
-        WHEN 'CYCLE'.
-          SET PARAMETER ID 'ERB' FIELD P_KOKRS.
-          SET PARAMETER ID 'KCY' FIELD <FS_VALUE>.
+        ASSIGN COMPONENT PS_COLUMN_ID-FIELDNAME
+            OF STRUCTURE GS_DISPLAY
+            TO FIELD-SYMBOL(<FS_VALUE>).
 
-          IF P_ACT EQ GC_X.
-            " 실적변경
-            CALL TRANSACTION 'KEU2' AND SKIP FIRST SCREEN.
-          ELSE.
-            " 계획변경
-            CALL TRANSACTION 'KEU8' AND SKIP FIRST SCREEN.
-          ENDIF.
+        CHECK SY-SUBRC EQ 0 AND <FS_VALUE> IS NOT INITIAL.
 
-        WHEN 'S_CC_'.
-          IF PS_COLUMN_ID-FIELDNAME+5(3) EQ 'GRP'.
-            SET PARAMETER ID 'CAC' FIELD P_KOKRS.
-            SET PARAMETER ID 'HNA' FIELD <FS_VALUE>.
-            CALL TRANSACTION 'KSH3' AND SKIP FIRST SCREEN.
-          ELSE.
-            SET PARAMETER ID 'KOS' FIELD <FS_VALUE>.
-            CALL TRANSACTION 'KS03' AND SKIP FIRST SCREEN.
-          ENDIF.
+        CASE PS_COLUMN_ID-FIELDNAME(5).
+          WHEN 'CYCLE'.
+            SET PARAMETER ID 'ERB' FIELD P_KOKRS.
+            SET PARAMETER ID 'KCY' FIELD <FS_VALUE>.
 
-        WHEN 'S_CE_'.
-          IF PS_COLUMN_ID-FIELDNAME+5(3) EQ 'GRP'.
-            SET PARAMETER ID 'HNA' FIELD <FS_VALUE>.
-            CALL TRANSACTION 'KAH3' AND SKIP FIRST SCREEN.
-          ELSE.
-            SET PARAMETER ID 'BUK' FIELD GS_DISPLAY-PROC_GROUP.
-            SET PARAMETER ID 'SAK' FIELD <FS_VALUE>.
-            CALL TRANSACTION 'FS00' AND SKIP FIRST SCREEN.
-          ENDIF.
+            IF P_ACT EQ GC_X.
+              " 실적변경
+              CALL TRANSACTION 'KEU2' WITH AUTHORITY-CHECK
+                                      AND SKIP FIRST SCREEN.
+            ELSE.
+              " 계획변경
+              CALL TRANSACTION 'KEU8' WITH AUTHORITY-CHECK
+                                      AND SKIP FIRST SCREEN.
+            ENDIF.
 
-        WHEN 'R_WB_'.
-          IF PS_COLUMN_ID-FIELDNAME+5(3) EQ 'GRP'.
-            SET PARAMETER ID 'GSE' FIELD <FS_VALUE>.
-            CALL TRANSACTION 'GS03' AND SKIP FIRST SCREEN.
-          ELSE.
-            SET PARAMETER ID 'PSP' FIELD SPACE.
-            SET PARAMETER ID 'PRO' FIELD <FS_VALUE>.
-            CALL TRANSACTION 'CJ03' AND SKIP FIRST SCREEN.
-          ENDIF.
+          WHEN 'S_CC_'.
+            IF PS_COLUMN_ID-FIELDNAME+5(3) EQ 'GRP'.
+              SET PARAMETER ID 'CAC' FIELD P_KOKRS.
+              SET PARAMETER ID 'HNA' FIELD <FS_VALUE>.
+              CALL TRANSACTION 'KSH3' AND SKIP FIRST SCREEN.
+            ELSE.
+              SET PARAMETER ID 'KOS' FIELD <FS_VALUE>.
+              CALL TRANSACTION 'KS03' AND SKIP FIRST SCREEN.
+            ENDIF.
 
-        WHEN 'RCDAT'.
+          WHEN 'S_CE_'.
+            IF PS_COLUMN_ID-FIELDNAME+5(3) EQ 'GRP'.
+              SET PARAMETER ID 'HNA' FIELD <FS_VALUE>.
+              CALL TRANSACTION 'KAH3' AND SKIP FIRST SCREEN.
+            ELSE.
+              SET PARAMETER ID 'BUK' FIELD GS_DISPLAY-PROC_GROUP.
+              SET PARAMETER ID 'SAK' FIELD <FS_VALUE>.
+              TRY.
+                CALL TRANSACTION 'FS00' WITH AUTHORITY-CHECK
+                                        AND SKIP FIRST SCREEN.
+              CATCH CX_SY_AUTHORIZATION_ERROR.
+              ENDTRY.
+            ENDIF.
 
-          CHECK <FS_VALUE>(1) EQ 'Z'.
+          WHEN 'R_WB_'.
+            IF PS_COLUMN_ID-FIELDNAME+5(3) EQ 'GRP'.
+              SET PARAMETER ID 'GSE' FIELD <FS_VALUE>.
+              CALL TRANSACTION 'GS03' AND SKIP FIRST SCREEN.
+            ELSE.
+              SET PARAMETER ID 'PSP' FIELD SPACE.
+              SET PARAMETER ID 'PRO' FIELD <FS_VALUE>.
+              CALL TRANSACTION 'CJ03' AND SKIP FIRST SCREEN.
+            ENDIF.
 
-          SET PARAMETER ID 'KYR' FIELD <FS_VALUE>.
-          CALL TRANSACTION 'KEUH' AND SKIP FIRST SCREEN.
+          WHEN 'RCDAT'.
 
+            CHECK <FS_VALUE>(1) EQ 'Z'.
 
-        WHEN OTHERS.
-          IF PS_COLUMN_ID-FIELDNAME+5(3) EQ 'GRP'.
-            SET PARAMETER ID 'GSE' FIELD <FS_VALUE>.
-            CALL TRANSACTION 'GS03' AND SKIP FIRST SCREEN.
-          ENDIF.
-      ENDCASE.
+            SET PARAMETER ID 'KYR' FIELD <FS_VALUE>.
+            CALL TRANSACTION 'KEUH' WITH AUTHORITY-CHECK
+                                    AND SKIP FIRST SCREEN.
 
+          WHEN OTHERS.
+            IF PS_COLUMN_ID-FIELDNAME+5(3) EQ 'GRP'.
+              SET PARAMETER ID 'GSE' FIELD <FS_VALUE>.
+              CALL TRANSACTION 'GS03' AND SKIP FIRST SCREEN.
+            ENDIF.
+        ENDCASE.
+      WHEN OTHERS.
+    ENDCASE.
 
+  CATCH CX_SY_AUTHORIZATION_ERROR INTO DATA(LX_ERROR).
+    MESSAGE LX_ERROR->GET_TEXT( ) TYPE 'I' DISPLAY LIKE 'E'.
 
-  ENDCASE.
+  ENDTRY.
 
 ENDFORM.
 *&---------------------------------------------------------------------*

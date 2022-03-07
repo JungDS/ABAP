@@ -577,6 +577,8 @@ FORM CREATE_MAIN_GRID_0100 .
                                         ( 'PSPNR' )
                                         ( 'POSID' ) ) ).
 
+  GR_ALV->MS_VARIANT-REPORT = SY-REPID.
+  GR_ALV->MV_SAVE = 'A'.
   GR_ALV->DISPLAY( CHANGING T_OUTTAB = GT_DISPLAY ).
 
 ENDFORM.

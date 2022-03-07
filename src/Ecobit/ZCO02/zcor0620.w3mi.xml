@@ -8,6 +8,12 @@
     <WWWPARAMS>
      <RELID>MI</RELID>
      <OBJID>ZCOR0620</OBJID>
+     <NAME>fileextension</NAME>
+     <VALUE>.xlsx</VALUE>
+    </WWWPARAMS>
+    <WWWPARAMS>
+     <RELID>MI</RELID>
+     <OBJID>ZCOR0620</OBJID>
      <NAME>filename</NAME>
      <VALUE>설비WBS 신규생성.xlsx</VALUE>
     </WWWPARAMS>
@@ -16,12 +22,6 @@
      <OBJID>ZCOR0620</OBJID>
      <NAME>mimetype</NAME>
      <VALUE>xls</VALUE>
-    </WWWPARAMS>
-    <WWWPARAMS>
-     <RELID>MI</RELID>
-     <OBJID>ZCOR0620</OBJID>
-     <NAME>fileextension</NAME>
-     <VALUE>.xlsx</VALUE>
     </WWWPARAMS>
    </PARAMS>
   </asx:values>
