@@ -1,5 +1,5 @@
 *&---------------------------------------------------------------------*
-*& Include          ZCOR0640F01
+*& Include          ZCOR0670F01
 *&---------------------------------------------------------------------*
 *&---------------------------------------------------------------------*
 *& Form INITIALIZATION
@@ -15,7 +15,7 @@ FORM INITIALIZATION .
   LV_DATUM = SY-DATUM + 120.
   P_GJAHR = LV_DATUM(4).
 
-  P_VERSI = 'P1'.
+  P_VERSI = 'P0'. " 사업계획-확정
 
   " Selection Screen 텍스트
   TEXT_S01 = '실행조건'(S01).
@@ -747,5 +747,79 @@ FORM GET_CLOSE_STATUS .
 *      EXIT.
 *    ENDIF.
 *  ENDLOOP.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form SET_SCREEN_TEXT
+*&---------------------------------------------------------------------*
+FORM SET_SCREEN_TEXT .
+
+  CLEAR TX_VERSI.
+
+  IF P_BUKRS IS NOT INITIAL AND P_VERSI IS NOT INITIAL.
+    SELECT SINGLE KOKRS
+      FROM TKA02
+     WHERE BUKRS EQ @P_BUKRS
+      INTO @DATA(LV_KOKRS).
+
+    SELECT SINGLE TXT
+      FROM TKT09
+     WHERE LANGU EQ @SY-LANGU
+       AND KOKRS EQ @LV_KOKRS
+       AND VERSN EQ @P_VERSI
+      INTO @TX_VERSI.
+  ENDIF.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form F4_VERSI
+*&---------------------------------------------------------------------*
+FORM F4_VERSI  USING PV_VERSI LIKE CE11000-VERSI.
+*ZH_TKA09
+
+*  TKT09
+
+  DATA LT_RETURN TYPE TABLE OF DDSHRETVAL WITH HEADER LINE.
+
+  CALL FUNCTION 'F4IF_FIELD_VALUE_REQUEST'
+    EXPORTING
+      TABNAME             = SPACE            " Table/structure name from Dictionary
+      FIELDNAME           = SPACE            " Field name from Dictionary
+      SEARCHHELP          = 'ZH_TKA09'       " Search help as screen field attribute
+      SHLPPARAM           = 'VERSN'          " Search help parameter in screen field
+*      DYNPPROG            = SY-REPID         " Current program
+*      DYNPNR              = SY-DYNNR         " Screen number
+*      DYNPROFIELD         = 'P_VERSI'                 " Name of screen field for value return
+*      STEPL               = 0                " Steploop line of screen field
+*      VALUE               = SPACE            " Field contents for F4 call
+*      MULTIPLE_CHOICE     = SPACE            " Switch on multiple selection
+*      DISPLAY             = SPACE            " Override readiness for input
+*      SUPPRESS_RECORDLIST = SPACE            " Skip display of the hit list
+*      CALLBACK_PROGRAM    = SPACE            " Program for callback before F4 start
+*      CALLBACK_FORM       = SPACE            " Form for callback before F4 start (-> long docu)
+*      CALLBACK_METHOD     =                  " Interface for Callback Routines
+*      SELECTION_SCREEN    = SPACE            " Behavior as in Selection Screen (->Long Docu)
+*    IMPORTING
+*      USER_RESET          =                  " Single-Character Flag
+    TABLES
+      RETURN_TAB          = LT_RETURN[]      " Return the selected value
+    EXCEPTIONS
+      FIELD_NOT_FOUND     = 1                " Field does not exist in the Dictionary
+      NO_HELP_FOR_FIELD   = 2                " No F4 help is defined for the field
+      INCONSISTENT_HELP   = 3                " F4 help for the field is inconsistent
+      NO_VALUES_FOUND     = 4                " No values found
+      OTHERS              = 5.
+
+  CHECK SY-SUBRC EQ 0 AND LT_RETURN[] IS NOT INITIAL.
+
+  PV_VERSI = LT_RETURN[ FIELDNAME = 'VERSN' ]-FIELDVAL.
+
+  PERFORM SET_SCREEN_TEXT.
+
+  ZCL_CO_COMMON=>SET_DYNP_VALUE(
+    I_FIELD = 'TX_VERSI'
+    I_VALUE = TX_VERSI
+  ).
+
 
 ENDFORM.

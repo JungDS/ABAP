@@ -110,7 +110,10 @@ public section.
     exporting
       !ER_SPLIT type ref to CL_GUI_SPLITTER_CONTAINER
       !ER_CON_TOP type ref to CL_GUI_CONTAINER
-      !ER_CON_MAIN type ref to CL_GUI_CONTAINER .
+      !ER_CON_MAIN type ref to CL_GUI_CONTAINER
+    exceptions
+      CNTL_ERROR
+      CNTL_SYSTEM_ERROR .
   class-methods GET_DEFAULT_BUKRS
     returning
       value(R_BUKRS) type BUKRS .
@@ -1069,8 +1072,22 @@ ENDMETHOD.
         PARENT                  = LR_PARENT          " Parent Container
       EXCEPTIONS
         CNTL_ERROR              = 1                  " See Superclass
-        CNTL_SYSTEM_ERROR       = 2                  " See Superclass
-        OTHERS                  = 3.
+        CNTL_SYSTEM_ERROR       = 2.                 " See Superclass
+
+    CASE SY-SUBRC.
+      WHEN 0.
+        IF LR_SPLIT IS NOT BOUND.
+          RAISE CNTL_ERROR.
+        ENDIF.
+      WHEN 1.
+        RAISE CNTL_ERROR.
+      WHEN 2.
+        RAISE CNTL_SYSTEM_ERROR.
+      WHEN OTHERS.
+        RAISE CNTL_ERROR.
+    ENDCASE.
+
+
 
     LR_CON1 = LR_SPLIT->GET_CONTAINER( ROW = 1 COLUMN = 1 ).
     LR_CON2 = LR_SPLIT->GET_CONTAINER( ROW = 2 COLUMN = 1 ).
@@ -1081,7 +1098,6 @@ ENDMETHOD.
       EXCEPTIONS
         CNTL_ERROR        = 1
         CNTL_SYSTEM_ERROR = 2
-        OTHERS            = 3
     ).
 
     LR_SPLIT->SET_ROW_HEIGHT(
@@ -1091,7 +1107,6 @@ ENDMETHOD.
       EXCEPTIONS
         CNTL_ERROR        = 1                " See CL_GUI_CONTROL
         CNTL_SYSTEM_ERROR = 2                " See CL_GUI_CONTROL
-        OTHERS            = 3
     ).
 
     ER_SPLIT     = LR_SPLIT.

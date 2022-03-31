@@ -38,10 +38,15 @@ MODULE INIT_ALV_0100 OUTPUT.
 
     ZCL_CO_COMMON=>GET_CONTAINER_01(
       IMPORTING
-        ER_SPLIT    = GR_CON_SPLIT      " Splitter Control
-        ER_CON_TOP  = GR_CON_TOP    " Container - Top of Page
-        ER_CON_MAIN = GR_CON_MAIN   " Container - Main
+        ER_SPLIT          = GR_CON_SPLIT  " Splitter Control
+        ER_CON_TOP        = GR_CON_TOP    " Container - Top of Page
+        ER_CON_MAIN       = GR_CON_MAIN   " Container - Main
+      EXCEPTIONS
+        CNTL_ERROR        = 1
+        CNTL_SYSTEM_ERROR = 2
     ).
+
+    CHECK SY-SUBRC EQ 0.
 
     PERFORM CREATE_CONTAINER_MAIN.
 

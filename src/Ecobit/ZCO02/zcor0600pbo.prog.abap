@@ -35,7 +35,12 @@ MODULE INIT_ALV_0100 OUTPUT.
         ER_SPLIT    = GR_SPLIT   " Splitter Control
         ER_CON_TOP  = GR_CON_TOP " Container - Top of Page
         ER_CON_MAIN = GR_CON_ALV " Container - Main
+      EXCEPTIONS
+        CNTL_ERROR        = 1
+        CNTL_SYSTEM_ERROR = 2
     ).
+
+    CHECK SY-SUBRC EQ 0.
 
     GR_SPLIT->SET_ROW_HEIGHT(
       EXPORTING

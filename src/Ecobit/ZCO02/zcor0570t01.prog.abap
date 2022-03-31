@@ -109,8 +109,9 @@ DATA GT_DISPLAY       LIKE TABLE OF GS_DISPLAY.
 DATA GT_COSP          LIKE TABLE OF GS_COSP.
 DATA GT_COSS          LIKE TABLE OF GS_COSS.
 
-DATA GT_SETH_NODE     TYPE GSETH_NODE_TAB.
-DATA GT_SETH_VAL      TYPE GSETH_VAL_TAB.
+DATA GT_SETH_NODE     TYPE TABLE OF GRPOBJECTS.
+DATA GT_SETH_VAL      TYPE TABLE OF GRPVALUES.
+
 *---------------------------------------------------------------------*
 * ALV
 *---------------------------------------------------------------------*

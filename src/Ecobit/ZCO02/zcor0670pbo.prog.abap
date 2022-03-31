@@ -1,5 +1,5 @@
 *&---------------------------------------------------------------------*
-*& Include          ZCOR0640PBO
+*& Include          ZCOR0670PBO
 *&---------------------------------------------------------------------*
 
 *&---------------------------------------------------------------------*
@@ -29,7 +29,12 @@ MODULE INIT_ALV_0100 OUTPUT.
         ER_SPLIT    = GR_SPLIT         " Splitter Control
         ER_CON_TOP  = GR_CON_TOP       " Container - Top of Page
         ER_CON_MAIN = GR_CON_ALV       " Container - Main
+      EXCEPTIONS
+        CNTL_ERROR        = 1
+        CNTL_SYSTEM_ERROR = 2
     ).
+
+    CHECK SY-SUBRC EQ 0.
 
     PERFORM CREATE_TOP_OF_PAGE_0100.
     PERFORM CREATE_MAIN_GRID_0100.

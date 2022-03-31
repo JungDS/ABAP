@@ -178,6 +178,7 @@ DATA: BEGIN OF GS_DISPLAY,
         STTXT           LIKE CNJ_STAT-STTXT_INT,  " 상태
 
         FLG_PLN         LIKE FOAP_S_RFAVIS40-CHECKBOX, " 계획여부
+        FLG_PUR         LIKE FOAP_S_RFAVIS40-CHECKBOX, " 구매여부
         FLG_ACT         LIKE FOAP_S_RFAVIS40-CHECKBOX, " 실적여부
 
         ERDAT           LIKE PRPS-ERDAT,          " 생성일

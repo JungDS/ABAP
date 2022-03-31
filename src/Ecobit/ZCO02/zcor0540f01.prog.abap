@@ -12,6 +12,9 @@ FORM INITIALIZATION .
   TEXT_S02 = 'WBS별 매핑'(S02).
   TEXT_S03 = 'WBS속성기준 매핑'(S03).
 
+  P_R02 = GC_X.
+  P_R01 = SPACE.
+
 ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form SELECTED_DATA_RTN

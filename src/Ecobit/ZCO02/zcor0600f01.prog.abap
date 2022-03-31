@@ -646,6 +646,11 @@ FORM MAKE_FIELDCATALOG_0100 .
         LS_FIELDCAT-OUTPUTLEN = 4.
 *        LS_FIELDCAT-CHECKBOX = GC_X.
 
+      WHEN 'FLG_PUR'.
+*        LS_FIELDCAT-JUST   = GC_C.
+        LS_FIELDCAT-OUTPUTLEN = 4.
+*        LS_FIELDCAT-CHECKBOX = GC_X.
+
       WHEN 'ERDAT'.
 *        LS_FIELDCAT-JUST   = GC_C.
         LS_FIELDCAT-NO_OUT = GC_X.
@@ -740,6 +745,7 @@ FORM MAKE_FIELDCATALOG_0100 .
       WHEN 'STTXT'.     LV_TEXT     = '상태정보'.
       WHEN 'FLG_PLN'.   LV_TEXT     = '계획'.
       WHEN 'FLG_ACT'.   LV_TEXT     = '실적'.
+      WHEN 'FLG_PUR'.   LV_TEXT     = '구매/임시'.
       WHEN 'ERDAT'.     LV_TEXT     = '생성일자'.
       WHEN 'ERNAM'.     LV_TEXT     = '생성자'.
       WHEN 'ERNAMTX'.   LV_TEXT     = '생성자명'.
@@ -1461,9 +1467,17 @@ FORM SELECT_COSP .
 
   CHECK R_OBJNR[] IS NOT INITIAL.
 
+
   SELECT DISTINCT
          OBJNR,
-         CASE WRTTP WHEN '01' THEN '01' ELSE '04' END AS WRTTP
+
+         CASE WRTTP WHEN '01' THEN '01'   " 01 : 계획
+                    WHEN '21' THEN '21'   " 21 : 구매 요청 약정
+                    WHEN '22' THEN '21'   " 21 : 구매 오더 약정
+                    WHEN '60' THEN '21'   " 21 : 임시 전표
+                    ELSE '04'             " 04 : 실적
+         END AS WRTTP
+
     FROM COSP
    WHERE LEDNR EQ '00'
      AND OBJNR IN @R_OBJNR
@@ -1507,11 +1521,14 @@ FORM CHECK_WBS_PLAN_ACTUAL .
       EXIT.
     ENDIF.
 
-    IF GS_COSP-WRTTP EQ '01'.
-      GS_DISPLAY-FLG_PLN = GC_X.
-    ELSE.
-      GS_DISPLAY-FLG_ACT = GC_X.
-    ENDIF.
+    CASE GS_COSP-WRTTP.
+      WHEN '01'.
+        GS_DISPLAY-FLG_PLN = GC_X.
+      WHEN '21'.
+        GS_DISPLAY-FLG_PUR = GC_X.
+      WHEN OTHERS.
+        GS_DISPLAY-FLG_ACT = GC_X.
+    ENDCASE.
 
   ENDLOOP.
 
